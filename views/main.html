@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html ng-app="warnerburgComicBrowser">
+<head>
+    <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="/controllers/warnerburgComicBrowser.js"></script>
+</head>
+<body ng-controller="warnerburgComicBrowserCtrl">
+<div class="well" ng-repeat="item in data.comics">
+    IYTUNM:<strong>{{item.title}}</strong>
+</div>
+</body>
+</html>
