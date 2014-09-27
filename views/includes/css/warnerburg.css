@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.outermost-container {
+    text-align: center;
+}
+
+.warnerburg-narrow-header-container {
+    width: 806px;
+}
+
+.warnerburg-narrow-header {
+    display: table-row;
+}
+
+.narrow-header-link {
+    display: table-cell;
+    text-align: center;
+    vertical-align: top;
+    width:184px;
+}
+
+.comic-container {
+    width: 796px;
+    margin: 0 auto;
+}
+
+.table-container {
+    display: table;
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-width: 0;
+    border-spacing: 0;
+}
+
+.comic-nav-header-container {
+    width: 796px;
+}
+
+.comic-nav-header {
+    display: table-row;
+}
+
+.comic-nav-sequence-number {
+    text-align: left;
+    display: table-cell;
+}
+
+.comic-nav-buttons {
+    text-align: center;
+    display: table-cell;
+}
+
+.comic-nav-publish-date {
+    text-align: right;
+    display: table-cell;
+}

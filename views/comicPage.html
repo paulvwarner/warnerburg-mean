@@ -1,11 +1,30 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-<div class="comic-page-header">HEADER</div>
+{% extends 'includes/layouts/commonLayout.html' %}
 
-</body>
-</html>
+{% block title %}Comic &laquo; {% parent %}{% endblock %}
+
+{% block content %}
+    {% include "./includes/partials/narrowHeader.html" %}
+
+    <div class="comic-nav-header-container table-container">
+        <div class="comic-nav-header">
+            <div class="comic-nav-sequence-number">
+                <img src="/images/details/comic.jpg" />
+                <img src="/images/details/sharp.jpg" />{% for sequenceNumberElement in comic.sequenceNumberElements %}<img src="/images/details/[[sequenceNumberElement]].jpg">{% endfor %}
+                {%  %}
+            </div>
+            <div class="comic-nav-buttons">
+
+            </div>
+            <div class="comic-nav-publish-date">
+                {% for dateElement in comic.lastPublishedDateElements %}<img src="/images/details/[[dateElement]].jpg">{% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="comic-container">
+        <img src="[[ comic.image ]]" />
+    </div>
+    <div class="comic-nav-footer"></div>
+
+    <div class="blog-post"></div>
+    <div class="comic-rss-footer"></div>
+{% endblock %}

@@ -4,15 +4,17 @@ var mongoose = require("mongoose");
 var contentSchema = mongoose.Schema({
         _id: mongoose.Schema.Types.ObjectId,
         sequenceNumber: Number,
+        sequenceNumberElements: Array,
         legacyId: Number,
         author: Number,
         createdDate: Date,
         lastModifiedDate: Date,
         lastPublishedDate: Date,
+        lastPublishedDateElements: Array,
         text: String,
         image: String,
         title: String,
-        category: Number,
+        category: String,
         status: String
     },
     {collection:'content'});
