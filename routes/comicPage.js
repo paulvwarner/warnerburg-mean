@@ -13,15 +13,13 @@ function processGetComicPage(req, res) {
             console.log(contents);
             pageData.comic = contents[0];
 
-            console.log("finding comments for "+pageData.comic._id);
-            return mongoose.model('comment').find({contentId: pageData.comic._id}).exec();
-        }).then(function(comments) {
-            //console.log('got comments: '+comments);
+            console.log("finding comment count for "+pageData.comic._id);
+            return mongoose.model('comment').count({contentId: pageData.comic._id}).exec();
+        }).then(function(commentCount) {
+            // attach comment count
+            pageData.comic.commentCount = commentCount;
 
-            pageData.comic.comments = comments;
-
-            //console.log(pageData);
-
+            // render page
             res.render('comicPage', pageData);
         }).onReject(function(err) {
             console.log("error getting comic page data: "+err);

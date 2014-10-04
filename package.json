@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "angular": "^1.2.23",
+    "body-parser": "^1.9.0",
     "express": "^4.9.3",
     "jade": "^1.7.0",
     "mongodb": "^1.4.12",

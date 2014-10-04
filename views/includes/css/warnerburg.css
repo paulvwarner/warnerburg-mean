@@ -24,7 +24,7 @@ a:active {color: #000000}
     display: table-row;
 }
 
-.narrow-header-link {
+.warnerburg-narrow-header-link {
     display: table-cell;
     text-align: center;
     vertical-align: top;
@@ -74,30 +74,30 @@ a:active {color: #000000}
 .footer-message {
     text-align: center;
     font-style: italic;
-    color: #aaaaaa;
+    color: #AAAAAA;
 }
 
 .comic-nav-footer-container {
     width:800px;
 }
 
-.comic-nav-footer-row {
+.comic-nav-footer-links {
     display: table-row;
 }
 
-.comic-nav-footer-cell {
+.comic-nav-footer-link {
     display: table-cell;
     text-align: center;
     width: 160px;
 }
 
 .blog-post-container {
-    width:796px;
-    border:2px solid black;
+    width: 796px;
+    border: 2px solid black;
     margin: 0 auto;
 }
 
-.blog-post-content {
+.blog-post-elements {
     display: table-row;
     width: 100%;
  }
@@ -113,4 +113,68 @@ a:active {color: #000000}
     vertical-align: top;
     padding: 7px;
     text-align: left;
+}
+
+.comic-comment-count-container {
+    text-align: center;
+    width: 796px;
+    margin: 0 auto;
+    padding-top: 5px;
+}
+
+.comic-comment-count {
+    text-align: right;
+    width: 100%;
+}
+
+.comic-comments-header {
+    width: 100%;
+    margin: 0 auto;
+    text-align: left;
+    font-weight: bold;
+    font-size: 14pt;
+}
+
+.comic-comments {
+    text-align: left;
+}
+
+.comic-comments-container {
+    padding-top: 5px;
+    width: 796px;
+    margin: 0 auto;
+    display: none;
+}
+
+.comic-comment-container {
+    width: 100%;
+    text-align: left;
+    padding: 5px;
+}
+
+.comic-comment-elements {
+    display: table-row;
+}
+
+.comic-comment-index {
+    display: table-cell;
+    padding: 5px;
+}
+
+.comic-comment-content {
+    display: table-cell;
+    padding: 5px;
+}
+
+.comic-comment-text {
+    padding-bottom: 10px;
+}
+
+.comic-comment-details {
+    padding-bottom: 15px;
+}
+
+.comic-comment-details {
+    color: #AAAAAA;
+    font-style: italic;
 }

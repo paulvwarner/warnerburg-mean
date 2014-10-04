@@ -2,6 +2,7 @@ var express = require('express');
 var path = require("path");
 var swig = require("swig");
 var mongoose = require("mongoose");
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -13,6 +14,10 @@ require('./models/comment.model.js');
 // set view engine
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
+
+// enable access to JSON POST data through req.body
+app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 // set path to views
 app.set('views', __dirname + '/views');
@@ -32,6 +37,7 @@ app.get('/content/', processGetContent);
 
 // require route definition files
 require('./routes/comicPage.js')(app);
+require('./routes/comicCommentData.js')(app);
 
 // connect to the database, then start accepting requests if it works.
 // keepAlive prevents DB connection timeout
