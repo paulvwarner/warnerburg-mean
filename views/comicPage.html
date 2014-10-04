@@ -3,28 +3,74 @@
 {% block title %}Comic &laquo; {% parent %}{% endblock %}
 
 {% block content %}
-    {% include "./includes/partials/narrowHeader.html" %}
-
     <div class="comic-nav-header-container table-container">
-        <div class="comic-nav-header">
-            <div class="comic-nav-sequence-number">
-                <img src="/images/details/comic.jpg" />
-                <img src="/images/details/sharp.jpg" />{% for sequenceNumberElement in comic.sequenceNumberElements %}<img src="/images/details/[[sequenceNumberElement]].jpg">{% endfor %}
-                {%  %}
+        <div class="comic-nav-header-row">
+            <div class="comic-nav-header-sequence-number-cell">
+                <img src="/images/details/labels/comic.jpg" />
+                <img src="/images/details/labels/sharp.jpg" />{% for sequenceNumberElement in comic.sequenceNumberElements %}<img src="/images/details/labels/[[sequenceNumberElement]].jpg">{% endfor %}
+                {% if comic.isLast %}<img src="/images/details/labels/latest.jpg" />{% endif %}
             </div>
-            <div class="comic-nav-buttons">
-
+            <div class="comic-nav-header-buttons-cell">
+                {% if not comic.isFirst %}
+                    <img src="/images/navigation/firstdarks.jpg" />
+                    <img src="/images/navigation/prevdarks.jpg" />
+                {% endif %}
+                <img src="/images/navigation/archivesdarks.jpg" />
+                {% if not comic.isLast %}
+                    <img src="/images/navigation/nextdarks.jpg" />
+                    <img src="/images/navigation/lastdarks.jpg" />
+                {% endif %}
             </div>
-            <div class="comic-nav-publish-date">
-                {% for dateElement in comic.lastPublishedDateElements %}<img src="/images/details/[[dateElement]].jpg">{% endfor %}
+            <div class="comic-nav-header-publish-date-cell">
+                {% for dateElement in comic.createdDateElements %}<img src="/images/details/labels/[[dateElement]].jpg">{% endfor %}
             </div>
         </div>
     </div>
     <div class="comic-container">
         <img src="[[ comic.image ]]" />
     </div>
-    <div class="comic-nav-footer"></div>
+    <div class="comic-nav-footer-container table-container">
+        <div class="comic-nav-footer-row">
+            <div class="comic-nav-footer-cell">
+                {% if not comic.isFirst %}
+                    <img src="/images/navigation/firstdark.jpg" />
+                {% endif %}
+            </div>
+            <div class="comic-nav-footer-cell">
+                {% if not comic.isFirst %}
+                    <img src="/images/navigation/prevdark.jpg" />
+                {% endif %}
+            </div>
+            <div class="comic-nav-footer-cell">
+                <img src="/images/navigation/archivesdark.jpg" />
+            </div>
+            <div class="comic-nav-footer-cell">
+                {% if not comic.isLast %}
+                    <img src="/images/navigation/nextdark.jpg" />
+                {% endif %}
+            </div>
+            <div class="comic-nav-footer-cell">
+                {% if not comic.isLast %}
+                    <img src="/images/navigation/lastdark.jpg" />
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-    <div class="blog-post"></div>
-    <div class="comic-rss-footer"></div>
+    <div class="blog-post-container table-container">
+        <div class="blog-post-content">
+            <div class="blog-post-author-pic">
+                <img src="[[ comic.authorPicture ]]" />
+            </div>
+            <div class="blog-post-content">
+                <div>[[ comic.text|safe ]]</div>
+                <div><hr/></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="comic-rss-footer">
+
+    </div>
 {% endblock %}

@@ -7,8 +7,9 @@
 </head>
 <body>
     <div class="outermost-container">
+        {% include "../partials/narrowHeader.html" %}
         {% block content %}{% endblock %}
-        <div class="warnerburg-footer">FOOTER</div>
+        {% include "../partials/narrowFooter.html" %}
     </div>
     <script type="text/javascript" src="/bower_components/jquery/dist/jquery.js"></script>
 </body>

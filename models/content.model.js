@@ -7,15 +7,18 @@ var contentSchema = mongoose.Schema({
         sequenceNumberElements: Array,
         legacyId: Number,
         author: Number,
+        authorPicture: String,
         createdDate: Date,
         lastModifiedDate: Date,
         lastPublishedDate: Date,
-        lastPublishedDateElements: Array,
+        createdDateElements: Array,
         text: String,
         image: String,
         title: String,
         category: String,
-        status: String
+        status: String,
+        isFirst: Boolean,
+        isLast: Boolean
     },
     {collection:'content'});
 

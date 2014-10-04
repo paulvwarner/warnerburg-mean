@@ -1,17 +1,26 @@
 body {
     margin: 0;
     padding: 0;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10pt;
 }
+
+a:link {color: #000000}
+a:visited {color: #000000}
+a:hover {color: #AAAAAA}
+a:active {color: #000000}
 
 .outermost-container {
     text-align: center;
 }
 
 .warnerburg-narrow-header-container {
+    margin: 0 auto;
     width: 806px;
+    padding-bottom: 25px;
 }
 
-.warnerburg-narrow-header {
+.warnerburg-narrow-header-row {
     display: table-row;
 }
 
@@ -39,21 +48,69 @@ body {
     width: 796px;
 }
 
-.comic-nav-header {
+.comic-nav-header-row {
     display: table-row;
 }
 
-.comic-nav-sequence-number {
+.comic-nav-header-sequence-number-cell {
     text-align: left;
     display: table-cell;
+    position: relative;
+    bottom: 5px;
 }
 
-.comic-nav-buttons {
+.comic-nav-header-buttons-cell {
     text-align: center;
     display: table-cell;
 }
 
-.comic-nav-publish-date {
+.comic-nav-header-publish-date-cell {
     text-align: right;
     display: table-cell;
+    position: relative;
+    bottom: 5px;
+}
+
+.footer-message {
+    text-align: center;
+    font-style: italic;
+    color: #aaaaaa;
+}
+
+.comic-nav-footer-container {
+    width:800px;
+}
+
+.comic-nav-footer-row {
+    display: table-row;
+}
+
+.comic-nav-footer-cell {
+    display: table-cell;
+    text-align: center;
+    width: 160px;
+}
+
+.blog-post-container {
+    width:796px;
+    border:2px solid black;
+    margin: 0 auto;
+}
+
+.blog-post-content {
+    display: table-row;
+    width: 100%;
+ }
+
+.blog-post-author-pic {
+    display: table-cell;
+    vertical-align: top;
+    padding: 7px;
+}
+
+.blog-post-content {
+    display: table-cell;
+    vertical-align: top;
+    padding: 7px;
+    text-align: left;
 }
