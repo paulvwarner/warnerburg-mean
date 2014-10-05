@@ -4,15 +4,17 @@ $(document).ready(function() {
     // if someone clicks the "comments" link...
     $("#commentsLink").on("click", function(event) {
         event.preventDefault();
-        $(".comic-comment-count-container").animate({opacity:0});
-        $(".comic-comments-container").slideToggle(500, function() {
-            if ($(".comic-comments-container").is(":visible")) {
-                // scroll to comments area
-                $('html, body').animate({
-                    scrollTop: $("#commentsLink").offset().top
-                }, 500);
-            }
-        });
+        if (!$(".comic-comments-container").is(":visible")) {
+            $(".comic-comments-container").css("opacity", "0");
+            $(".comic-comments-container").css("display", "block");
+        }
+        // scroll to comments area
+        $('html, body').animate({
+            scrollTop: $(".comic-comments-container").offset().top
+        }, 100);
+
+        $(".comic-comments-container").animate({opacity: 1});
+
     });
 
 });

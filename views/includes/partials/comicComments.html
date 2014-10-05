@@ -1,8 +1,3 @@
-<div class="comic-comment-count-container">
-    <div class="comic-comment-count">
-        Leave a comment! - <a id="commentsLink" href="#">Comments ([[ comic.commentCount ]])</a>
-    </div>
-</div>
 <div class="comic-comments-container" ng-app="userComicComments">
     <div ng-controller="userComicCommentsCtrl" comic-sequence-number="[[ comic.sequenceNumber ]]">
         <div class="comic-comments-header">
@@ -10,21 +5,22 @@
             <hr/>
         </div>
         <div class="comic-comment-container table-container">
-            <div class="comic-comment-elements" ng-repeat="comment in comments">
+            <div class="comic-comment-elements" ng-repeat="comment in comments | orderBy:commentDate">
                 <div class="comic-comment-index">{{ $index + 1 }}.</div>
                 <div class="comic-comment-content">
                     <div class="comic-comment-text" ng-bind-html="comment.text"></div>
-                    <div class="comic-comment-details">Comment by {{ comment.author }} -- {{ comment.commentDate }}</div>
+                    <div class="comic-comment-details">Comment by {{ comment.author }} @ {{ comment.commentDate | date:'yyyy-MM-dd HH:mm:ss'}}</div>
                 </div>
             </div>
         </div>
-
-        <form ng-submit="createComment('[[ comic.sequenceNumber ]]', newComment)">
-            <div>
-                Name: <input type="text" ng-model="newComment.author" />
+        <form class="comic-new-comment-container" ng-submit="createComment('[[ comic.sequenceNumber ]]', newComment)">
+            <hr/>
+            <div class="comic-new-comment-header">Add a new comment:</div>
+            <div class="comic-new-comment-field">
+                <input id="newCommentAuthor" type="text" ng-model="newComment.author" placeholder="Your Name"/>
             </div>
-            <div>
-                Comment: <input type="text" ng-model="newComment.text" />
+            <div class="comic-new-comment-field">
+                <textarea id="newCommentText" ng-model="newComment.text" placeholder="Your Comment"></textarea>
             </div>
             <div>
                 <input type="submit" value="Submit Comment"/>

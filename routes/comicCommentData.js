@@ -9,9 +9,10 @@ function processGetCommentData(req, res) {
     // get comic for the entered sequenceNumber, then return the comments for that comic
     mongoose.model('content').find({sequenceNumber:req.params.sequenceNumber}).lean().exec()
         .then(function(contents) {
-            return mongoose.model('comment').find({contentId: contents[0]._id}).exec();
+            return mongoose.model('comment').find({contentId: contents[0]._id}).sort({commentDate:'asc'}).exec();
         }).then(function(comments) {
-            res.send(JSON.stringify(comments));
+            console.log(typeof comments[0].commentDate);
+            res.send(comments);
         }).onReject(function(err) {
             console.log("error getting comic comments: "+err);
         });
