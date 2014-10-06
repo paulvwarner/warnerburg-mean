@@ -11,5 +11,11 @@ module.exports = {
     infoDark:       '/images/navigation/infodarks.png',
     infoLight:      '/images/navigation/infolights.png',
     linksDark:      '/images/navigation/linksdarks.png',
-    linksLight:     '/images/navigation/linkslights.png'
+    linksLight:     '/images/navigation/linkslights.png',
+    homeUrl:        '/',
+    galleryUrl:     '/gallery',
+    storeUrl:       '/store',
+    comicUrl:       '/comic',
+    archivesUrl:    '/comic/archives',
+    infoUrl:        '/info'
 };

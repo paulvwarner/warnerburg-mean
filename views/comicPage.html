@@ -12,13 +12,13 @@
             </div>
             <div class="comic-nav-header-buttons-cell">
                 {% if not comic.isFirst %}
-                    <img src="/images/navigation/firstdarks.jpg" />
-                    <img src="/images/navigation/prevdarks.jpg" />
+                    <img class="warnerburg-link-image" link="[[ common.comicUrl ]]/1" src="/images/navigation/firstdarks.jpg" />
+                    <img class="warnerburg-link-image" link="[[ common.comicUrl ]]/[[ comic.sequenceNumber - 1 ]]" src="/images/navigation/prevdarks.jpg" />
                 {% endif %}
-                <img src="/images/navigation/archivesdarks.jpg" />
+                <img class="warnerburg-link-image" link="[[ common.archivesUrl ]]" src="/images/navigation/archivesdarks.jpg" />
                 {% if not comic.isLast %}
-                    <img src="/images/navigation/nextdarks.jpg" />
-                    <img src="/images/navigation/lastdarks.jpg" />
+                    <img class="warnerburg-link-image" link="[[ common.comicUrl ]]/[[ comic.sequenceNumber + 1 ]]" src="/images/navigation/nextdarks.jpg" />
+                    <img class="warnerburg-link-image" link="[[ common.comicUrl ]]" src="/images/navigation/lastdarks.jpg" />
                 {% endif %}
             </div>
             <div class="comic-nav-header-publish-date-cell">
@@ -33,25 +33,25 @@
         <div class="comic-nav-footer-links">
             <div class="comic-nav-footer-link">
                 {% if not comic.isFirst %}
-                    <img src="/images/navigation/firstdark.jpg" />
+                    <img class="warnerburg-link-image" link="[[ common.comicUrl ]]/1" src="/images/navigation/firstdark.jpg" />
                 {% endif %}
             </div>
             <div class="comic-nav-footer-link">
                 {% if not comic.isFirst %}
-                    <img src="/images/navigation/prevdark.jpg" />
+                    <img class="warnerburg-link-image" link="[[ common.comicUrl ]]/[[ comic.sequenceNumber - 1 ]]" src="/images/navigation/prevdark.jpg" />
                 {% endif %}
             </div>
             <div class="comic-nav-footer-link">
-                <img src="/images/navigation/archivesdark.jpg" />
+                <img class="warnerburg-link-image" link="[[ common.archivesUrl ]]" src="/images/navigation/archivesdark.jpg" />
             </div>
             <div class="comic-nav-footer-link">
                 {% if not comic.isLast %}
-                    <img src="/images/navigation/nextdark.jpg" />
+                    <img class="warnerburg-link-image" link="[[ common.comicUrl ]]/[[ comic.sequenceNumber + 1 ]]" src="/images/navigation/nextdark.jpg" />
                 {% endif %}
             </div>
             <div class="comic-nav-footer-link">
                 {% if not comic.isLast %}
-                    <img src="/images/navigation/lastdark.jpg" />
+                    <img class="warnerburg-link-image" link="[[ common.comicUrl ]]" src="/images/navigation/lastdark.jpg" />
                 {% endif %}
             </div>
         </div>
@@ -65,12 +65,6 @@
             <div class="blog-post-content">
                 <div>[[ comic.text|safe ]]</div>
             </div>
-        </div>
-    </div>
-    <div class="comic-comment-count-container">
-        <div class="comic-comment-count">
-            <a class="unobtrusive-link" href="rss" >Comic RSS</a> -
-            <a id="commentsLink" class="unobtrusive-link" href="#">Comments ([[ comic.commentCount ]])</a>
         </div>
     </div>
 

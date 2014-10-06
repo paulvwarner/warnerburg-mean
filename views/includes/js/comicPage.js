@@ -8,13 +8,13 @@ $(document).ready(function() {
             $(".comic-comments-container").css("opacity", "0");
             $(".comic-comments-container").css("display", "block");
         }
+
         // scroll to comments area
         $('html, body').animate({
             scrollTop: $(".comic-comments-container").offset().top
         }, 100);
 
         $(".comic-comments-container").animate({opacity: 1});
-
     });
 
 });

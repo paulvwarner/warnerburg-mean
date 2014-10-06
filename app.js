@@ -36,8 +36,8 @@ app.get('/', processGetRoot);
 app.get('/content/', processGetContent);
 
 // require route definition files
-require('./routes/comicPage.js')(app);
-require('./routes/comicCommentData.js')(app);
+require('./routes/route.display.comic.js')(app);
+require('./routes/route.data.comic.comments.js')(app);
 
 // connect to the database, then start accepting requests if it works.
 // keepAlive prevents DB connection timeout

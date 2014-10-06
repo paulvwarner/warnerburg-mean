@@ -17,10 +17,10 @@ angular.module("userComicComments")
         // create a new comment
         $scope.createComment = function(comicSequenceNumber, comment) {
             console.log("saving comment ",comment);
-            $http.post('/data/comics/' + comicSequenceNumber + '/comments', comment)
+            $http.post('/data/comics/' + comicSequenceNumber + '/comments', {comment: comment, comicSequenceNumber:comicSequenceNumber})
                 .success(function(newComment) {
-
                     $scope.comments.push(newComment);
+                    $scope.newComment = null;
                 }).error(function(data) {
                     console.log('error: ' + data);
                 });

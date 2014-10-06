@@ -2,7 +2,6 @@ var mongoose = require("mongoose");
 
 // define schema - second arg is the collection to map to
 var commentSchema = mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     contentId: mongoose.Schema.Types.ObjectId,
     author: String,
     authorEmail: String,

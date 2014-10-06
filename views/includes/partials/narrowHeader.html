@@ -1,19 +1,19 @@
 <div class="warnerburg-narrow-header-container table-container" >
     <div class="warnerburg-narrow-header">
         <div class="warnerburg-narrow-header-link">
-            <img src="[[ common.homeDark ]]" />
+            <img class="warnerburg-link-image" link="[[ common.homeUrl ]]" src="[[ common.homeDark ]]" />
         </div>
         <div class="warnerburg-narrow-header-link">
-            <img src="[[ common.galleryDark ]]" />
+            <img class="warnerburg-link-image {% if area == 'gallery' %}warnerburg-selected-link-image{% endif %}" link="[[ common.galleryUrl ]]" src="[[ common.galleryDark ]]" />
         </div>
         <div class="warnerburg-narrow-header-link">
-            <img src="[[ common.comicLight ]]" />
+            <img class="warnerburg-link-image {% if area == 'comic' %}warnerburg-selected-link-image{% endif %}" link="[[ common.comicUrl ]]" src="[[ common.comicDark ]]" />
         </div>
         <div class="warnerburg-narrow-header-link">
-            <img src="[[ common.storeDark ]]" />
+            <img class="warnerburg-link-image {% if area == 'store' %}warnerburg-selected-link-image{% endif %}" link="[[ common.storeUrl ]]" src="[[ common.storeDark ]]" />
         </div>
         <div class="warnerburg-narrow-header-link">
-            <img src="[[ common.infoDark ]]" />
+            <img class="warnerburg-link-image {% if area == 'info' %}warnerburg-selected-link-image{% endif %}" link="[[ common.infoUrl ]]" src="[[ common.infoDark ]]" />
         </div>
     </div>
 </div>
