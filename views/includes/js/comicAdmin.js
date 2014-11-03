@@ -32,11 +32,22 @@ function unbindLeaveOverlay() {
     $("#comic-grid").off("mouseleave");
 }
 
+function markForUpdate(element) {
+    $(element).animate({"background-color": "rgba(155,0,0,0.5)"},200);
+}
+
+function unmarkForUpdate(element) {
+    $(element).animate({"background-color": "rgba(155,0,0,0.0)"},200);
+}
+
+
 $(document).ready(function() {
 
     $("#comic-grid").sortable({
         delay: 100,
         distance: 10,
+        revert: 300,
+        tolerance: "pointer",
         start: function(e, ui)
         {
 
@@ -46,7 +57,17 @@ $(document).ready(function() {
 
         },
         stop: function(e, ui){
-
+            // update form for items that had a sequence number change
+            $(".comic-grid-item").each(function(index) {
+                var rearrangeSequenceNumber = ""+$.trim("" + (index + 1));
+                var persistedSequenceNumber = ""+$.trim($(this).find(".comic-thumbnail-image-overlay-text").text());
+                if (rearrangeSequenceNumber != persistedSequenceNumber) {
+                    $(this).find(".comic-sequence-number-field").val(rearrangeSequenceNumber);
+                    $(this).find(".comic-sequence-number-field").trigger('input');
+                    $(this).find(".comic-thumbnail-image-overlay-text").text(rearrangeSequenceNumber);
+                    markForUpdate($(this).find(".comic-thumbnail-image-overlay-text"));
+                }
+            });
         }
     });
 
@@ -54,15 +75,4 @@ $(document).ready(function() {
 
     bindEnterOverlay();
     bindLeaveOverlay();
-/*
-    $("#comic-grid").on("mousedown", ".comic-grid-item", function() {
-        unbindEnterOverlay();
-        unbindLeaveOverlay();
-        highlightItem($(".comic-thumbnail-image-overlay"));
-    });
-
-    $("#comic-grid").on("mouseup", ".comic-grid-item", function() {
-        window.setTimeout(removeOverlays,1000);
-    });
-    */
 });

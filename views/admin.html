@@ -2,20 +2,28 @@
 
 {% block content %}
     <div ng-app="comicAdmin" ng-controller="comicAdminCtrl">
-        <ul id="comic-grid" class="sortable-grid">
-            <li class="comic-grid-item" ng-repeat="comic in comics | orderBy:createdDate">
-                <div class="comic-thumbnail-image-overlay">
-                    <div class="comic-thumbnail-image-overlay-text">
-                        {{ $index + 1 }}
+        <form id="admin-form" ng-submit="commitChanges()">
+            <div class="admin-header-options">
+                <div class="admin-header-button-container">
+                    <input class="admin-header-button" type="submit" value="Commit Changes"/>
+                </div>
+            </div>
+            <ul id="comic-grid" class="sortable-grid">
+                <li class="comic-grid-item" ng-repeat="comic in comics">
+                    <div class="comic-thumbnail-image-overlay">
+                        <div class="comic-thumbnail-image-overlay-text">
+                            {{ comic.sequenceNumber }}
+                        </div>
                     </div>
-                </div>
-                <div class="comic-thumbnail-image-container">
-                    <img ng-src="{{ comic.image }}" class="comic-thumbnail-image"/>
-                </div>
-            </li>
-        </ul>
+                    <div class="comic-thumbnail-image-container">
+                        <img ng-src="{{ comic.image }}" class="comic-thumbnail-image"/>
+                    </div>
+                    <input class="comic-sequence-number-field" type="text" ng-model="comic.sequenceNumber" value="{{comic.sequenceNumber}}"/>
+                    <input class="comic-original-sequence-number-field" type="text" ng-model="comic.originalSequenceNumber" value="{{comic.originalSequenceNumber}}"/>
+                </li>
+            </ul>
+        </form>
     </div>
-    <div id="cloned_items"></div>
 {% endblock %}
 
 {% block footerIncludes %}
@@ -23,6 +31,7 @@
 <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
 <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script type="text/javascript" src="/bower_components/angular-resource/angular-resource.js"></script>
-<script type="text/javascript" src="/controllers/comicAdmin.js"></script>
 <script type="text/javascript" src="/includes/js/comicAdmin.js"></script>
+<script type="text/javascript" src="/controllers/comicAdmin.js"></script>
+
 {% endblock %}
