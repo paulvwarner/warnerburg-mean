@@ -31,13 +31,23 @@ function processGetComicPage(req, res) {
             pageData.comic.commentCount = commentCount;
 
             // render page
-            res.render('comicPage', pageData);
+            res.render('comic', pageData);
         }).onReject(function (err) {
             console.log("error getting comic page data: " + err);
         });
 }
 
+function processGetComicArchives(req, res) {
+    var pageData = {
+        common: common,
+        area: 'comic'
+    };
+
+    res.render('comic', pageData);
+}
+
 module.exports = function (app) {
+    app.get('/comic/archives', processGetComicArchives);
     app.get('/comic/:sequenceNumber', processGetComicPage);
     app.get('/comic', processGetComicPage);
 };

@@ -52,6 +52,7 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 
 .comic-container {
     width: 796px;
+    height: 1094px;
     margin: 0 auto;
 }
 
@@ -249,3 +250,52 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     border: 1px solid #AAAAAA;
 }
 
+#blog-post-area {
+    visibility: hidden;
+}
+
+.comic-thumbnail-image {
+    max-height: 230px;
+    max-width: 230px;
+    margin: auto;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.comic-grid-item {
+    float: left;
+    width: 250px;
+    height: 250px;
+    list-style-type: none;
+    margin: 5px;
+    background-color: #eeeeee;
+    text-align: left;
+}
+
+.comic-thumbnail-image-overlay {
+    position: absolute;
+    margin: 5px;
+    z-index: 2;
+    width: 240px;
+    height: 240px;
+    background-color: rgba(0,0,0,0.5);
+    text-align: center;
+}
+
+.comic-thumbnail-image-overlay-text {
+    font-size: 48pt;
+    color: rgba(255,255,255,0.7);
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.comic-thumbnail-image-container {
+    text-align: center;
+    width: 240px;
+    height: 240px;
+    position: relative;
+    z-index: 1;
+    margin: 5px;
+}

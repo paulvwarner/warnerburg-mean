@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>{% block title %}Warnerburg! King Ranji comics and drawings by Paul Warner.{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="[[ common.mainCssUrl ]]" />
+    <link rel="stylesheet" href="[[ common.mainCssUrl ]]" />
 </head>
 <body>
     <div class="outermost-container">
@@ -12,8 +12,8 @@
         {% include "../partials/narrowFooter.html" %}
     </div>
     {% block footerIncludes %}
-        <script type="text/javascript" src="/bower_components/jquery/dist/jquery.js"></script>
-        <script type="text/javascript" src="/includes/js/warnerburg.js"></script>
+        <script src="/bower_components/jquery/dist/jquery.js"></script>
+        <script src="/includes/js/warnerburg.js"></script>
     {% endblock %}
 </body>
 </html>

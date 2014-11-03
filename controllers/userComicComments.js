@@ -2,7 +2,7 @@ angular.module("userComicComments", ['ngSanitize','ngResource']);
 angular.module("userComicComments")
     .controller("userComicCommentsCtrl", function ($scope, $attrs, $http, $resource) {
 
-        //$scope.commentsResource = $resource('/data/comics/' + comicSequenceNumber + '/comments');
+        $scope.comments = [];
 
         // $attrs contains the ng-controller html element's attributes.
         // comic-sequence-number's value gets put into the "comicSequenceNumber" attribute.
