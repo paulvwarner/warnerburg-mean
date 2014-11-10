@@ -1,6 +1,6 @@
 var mongoose = require("mongoose");
 var Q = require('q');
-var common = require("../common.js");
+var common = require("warnerburg-common");
 
 function processGetAllComicData(req, res) {
     var pageData = {

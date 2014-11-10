@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-var common = require("../common.js");
+var common = require("warnerburg-common");
 
 function processGetCommentData(req, res) {
     var pageData = {
