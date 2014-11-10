@@ -3,11 +3,11 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         yeoman: {
             // configurable paths
-            client: 'app'
+            appFolder: 'app'
         },
         express: {
             options: {
-                port: process.env.PORT || 9000
+                port: process.env.PORT || 3001
             },
             dev: {
                 options: {
@@ -18,18 +18,16 @@ module.exports = function(grunt) {
         },
         open: {
             server: {
-                url: 'http://localhost:<%= express.options.port %>'
+                url: 'http://localhost:<%= express.options.port %>/comic'
             }
         },
         watch: {
             livereload: {
                 files: [
-                    '{.tmp,<%= yeoman.client %>}/**/*.css',
-                    '{.tmp,<%= yeoman.client %>}/**/*.html',
-                    '{.tmp,<%= yeoman.client %>}/**/*.js',
-                    '!{.tmp,<%= yeoman.client %>}**/*.spec.js',
-                    '!{.tmp,<%= yeoman.client %>}/**/*.mock.js',
-                    '<%= yeoman.client %>/assets/images/{,*//*}*.{png,jpg,jpeg,gif,webp,svg}'
+                    '<%= yeoman.appFolder %>/**/*.css',
+                    '<%= yeoman.appFolder %>/**/*.html',
+                    '<%= yeoman.appFolder %>/**/*.js',
+                    '<%= yeoman.appFolder %>/images/{,*//*}*.{png,jpg,jpeg,gif}'
                 ],
                 options: {
                     livereload: true
@@ -37,12 +35,18 @@ module.exports = function(grunt) {
             },
             express: {
                 files: [
-                    'server/**/*.{js,json}'
+
+                    '<%= yeoman.appFolder %>/**/*.css',
+                    '<%= yeoman.appFolder %>/**/*.html',
+                    '<%= yeoman.appFolder %>/**/*.js',
+                    '<%= yeoman.appFolder %>/images/{,*//*}*.{png,jpg,jpeg,gif}',
+                    '/*.{js,json}',
+                    '/node_modules/warnerburg-common/*.{js,json}'
                 ],
                 tasks: ['express:dev', 'wait'],
                 options: {
                     livereload: true,
-                    nospawn: true //Without this option specified express won't be reloaded
+                    nospawn: true // reload express
                 }
             }
         }
@@ -80,6 +84,6 @@ module.exports = function(grunt) {
 
     grunt.loadNpmTasks('grunt-express-server');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-open');
 
-    express:dev
 };
