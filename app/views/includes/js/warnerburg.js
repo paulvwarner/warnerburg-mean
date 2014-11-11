@@ -9,11 +9,4 @@ $(document).ready(function() {
             $(this).removeClass("warnerburg-link-image-hover");
         }
     );
-
-    // navigate to URL in "link" attribute if user clicks a link image
-    $(".warnerburg-link-image").not(".warnerburg-selected-link-image").on('click',
-        function() {
-            window.location.href=$(this).attr("link");
-        }
-    );
 });

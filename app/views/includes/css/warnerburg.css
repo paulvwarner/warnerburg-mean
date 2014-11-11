@@ -52,8 +52,11 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 
 .comic-container {
     width: 796px;
-    height: 1094px;
     margin: 0 auto;
+}
+
+#comic-image {
+    display: block;
 }
 
 .table-container {
