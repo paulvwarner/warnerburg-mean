@@ -1,12 +1,12 @@
-<!DOCTYPE html>
-<html ng-app="warnerburgApp">
-<head>
-    <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
-    <script type="text/javascript" src="/controllers/warnerburgComicBrowser.js"></script>
-</head>
-<body ng-controller="warnerburgAppCtrl">
-<div class="well" ng-repeat="item in data.comics">
-    <strong>{{item.image}}</strong>
+<div class="warnerburg-splash-link">
+    <a ui-sref="gallery" ><img class="warnerburg-splash-link-image" ng-src="{{ common.galleryDark }}" /></a>
 </div>
-</body>
-</html>
+<div class="warnerburg-splash-link">
+    <a ui-sref="comic" ><img class="warnerburg-splash-link-image" ng-src="{{ common.comicDark }}" /></a>
+</div>
+<div class="warnerburg-splash-link">
+    <a ui-sref="store" ><img class="warnerburg-splash-link-image" ng-src="{{ common.storeDark }}" /></a>
+</div>
+<div class="warnerburg-splash-link">
+    <a ui-sref="info" ><img class="warnerburg-splash-link-image" ng-src="{{ common.infoDark }}" /></a>
+</div>

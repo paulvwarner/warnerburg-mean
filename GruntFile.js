@@ -40,8 +40,7 @@ module.exports = function(grunt) {
                     '<%= yeoman.appFolder %>/**/*.html',
                     '<%= yeoman.appFolder %>/**/*.js',
                     '<%= yeoman.appFolder %>/images/{,*//*}*.{png,jpg,jpeg,gif}',
-                    '/*.{js,json}',
-                    '/node_modules/warnerburg-common/*.{js,json}'
+                    '/*.{js,json}'
                 ],
                 tasks: ['express:dev', 'wait'],
                 options: {

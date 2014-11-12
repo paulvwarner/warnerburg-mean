@@ -24,22 +24,22 @@ app.set('views', __dirname + '/app/views');
 
 // allow pages to see files in certain directories
 app.use('/controllers',    express.static(__dirname + '/app/controllers'));
+app.use('/routes',    express.static(__dirname + '/app/routes'));
 app.use('/includes',    express.static(__dirname + '/app/views/includes'));
 app.use('/images',    express.static(__dirname + '/app/images'));
 app.use('/bower_components',    express.static(__dirname + '/app/bower_components'));
+app.use('/views',    express.static(__dirname + '/app/views'));
 
 // override swig's use of handlebars so it doesn't conflict with angular
 swig.setDefaults({varControls: ['[[',']]']});
 
-// define routes
-app.get('/', processGetRoot);
-app.get('/content/', processGetContent);
-
-// require route definition files
-require('./app/routes/route.display.comic.js')(app);
-require('./app/routes/route.display.admin.js')(app);
-require('./app/routes/route.data.comic.comments.js')(app);
-require('./app/routes/route.data.admin.comics.js')(app);
+// require request handler definition files
+require('./app/request-handlers/route.display.main.js')(app);
+require('./app/request-handlers/route.display.comic.js')(app);
+require('./app/request-handlers/route.display.admin.js')(app);
+require('./app/request-handlers/route.data.comic.comments.js')(app);
+require('./app/request-handlers/route.data.admin.comics.js')(app);
+require('./app/request-handlers/route.data.content.js')(app);
 
 // connect to the database, then start accepting requests if it works.
 // keepAlive prevents DB connection timeout
@@ -51,20 +51,3 @@ mongoose.connect('mongodb://localhost/warnerburgLocal', { keepAlive: 1 }, functi
 
     app.listen(3001);
 });
-
-// request handlers
-function processGetRoot(req, res) {
-    res.render(
-        'main.html'
-    );
-}
-
-function processGetContent(req, res) {
-    mongoose.model('content').find({},
-        function(err, data) {
-            if (err) return console.error(err);
-            res.send(JSON.stringify(data));
-        }
-    );
-}
-
