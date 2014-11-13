@@ -253,10 +253,6 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     border: 1px solid #AAAAAA;
 }
 
-#blog-post-area {
-    visibility: hidden;
-}
-
 .comic-thumbnail-image {
     max-height: 230px;
     max-width: 230px;

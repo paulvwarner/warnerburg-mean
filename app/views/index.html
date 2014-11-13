@@ -1,19 +1,10 @@
 {% extends 'includes/layouts/masterLayout.html' %}
 
 {% block content %}
-<div>
-    <div class="warnerburg-splash-link">
-        <a href="[[ common.galleryUrl ]]" ><img class="warnerburg-splash-link-image" src="[[ common.galleryDark ]]" /></a>
-    </div>
-    <div class="warnerburg-splash-link">
-        <a href="[[ common.comicUrl ]]" ><img class="warnerburg-splash-link-image" src="[[ common.comicDark ]]" /></a>
-    </div>
-    <div class="warnerburg-splash-link">
-        <a href="[[ common.storeUrl ]]" ><img class="warnerburg-splash-link-image" src="[[ common.storeDark ]]" /></a>
-    </div>
-    <div class="warnerburg-splash-link">
-        <a href="[[ common.infoUrl ]]" ><img class="warnerburg-splash-link-image" src="[[ common.infoDark ]]" /></a>
-    </div>
+<div ng-app="warnerburgApp" ng-controller="warnerburgAppCtrl">
+    <div ui-view="header"></div>
+    <div ui-view="content"></div>
+    <div ui-view="footer"></div>
 </div>
 {% endblock %}
 

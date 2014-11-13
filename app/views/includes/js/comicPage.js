@@ -17,12 +17,4 @@ $(document).ready(function() {
         $(".comic-comments-container").animate({opacity: 1});
     });
 
-    // don't display the blog stuff until the comic image loads
-    $('#comic-image').one("load", function() {
-        $("#blog-post-area").css({opacity: 0, visibility: "visible"}).animate({opacity: 1}, 'slow');
-    }).each(function() {
-        if (this.complete) {
-            $(this).load();
-        }
-    });
 });

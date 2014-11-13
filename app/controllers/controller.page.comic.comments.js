@@ -1,5 +1,4 @@
-angular.module("userComicComments", ['ngSanitize','ngResource']);
-angular.module("userComicComments")
+angular.module("comicPage")
     .controller("userComicCommentsCtrl", function ($scope, $attrs, $http, $resource) {
 
         $scope.comments = [];

@@ -1,8 +1,8 @@
-<div ng-app="userComicComments" ng-controller="userComicCommentsCtrl" comic-sequence-number="[[ comic.sequenceNumber ]]">
+<div ng-controller="userComicCommentsCtrl" comic-sequence-number="[[ comic.sequenceNumber ]]">
     <div class="comic-links-container">
         <div class="comic-links">
             <a class="unobtrusive-link" href="rss" >Comic RSS</a> -
-            <a id="commentsLink" class="unobtrusive-link" href="#">Comments ({{ comments.length }})</a>
+            <a id="commentsLink" class="unobtrusive-link" href="#">Comments (<span ng-bind="comments.length">[[comic.commentCount]]</span>)</a>
         </div>
     </div>
     <div class="comic-comments-container">

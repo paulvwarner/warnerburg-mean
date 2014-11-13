@@ -3,7 +3,7 @@
 {% block title %}Comic &laquo; {% parent %}{% endblock %}
 
 {% block content %}
-    <div ng-app="comicPageApp" ng-controller="comicPageAppController">
+    <div ng-app="comicPage" ng-controller="comicPageCtrl">
         <div class="comic-nav-header-container table-container">
             <div class="comic-nav-header-row">
                 <div class="comic-nav-header-sequence-number-cell">
@@ -84,7 +84,7 @@
     <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script type="text/javascript" src="/bower_components/angular-resource/angular-resource.js"></script>
-    <script type="text/javascript" src="/controllers/userComicComments.js"></script>
-    <script type="text/javascript" src="/controllers/comicPageApp.js"></script>
+    <script type="text/javascript" src="/controllers/controller.page.comic.js"></script>
+    <script type="text/javascript" src="/controllers/controller.page.comic.comments.js"></script>
     <script type="text/javascript" src="/includes/js/comicPage.js"></script>
 {% endblock %}

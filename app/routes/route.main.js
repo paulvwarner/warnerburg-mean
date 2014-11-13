@@ -29,13 +29,25 @@ angular.module("warnerburgApp")
         $stateProvider
             .state('main', {
                 url: '/',
-                templateUrl: 'views/main.html',
-                controller: 'warnerburgAppCtrl'
+                views: {
+                    'content': {
+                        templateUrl: 'views/main.html',
+                        controller: 'warnerburgAppCtrl'
+                    }
+                }
             })
             .state('comic', {
-                url: '/comic',
-                templateUrl: 'views/comicAngular.html',
-                controller: 'warnerburgAppCtrl'
+                url: '/comic/:comicId',
+                views: {
+                    'header': {
+                        templateUrl: 'views/includes/partials/narrowHeader.html',
+                        controller: 'warnerburgAppCtrl'
+                    },
+                    'content': {
+                        templateUrl: 'views/comicAngular.html',
+                        controller: 'warnerburgAppCtrl'
+                    }
+                }
             });
 
         $locationProvider.html5Mode(true);
