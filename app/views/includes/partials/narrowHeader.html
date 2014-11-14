@@ -1,19 +1,19 @@
 <div class="warnerburg-narrow-header-container table-container" >
     <div class="warnerburg-narrow-header">
         <div class="warnerburg-narrow-header-link">
-            <a href="[[ common.homeUrl ]]"><img class="warnerburg-link-image" src="[[ common.homeDark ]]" /></a>
+            <a ng-href="{{ common.homeUrl }}"><img class="warnerburg-link-image" ng-src="{{ common.homeDark }}" /></a>
         </div>
         <div class="warnerburg-narrow-header-link">
-            <a href="[[ common.galleryUrl ]]"><img class="warnerburg-link-image {% if area == 'gallery' %}warnerburg-selected-link-image{% endif %}"  src="[[ common.galleryDark ]]" /></a>
+            <a ng-href="{{ common.galleryUrl }}"><img class="warnerburg-link-image "  ng-src="{{ common.galleryDark }}" /></a>
         </div>
         <div class="warnerburg-narrow-header-link">
-            <a href="[[ common.comicUrl ]]" ><img class="warnerburg-link-image {% if area == 'comic' %}warnerburg-selected-link-image{% endif %}" src="[[ common.comicDark ]]" /></a>
+            <a ng-href="{{ common.comicUrl }}" ><img class="warnerburg-link-image " ng-src="{{ common.comicDark }}" /></a>
         </div>
         <div class="warnerburg-narrow-header-link">
-            <a href="[[ common.storeUrl ]]"><img class="warnerburg-link-image {% if area == 'store' %}warnerburg-selected-link-image{% endif %}" src="[[ common.storeDark ]]" /></a>
+            <a ng-href="{{ common.storeUrl }}"><img class="warnerburg-link-image " ng-src="{{ common.storeDark }}" /></a>
         </div>
         <div class="warnerburg-narrow-header-link">
-            <a href="[[ common.infoUrl ]]"><img class="warnerburg-link-image {% if area == 'info' %}warnerburg-selected-link-image{% endif %}" src="[[ common.infoDark ]]" /></a>
+            <a ng-href="{{ common.infoUrl }}"><img class="warnerburg-link-image " ng-src="{{ common.infoDark }}" /></a>
         </div>
     </div>
 </div>

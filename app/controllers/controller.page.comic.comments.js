@@ -1,5 +1,5 @@
-angular.module("comicPage")
-    .controller("userComicCommentsCtrl", function ($scope, $attrs, $http, $resource) {
+angular.module("warnerburgApp")
+    .controller("userComicCommentsCtrl", function ($scope, $attrs, $http, $resource, $document) {
 
         $scope.comments = [];
 
@@ -26,3 +26,16 @@ angular.module("comicPage")
         }
 
     });
+angular.module("warnerburgApp").directive("showWhenDocumentIsReady", ['$document', function($document) {
+    // show comments link when page is done loading
+    return {
+        restrict: 'A',
+        link : function (scope, element, attrs) {
+            console.log("setting directive");
+            $document.ready(function () {
+                console.log("dom ready");
+                element.css({opacity: 0, visibility:'visible'}).animate({opacity: 1});
+            });
+        }
+    };
+}]);

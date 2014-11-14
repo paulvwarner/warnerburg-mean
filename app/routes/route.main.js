@@ -44,8 +44,8 @@ angular.module("warnerburgApp")
                         controller: 'warnerburgAppCtrl'
                     },
                     'content': {
-                        templateUrl: 'views/comicAngular.html',
-                        controller: 'warnerburgAppCtrl'
+                        templateUrl: 'views/comic.html',
+                        controller: 'comicPageCtrl'
                     }
                 }
             });

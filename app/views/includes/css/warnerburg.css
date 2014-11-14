@@ -15,8 +15,8 @@ a.unobtrusive-link:visited {color: #AAAAAA;text-decoration: none;font-size: 9pt;
 a.unobtrusive-link:hover {color: #AAAAAA;text-decoration: underline;font-size: 9pt;}
 a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 
-.warnerburg-link-image {
-
+.warnerburg-link-image:hover {
+    opacity: 0.25;
 }
 
 .warnerburg-link-image-hover {
@@ -80,6 +80,7 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     display: table-cell;
     position: relative;
     bottom: 5px;
+    min-width: 160px;
 }
 
 .comic-nav-header-buttons-cell {
@@ -92,6 +93,7 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     display: table-cell;
     position: relative;
     bottom: 5px;
+    width: 160px;
 }
 
 .warnerburg-narrow-footer-message {
@@ -158,6 +160,7 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 .comic-links {
     text-align: right;
     width: 100%;
+    visibility: hidden;
 }
 
 .comic-comments-header {

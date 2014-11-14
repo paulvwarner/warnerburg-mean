@@ -34,12 +34,12 @@ app.use('/views',    express.static(__dirname + '/app/views'));
 swig.setDefaults({varControls: ['[[',']]']});
 
 // require request handler definition files
-require('./app/request-handlers/route.display.main.js')(app);
-require('./app/request-handlers/route.display.comic.js')(app);
-require('./app/request-handlers/route.display.admin.js')(app);
-require('./app/request-handlers/route.data.comic.comments.js')(app);
-require('./app/request-handlers/route.data.admin.comics.js')(app);
-require('./app/request-handlers/route.data.content.js')(app);
+require('./app/request-handlers/handler.display.main.js')(app);
+require('./app/request-handlers/handler.display.comic.js')(app);
+require('./app/request-handlers/handler.display.admin.js')(app);
+require('./app/request-handlers/handler.data.comic.comments.js')(app);
+require('./app/request-handlers/handler.data.admin.comics.js')(app);
+require('./app/request-handlers/handler.data.comic.js')(app);
 
 // connect to the database, then start accepting requests if it works.
 // keepAlive prevents DB connection timeout
