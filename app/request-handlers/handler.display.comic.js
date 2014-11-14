@@ -15,7 +15,7 @@ function processGetComicPage(req, res) {
             };
 
             res.render('comic', pageData);
-            console.log("rendered from processGetComicPage for "+req.params.sequenceNumber);
+            console.log("xendered from processGetComicPage for "+req.params.sequenceNumber);
         });
 }
 

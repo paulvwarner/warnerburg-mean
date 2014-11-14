@@ -1,4 +1,4 @@
-angular.module("warnerburgApp")
+angular.module("warnerburgModule")
     .run(function($rootScope) {
         $rootScope.common = {
             mainCssUrl: '/includes/css/warnerburg.css',
@@ -32,7 +32,7 @@ angular.module("warnerburgApp")
                 views: {
                     'content': {
                         templateUrl: 'views/main.html',
-                        controller: 'warnerburgAppCtrl'
+                        controller: 'warnerburgController'
                     }
                 }
             })
@@ -41,11 +41,11 @@ angular.module("warnerburgApp")
                 views: {
                     'header': {
                         templateUrl: 'views/includes/partials/narrowHeader.html',
-                        controller: 'warnerburgAppCtrl'
+                        controller: 'warnerburgController'
                     },
                     'content': {
                         templateUrl: 'views/comic.html',
-                        controller: 'comicPageCtrl'
+                        controller: 'comicPageController'
                     }
                 }
             });

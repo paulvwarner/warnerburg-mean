@@ -1,1 +1,61 @@
-<div>CORMIC</div>
+<div class="comic-nav-header-container table-container">
+    <div class="comic-nav-header-row">
+        <div class="comic-nav-header-sequence-number-cell">
+            <img src="/images/details/labels/comic.jpg" />
+            <img src="/images/details/labels/sharp.jpg" />
+            <img ng-repeat="sequenceNumberElement in comic.sequenceNumberElements track by $index" ng-src="/images/details/labels/{{sequenceNumberElement}}.jpg">
+            <img ng-if="comic.isLast" src="/images/details/labels/latest.jpg" />
+        </div>
+        <div class="comic-nav-header-buttons-cell">
+            <a ng-if="!comic.isFirst" href="{{ common.comicUrl }}/1"><img class="warnerburg-link-image" src="/images/navigation/firstdarks.jpg" /></a>
+            <a ng-if="!comic.isFirst" href="{{ common.comicUrl }}/{{ comic.sequenceNumber - 1 }}"><img class="warnerburg-link-image" src="/images/navigation/prevdarks.jpg" /></a>
+            <a href="{{ common.archivesUrl }}"><img class="warnerburg-link-image" src="/images/navigation/archivesdarks.jpg" /></a>
+            <a ng-if="!comic.isLast" href="{{ common.comicUrl }}/{{ comic.sequenceNumber + 1 }}"><img class="warnerburg-link-image" src="/images/navigation/nextdarks.jpg" /></a>
+            <a ng-if="!comic.isLast" href="{{ common.comicUrl }}"><img class="warnerburg-link-image" src="/images/navigation/lastdarks.jpg" /></a>
+        </div>
+        <div class="comic-nav-header-publish-date-cell">
+            <img ng-repeat="dateElement in comic.createdDateElements track by $index" ng-src="/images/details/labels/{{dateElement}}.jpg">
+        </div>
+    </div>
+</div>
+<div class="comic-container">
+    <img id="comic-image" ng-src="{{ comic.image }}" />
+</div>
+<div class="comic-nav-footer-container table-container">
+    <div class="comic-nav-footer-links">
+        <div class="comic-nav-footer-link">
+            <a ng-if="!comic.isFirst" href="{{ common.comicUrl }}/1"><img class="warnerburg-link-image" src="/images/navigation/firstdark.jpg" /></a>
+        </div>
+        <div class="comic-nav-footer-link">
+            <a ng-if="!comic.isFirst" href="{{ common.comicUrl }}/{{ comic.sequenceNumber - 1 }}"><img class="warnerburg-link-image" src="/images/navigation/prevdark.jpg" /></a>
+        </div>
+        <div class="comic-nav-footer-link">
+            <a href="{{ common.archivesUrl }}"><img class="warnerburg-link-image" src="/images/navigation/archivesdark.jpg" /></a>
+        </div>
+        <div class="comic-nav-footer-link">
+            <a  ng-if="!comic.isLast" href="{{ common.comicUrl }}/{{ comic.sequenceNumber + 1 }}"><img class="warnerburg-link-image" src="/images/navigation/nextdark.jpg" /></a>
+        </div>
+        <div class="comic-nav-footer-link">
+            <a ng-if="!comic.isLast" href="{{ common.comicUrl }}"><img class="warnerburg-link-image" src="/images/navigation/lastdark.jpg" /></a>
+        </div>
+    </div>
+</div>
+
+<div id="blog-post-area">
+    <div class="blog-post-container table-container">
+        <div class="blog-post-elements">
+            <div class="blog-post-author-pic">
+                <img ng-src="{{ comic.authorPicture }}" />
+            </div>
+            <div class="blog-post-content">
+                <div ng-bind-html="comic.text"></div>
+            </div>
+        </div>
+    </div>
+
+    include "./includes/partials/comicComments.html"
+
+    <div class="comic-rss-footer">
+
+    </div>
+</div>

@@ -1,5 +1,5 @@
-angular.module("warnerburgApp", ['ui.router']);
-angular.module("warnerburgApp")
-    .controller("warnerburgAppCtrl", function ($scope, $rootScope) {
+angular.module("warnerburgModule", ['ui.router']);
+angular.module("warnerburgModule")
+    .controller("warnerburgController", function ($scope, $rootScope) {
 
     });

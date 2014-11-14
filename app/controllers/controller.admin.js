@@ -1,6 +1,6 @@
-angular.module("comicAdmin", ['ngSanitize','ngResource']);
-angular.module("comicAdmin")
-    .controller("comicAdminCtrl", function ($scope, $attrs, $http, $resource) {
+angular.module("comicAdminModule", ['ngSanitize','ngResource']);
+angular.module("comicAdminModule")
+    .controller("comicAdminController", function ($scope, $attrs, $http, $resource) {
 
         // initial logic to execute when the controller gets defined - get all comics
         $http.get('/data/admin/comics')

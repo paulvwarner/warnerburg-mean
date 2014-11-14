@@ -1,5 +1,5 @@
-angular.module("warnerburgApp")
-    .controller("userComicCommentsCtrl", function ($scope, $attrs, $http, $resource, $document) {
+angular.module("comicPageModule")
+    .controller("userComicCommentsController", function ($scope, $attrs, $http, $resource, $document) {
 
         $scope.comments = [];
 
@@ -26,7 +26,7 @@ angular.module("warnerburgApp")
         }
 
     });
-angular.module("warnerburgApp").directive("showWhenDocumentIsReady", ['$document', function($document) {
+angular.module("comicPageModule").directive("showWhenDocumentIsReady", ['$document', function($document) {
     // show comments link when page is done loading
     return {
         restrict: 'A',
