@@ -1,22 +1,18 @@
 {% extends 'includes/layouts/masterLayout.html' %}
 
 {% block content %}
-<div ng-app="warnerburgModule" ng-controller="warnerburgController">
-    <div ui-view="header"></div>
-    <div ui-view="content"></div>
-    <div ui-view="footer"></div>
+<div>
+    <div class="warnerburg-splash-link">
+        <a href="[[ common.galleryUrl ]]"><img class="warnerburg-splash-link-image" src="[[ common.galleryDark ]]" /></a>
+    </div>
+    <div class="warnerburg-splash-link">
+        <a href="[[ common.comicUrl ]]"><img class="warnerburg-splash-link-image" src="[[ common.comicDark ]]" /></a>
+    </div>
+    <div class="warnerburg-splash-link">
+        <a href="[[ common.storeUrl ]]"><img class="warnerburg-splash-link-image" src="[[ common.storeDark ]]" /></a>
+    </div>
+    <div class="warnerburg-splash-link">
+        <a href="[[ common.infoUrl ]]"><img class="warnerburg-splash-link-image" src="[[ common.infoDark ]]" /></a>
+    </div>
 </div>
-{% endblock %}
-
-{% block footerIncludes %}
-{% parent %}
-<script type="text/javascript" src="/bower_components/angular/angular.js"></script>
-<script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
-<script type="text/javascript" src="/bower_components/angular-resource/angular-resource.js"></script>
-<script type="text/javascript" src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-<script type="text/javascript" src="/controllers/controller.page.main.js"></script>
-<script type="text/javascript" src="/controllers/controller.page.comic.js"></script>
-<script type="text/javascript" src="/controllers/controller.page.comic.comments.js"></script>
-<script type="text/javascript" src="/routes/route.main.js"></script>
-<script type="text/javascript" src="/includes/js/comicPage.js"></script>
 {% endblock %}

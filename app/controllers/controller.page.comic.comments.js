@@ -1,5 +1,5 @@
 angular.module("comicPageModule")
-    .controller("userComicCommentsController", function ($scope, $attrs, $http, $resource, $document) {
+    .controller("userComicCommentsController", ['$scope', '$attrs', '$http', '$resource', '$document', function ($scope, $attrs, $http, $resource, $document) {
 
         $scope.comments = [];
 
@@ -25,7 +25,7 @@ angular.module("comicPageModule")
                 });
         }
 
-    });
+    }]);
 angular.module("comicPageModule").directive("showWhenDocumentIsReady", ['$document', function($document) {
     // show comments link when page is done loading
     return {
