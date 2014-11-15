@@ -340,10 +340,6 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     display: none;
 }
 
-.spaceless-contents {
-    font-size: 0;
-}
-
 .invisible-nav-button {
     display: none;
 }
