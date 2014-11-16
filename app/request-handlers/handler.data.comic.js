@@ -1,11 +1,11 @@
 var mongoose = require("mongoose");
 var common = require("warnerburg-common");
 var Q = require('q');
-var comicService = require("../services/service.data.comic.js");
+var comicDataService = require("../services/service.data.comic.js");
 
 function processGetComicPage(req, res) {
     console.log("running data processGetComicPage for "+req.params.sequenceNumber);
-    comicService.processGetComicData(req.params.sequenceNumber,
+    comicDataService.processGetComicData(req.params.sequenceNumber,
         function(comic) {
             console.log("returned from service with comic "+comic);
 

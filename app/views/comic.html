@@ -58,7 +58,42 @@
                 </div>
             </div>
 
-            {% include "./includes/partials/comicComments.html" %}
+            <div>
+                <div class="comic-links-container">
+                    <div class="comic-links" data-show-when-document-is-ready="">
+                        <a class="unobtrusive-link" href="rss" >Comic RSS</a> -
+                        <a id="commentsLink" class="unobtrusive-link" href="#">Comments (<span ng-bind="comic.comments.length">[[comic.comments.length]]</span>)</a>
+                    </div>
+                </div>
+                <div class="comic-comments-container">
+                    <div class="comic-comments-header">
+                        {{ comic.comments.length }} Comments:<br/>
+                        <hr/>
+                    </div>
+                    <div class="comic-comment-container table-container">
+                        <div class="comic-comment-elements" ng-repeat="comment in comic.comments | orderBy:commentDate">
+                            <div class="comic-comment-index">{{ $index + 1 }}.</div>
+                            <div class="comic-comment-content">
+                                <div class="comic-comment-text" ng-bind-html="comment.text"></div>
+                                <div class="comic-comment-details">Comment by {{ comment.author }} @ {{ comment.commentDate | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="comic-new-comment-container" ng-submit="createComment('[[ comic.sequenceNumber ]]', newComment)">
+                        <hr/>
+                        <div class="comic-new-comment-header">Add a new comment:</div>
+                        <div class="comic-new-comment-field">
+                            <input id="newCommentAuthor" type="text" ng-model="newComment.author" placeholder="Your Name"/>
+                        </div>
+                        <div class="comic-new-comment-field">
+                            <textarea id="newCommentText" ng-model="newComment.text" placeholder="Your Comment"></textarea>
+                        </div>
+                        <div>
+                            <input type="submit" value="Submit Comment"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
             <div class="comic-rss-footer">
 
@@ -73,6 +108,5 @@
     <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script type="text/javascript" src="/bower_components/angular-resource/angular-resource.js"></script>
     <script type="text/javascript" src="/controllers/controller.page.comic.js"></script>
-    <script type="text/javascript" src="/controllers/controller.page.comic.comments.js"></script>
     <script type="text/javascript" src="/includes/js/comicPage.js"></script>
 {% endblock %}

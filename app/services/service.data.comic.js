@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 module.exports = {
-    'processGetComicData': function(sequenceNumber, callback) {
+    processGetComicData: function(sequenceNumber, callback) {
         console.log("getting comic at "+sequenceNumber);
 
         var comic;
@@ -21,11 +21,13 @@ module.exports = {
                 console.log(contents);
                 comic = contents[0];
 
-                console.log("finding comment count for " + comic._id);
-                return mongoose.model('comment').count({contentId: comic._id}).exec();
-            }).then(function (commentCount) {
-                // attach comment count
-                comic.commentCount = commentCount;
+                console.log("finding comments for " + comic._id);
+                return mongoose.model('comment').find({contentId: contents[0]._id}).sort({commentDate:'asc'}).exec();
+            }).then(function(comments) {
+                console.log("cm l "+comments.length);
+
+                // attach comment data
+                comic.comments = comments;
 
                 console.log("returning comic from service");
                 // return comic
