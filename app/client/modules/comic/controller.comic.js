@@ -24,16 +24,9 @@ comicPageModule.controller("comicPageController", ['$scope', '$http', '$sce', '$
             });
         });
 
-        // create a new comment
+        // expose function allowing users to create a new comment
         $rootScope.createComment = function(comicSequenceNumber, comment) {
-            console.log("saving comment ",comment);
-            $http.post('/data/comics/' + comicSequenceNumber + '/comments', {comment: comment, comicSequenceNumber:comicSequenceNumber})
-                .success(function(newComment) {
-                    $rootScope.comic.comments.push(newComment);
-                    $scope.newComment = null;
-                }).error(function(data) {
-                    console.log('error: ' + data);
-                });
+            comicService.createComic(comicSequenceNumber, comment);
         };
     }]);
 
@@ -138,16 +131,30 @@ comicPageModule.directive("displayIfLastComic", ['$rootScope', 'comicService', f
     };
 }]);
 
+// fade in when dom is ready
 comicPageModule.directive("showWhenDocumentIsReady", ['$document', function($document) {
-    // show comments link when page is done loading
     return {
         restrict: 'A',
         link : function (scope, element, attrs) {
-            console.log("setting directive");
             $document.ready(function () {
-                console.log("dom ready");
                 element.css({opacity: 0, visibility:'visible'}).animate({opacity: 1});
             });
         }
     };
 }]);
+
+// clicking this element should toggle the display of of the comments section
+comicPageModule.directive("commentsLink", ['$document', '$rootScope', 'comicService', function($document, $rootScope, comicService) {
+    return {
+        restrict: 'A',
+        link : function (scope, element, attrs) {
+            $document.ready(function () {
+                element.on("click", function (event) {
+                    event.preventDefault();
+                    comicService.toggleCommentsDisplay();
+                });
+            });
+        }
+    };
+}]);
+

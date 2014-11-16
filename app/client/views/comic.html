@@ -60,9 +60,9 @@
 
             <div>
                 <div class="comic-links-container">
-                    <div class="comic-links" data-show-when-document-is-ready="">
+                    <div class="comic-links">
                         <a class="unobtrusive-link" href="rss" >Comic RSS</a> -
-                        <a id="commentsLink" class="unobtrusive-link" href="#">Comments (<span ng-bind="comic.comments.length">[[comic.comments.length]]</span>)</a>
+                        <a id="commentsLink" class="unobtrusive-link" href="#" data-comments-link="">Comments (<span ng-bind="comic.comments.length">[[comic.comments.length]]</span>)</a>
                     </div>
                 </div>
                 <div class="comic-comments-container">
@@ -94,6 +94,7 @@
                     </form>
                 </div>
             </div>
+
         </div>
     </div>
 {% endblock %}
@@ -107,5 +108,4 @@
     <script type="text/javascript" src="/modules/common/service.common.js"></script>
     <script type="text/javascript" src="/modules/comic/controller.comic.js"></script>
     <script type="text/javascript" src="/modules/comic/service.comic.js"></script>
-    <script type="text/javascript" src="/includes/js/comicPage.js"></script>
 {% endblock %}

@@ -1,4 +1,3 @@
-
 angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$rootScope', '$location', function ($http, $sce, $rootScope, $location) {
     var broadcastFirstModelChangeIfNecessary = function() {
         // broadcast event representing that the first model change happened if necessary
@@ -23,6 +22,8 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
     var handleComicChange = function() {
         // scroll to top of page
         window.scrollTo(0,0);
+
+        hideCommentsInstant();
 
         // trigger broadcast of first model change event if necessary
         broadcastFirstModelChangeIfNecessary();
@@ -92,6 +93,45 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
     var getComicSequenceNumberFromPath = function(path) {
         return path.split('comic').join('').split('/').join('');
     };
+    var createComic = function(comicSequenceNumber, comment) {
+        console.log("saving comment ",comment);
+        $http.post('/data/comics/' + comicSequenceNumber + '/comments', {comment: comment, comicSequenceNumber:comicSequenceNumber})
+            .success(function(newComment) {
+                $rootScope.comic.comments.push(newComment);
+                $scope.newComment = null;
+            }).error(function(data) {
+                console.log('error: ' + data);
+            });
+    };
+    var hideComments = function() {
+        var commentsContainer = angular.element(".comic-comments-container");
+        commentsContainer.animate({opacity: 0,height:'hide'}, function() {
+            commentsContainer.css('display','none');
+        });
+    };
+    var hideCommentsInstant = function() {
+        angular.element(".comic-comments-container").css('display','none');
+    };
+    var showComments = function() {
+        var commentsContainer = angular.element(".comic-comments-container");
+        commentsContainer.css("opacity", "0");
+        commentsContainer.css("display", "block");
+
+        // scroll to comments area
+        angular.element('html, body').animate({
+            scrollTop: commentsContainer.offset().top
+        }, 100);
+
+        commentsContainer.animate({opacity: 1});
+    };
+    var toggleCommentsDisplay = function() {
+        var commentsContainer = angular.element(".comic-comments-container");
+        if (commentsContainer.is(":visible")) {
+            hideComments();
+        } else {
+            showComments();
+        }
+    };
     return {
         showComic: showComic,
         navigateToComic: navigateToComic,
@@ -102,6 +142,8 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
         setComicNavOnClickHandler: setComicNavOnClickHandler,
         setHideConditionOnFirstModelChange: setHideConditionOnFirstModelChange,
         syncModelToUrl: syncModelToUrl,
-        getComicSequenceNumberFromPath: getComicSequenceNumberFromPath
+        getComicSequenceNumberFromPath: getComicSequenceNumberFromPath,
+        createComic: createComic,
+        toggleCommentsDisplay: toggleCommentsDisplay
     };
 }]);

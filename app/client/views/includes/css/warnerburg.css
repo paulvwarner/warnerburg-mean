@@ -160,7 +160,6 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 .comic-links {
     text-align: right;
     width: 100%;
-    visibility: hidden;
 }
 
 .comic-comments-header {
