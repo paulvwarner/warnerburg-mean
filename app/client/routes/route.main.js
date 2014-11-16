@@ -31,7 +31,7 @@ angular.module("warnerburgModule")
                 url: '/',
                 views: {
                     'content': {
-                        templateUrl: 'views/main.html',
+                        templateUrl: '../../views/main.html',
                         controller: 'warnerburgController'
                     }
                 }
@@ -40,11 +40,11 @@ angular.module("warnerburgModule")
                 url: '/comic/:comicId',
                 views: {
                     'header': {
-                        templateUrl: 'views/includes/partials/narrowHeader.html',
+                        templateUrl: '../../views/includes/partials/narrowHeader.html',
                         controller: 'warnerburgController'
                     },
                     'content': {
-                        templateUrl: 'views/comic.html',
+                        templateUrl: '../../views/comic.html',
                         controller: 'comicPageController'
                     }
                 }
