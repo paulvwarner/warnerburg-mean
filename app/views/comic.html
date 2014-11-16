@@ -18,13 +18,13 @@
                     <a href="[[ common.comicUrl ]]/[[ comic.sequenceNumber + 1 ]]" data-next-comic-link="" {% if comic.isLast %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/nextdarks.jpg" /></a>
                     <a href="[[ common.comicUrl ]]" data-last-comic-link="" {% if comic.isLast %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/lastdarks.jpg" /></a>
                 </div>
-                <div class="comic-nav-header-publish-date-cell">
+                <div class="comic-nav-header-publish-date-cell" data-display-comic-created-date="">
                     {% for dateElement in comic.createdDateElements %}<img src="/images/details/labels/[[dateElement]].jpg">{% endfor %}
                 </div>
             </div>
         </div>
         <div class="comic-container">
-            <img id="comic-image" src="[[ comic.image ]]" />
+            <img id="comic-image" data-bind-src-after-first-model-change="comic.image" src="[[ comic.image ]]" />
         </div>
         <div class="comic-nav-footer-container table-container">
             <div class="comic-nav-footer-links">
@@ -52,7 +52,7 @@
                     <div class="blog-post-author-pic">
                         <img src="[[ comic.authorPicture ]]" />
                     </div>
-                    <div class="blog-post-content">
+                    <div class="blog-post-content" data-bind-content-text-after-first-model-change="">
                         <div>[[ comic.text|safe ]]</div>
                     </div>
                 </div>

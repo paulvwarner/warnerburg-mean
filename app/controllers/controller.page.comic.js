@@ -1,14 +1,46 @@
 var comicPageModule = angular.module("comicPageModule", ['ngSanitize', 'ngResource']);
 
-comicPageModule.run(['$rootScope', function($rootScope) {
+comicPageModule.config(function($locationProvider) {
+    $locationProvider.html5Mode(true);
+});
+
+comicPageModule.run(['$rootScope', 'comicService', function($rootScope, comicService) {
     $rootScope.comic = {};
+
+    $rootScope.common = {
+        mainCssUrl: '/includes/css/warnerburg.css',
+        homeDark: '/images/navigation/homedarks.png',
+        homeLight: '/images/navigation/homelights.png',
+        galleryDark: '/images/navigation/gallerydarks.png',
+        galleryLight: '/images/navigation/gallerylights.png',
+        comicDark: '/images/navigation/comicdarks.png',
+        comicLight: '/images/navigation/comiclights.png',
+        storeDark: '/images/navigation/storedarks.png',
+        storeLight: '/images/navigation/storelights.png',
+        infoDark: '/images/navigation/infodarks.png',
+        infoLight: '/images/navigation/infolights.png',
+        linksDark: '/images/navigation/linksdarks.png',
+        linksLight: '/images/navigation/linkslights.png',
+        homeUrl: '/',
+        galleryUrl: '/gallery',
+        storeUrl: '/store',
+        comicUrl: '/comic',
+        archivesUrl: '/comic/archives',
+        infoUrl: '/info'
+    };
 }]);
 
 comicPageModule.controller("comicPageController", ['$scope', '$http', '$sce', '$rootScope', '$attrs', 'comicService',
     function ($scope, $http, $sce, $rootScope, $attrs, comicService) {
         console.log("comic controller called here  ");
         $rootScope.firstModelChangeHappened = false;
-        comicService.getComic($attrs.comicSequenceNumber, angular.noop);
+
+        // get current model once angular is set up for the first time, then sync model to url from then on
+        comicService.getComic($attrs.comicSequenceNumber, function() {
+            $rootScope.$on("$locationChangeSuccess", function() {
+                comicService.syncModelToUrl();
+            });
+        });
     }]);
 
 comicPageModule.directive("firstComicLink", ['$rootScope', 'comicService', function ($rootScope, comicService) {
@@ -47,55 +79,61 @@ comicPageModule.directive("lastComicLink", ['$rootScope', 'comicService', functi
     };
 }]);
 
-comicPageModule.directive("bindAfterFirstChange", ['$rootScope', function ($rootScope) {
+comicPageModule.directive("bindSrcAfterFirstModelChange", ['$rootScope', function ($rootScope) {
     return {
         compile: function (templateElement) {
             templateElement.addClass('ng-binding');
             return function (scope, element, attr) {
-                console.log("bindafter");
+
                 // start binding on event representing first change in model
                 $rootScope.$on("firstModelChange", function () {
-                    console.log("firstModelChange: ", attr.bindAfterFirstChange);
-                    element.data('$binding', attr.bindAfterFirstChange);
-                    scope.$watch(attr.bindAfterFirstChange, function ngBindWatchAction(value) {
-                        console.log("binding");
-                        element.text(value == undefined ? '' : value);
+                    console.log("bindSrcAfterFirstModelChange: ", attr.bindSrcAfterFirstModelChange);
+                    element.data('$binding', attr.bindSrcAfterFirstModelChange);
+                    scope.$watch(attr.bindSrcAfterFirstModelChange, function ngBindWatchAction(value) {
+                        element.attr('src', value);
                     });
                 });
-            }
+            };
         }
     };
 }]);
 
-
+comicPageModule.directive("bindContentTextAfterFirstModelChange", ['$rootScope', 'comicService', function ($rootScope, comicService) {
+    return {
+        compile: function (templateElement) {
+            return comicService.bindAfterFirstModelChange(templateElement, 'comic.text', function(value) {
+                return value;
+            });
+        }
+    };
+}]);
 
 comicPageModule.directive("displayComicSequenceNumber", ['$rootScope', 'comicService', function ($rootScope, comicService) {
     return {
         compile: function (templateElement) {
-            return comicService.bindAfterFirstModelChange(templateElement);
+            return comicService.bindAfterFirstModelChange(templateElement, 'comic.sequenceNumberElements', function(value) {
+                newSequenceNumberHtml = '';
+                value.forEach(function(entry) {
+                    console.log(entry);
+                    newSequenceNumberHtml = newSequenceNumberHtml + '<img src="/images/details/labels/'+entry+'.jpg">';
+                });
+                return newSequenceNumberHtml;
+            });
         }
     };
 }]);
 
-comicPageModule.directive("displayComicPublishDate", ['$rootScope', function ($rootScope) {
+comicPageModule.directive("displayComicCreatedDate", ['$rootScope', 'comicService', function ($rootScope, comicService) {
     return {
         compile: function (templateElement) {
-            templateElement.addClass('ng-binding');
-            return function (scope, element, attr) {
-                // start binding on event representing first change in model
-                $rootScope.$on("firstModelChange", function () {
-                    console.log("displayComicSequenceNumber: ");
-                    element.data('$binding', attr.bindAfterFirstChange);
-                    scope.$watch('comic.sequenceNumberElements', function ngBindWatchAction(value) {
-                        newSequenceNumberHtml = '';
-                        value.forEach(function(entry) {
-                            console.log(entry);
-                            newSequenceNumberHtml = newSequenceNumberHtml + '<img src="/images/details/labels/'+entry+'.jpg">';
-                        });
-                        element.html(newSequenceNumberHtml);
-                    });
+            return comicService.bindAfterFirstModelChange(templateElement, 'comic.createdDateElements', function(value) {
+                newSequenceNumberHtml = '';
+                value.forEach(function(entry) {
+                    console.log(entry);
+                    newSequenceNumberHtml = newSequenceNumberHtml + '<img src="/images/details/labels/'+entry+'.jpg">';
                 });
-            }
+                return newSequenceNumberHtml;
+            });
         }
     };
 }]);
@@ -110,7 +148,7 @@ comicPageModule.directive("displayIfLastComic", ['$rootScope', 'comicService', f
     };
 }]);
 
-comicPageModule.factory("comicService", ['$http', '$sce', '$rootScope', function ($http, $sce, $rootScope) {
+comicPageModule.factory("comicService", ['$http', '$sce', '$rootScope', '$location', function ($http, $sce, $rootScope, $location) {
     var broadcastFirstModelChangeIfNecessary = function() {
         // broadcast event representing that the first model change happened if necessary
         if (!$rootScope.firstModelChangeHappened) {
@@ -131,8 +169,18 @@ comicPageModule.factory("comicService", ['$http', '$sce', '$rootScope', function
                 console.log('error: ' + data);
             });
     };
+    var handleComicChange = function() {
+        // scroll to top of page
+        window.scrollTo(0,0);
+
+        // update history
+        $location.path($rootScope.common.comicUrl+'/'+$rootScope.comic.sequenceNumber);
+
+        // trigger broadcast of first model change event if necessary
+        broadcastFirstModelChangeIfNecessary();
+    };
     var showComic = function(comicSequenceNumber) {
-        getComic(comicSequenceNumber, broadcastFirstModelChangeIfNecessary);
+        getComic(comicSequenceNumber, handleComicChange);
     };
     var setHideCondition = function (element, watchVariable) {
         $rootScope.$watch(watchVariable, function(newVal) {
@@ -144,24 +192,23 @@ comicPageModule.factory("comicService", ['$http', '$sce', '$rootScope', function
             }
         });
     };
-    var bindAfterFirstModelChange = function(templateElement) {
+    var bindAfterFirstModelChange = function(templateElement, watchVariable, getHtmlToBind) {
         templateElement.addClass('ng-binding');
         return function (scope, element, attr) {
             // start binding on event representing first change in model
             $rootScope.$on("firstModelChange", function () {
-                console.log("displayComicSequenceNumber: ");
-                element.data('$binding', attr.bindAfterFirstChange);
-                scope.$watch('comic.sequenceNumberElements', function ngBindWatchAction(value) {
-                    newSequenceNumberHtml = '';
-                    value.forEach(function(entry) {
-                        console.log(entry);
-                        newSequenceNumberHtml = newSequenceNumberHtml + '<img src="/images/details/labels/'+entry+'.jpg">';
-                    });
-                    element.html(newSequenceNumberHtml);
+                console.log("bindafter FMC: "+watchVariable);
+                scope.$watch(watchVariable, function ngBindWatchAction(value) {
+                    console.log(watchVariable + ' changed to '+value);
+                    console.log("element: ",element);
+                    element.html(''+getHtmlToBind(value));
                 });
             });
-        }
+        };
     };
+    // sequenceNumberToUse is a string meant to be eval'd (necessary because some include rootScope variables that
+    // aren't defined at the point the callers call this, but which will exist at the point the app is ready to
+    // process these clicks with JS)
     var setComicNavOnClickHandler = function(element, sequenceNumberToUse) {
         element.on("click", function (event) {
             event.preventDefault();
@@ -173,6 +220,24 @@ comicPageModule.factory("comicService", ['$http', '$sce', '$rootScope', function
             setHideCondition(element, condition);
         });
     };
+    var syncModelToUrl = function() {
+        var pathSequenceNumber = '' + getComicSequenceNumberFromPath($location.path());
+        var modelSequenceNumber = '' + $rootScope.comic.sequenceNumber;
+        console.log("path is '"+ pathSequenceNumber +"' and model is using '"+modelSequenceNumber+"'");
+
+        if (pathSequenceNumber != modelSequenceNumber) {
+            // we're okay if path seq num is blank but model says we're the latest comic;
+            // otherwise, show the comic in the path
+            if (!(pathSequenceNumber == '' && $rootScope.comic.isLast)) {
+                console.log("syncing model to use path comic")
+                showComic(eval("'"+pathSequenceNumber+"'"));
+            }
+        }
+
+    };
+    var getComicSequenceNumberFromPath = function(path) {
+        return path.split('comic').join('').split('/').join('');
+    };
     return {
         showComic: showComic,
         getComic: getComic,
@@ -180,6 +245,8 @@ comicPageModule.factory("comicService", ['$http', '$sce', '$rootScope', function
         setHideCondition: setHideCondition,
         bindAfterFirstModelChange: bindAfterFirstModelChange,
         setComicNavOnClickHandler: setComicNavOnClickHandler,
-        setHideConditionOnFirstModelChange: setHideConditionOnFirstModelChange
+        setHideConditionOnFirstModelChange: setHideConditionOnFirstModelChange,
+        syncModelToUrl: syncModelToUrl,
+        getComicSequenceNumberFromPath: getComicSequenceNumberFromPath
     };
 }]);
