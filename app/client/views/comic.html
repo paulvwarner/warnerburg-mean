@@ -13,9 +13,9 @@
                 </div>
                 <div class="comic-nav-header-buttons-cell">
                     <a href="[[ common.comicUrl ]]/1" data-first-comic-link="" {% if comic.isFirst %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/firstdarks.jpg" /></a>
-                    <a href="[[ common.comicUrl ]]/[[ comic.sequenceNumber - 1 ]]" data-previous-comic-link="" {% if comic.isFirst %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/prevdarks.jpg" /></a>
+                    <a href="[[ common.comicUrl ]]/[[ comic.sequenceNumber - 1 ]]" ng-href="{{ common.comicUrl }}/{{ comic.sequenceNumber - 1 }}" data-previous-comic-link="" {% if comic.isFirst %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/prevdarks.jpg" /></a>
                     <a href="[[ common.archivesUrl ]]"><img class="warnerburg-link-image" src="/images/navigation/archivesdarks.jpg" /></a>
-                    <a href="[[ common.comicUrl ]]/[[ comic.sequenceNumber + 1 ]]" data-next-comic-link="" {% if comic.isLast %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/nextdarks.jpg" /></a>
+                    <a href="[[ common.comicUrl ]]/[[ comic.sequenceNumber + 1 ]]" ng-href="{{ common.comicUrl }}/{{ comic.sequenceNumber + 1 }}" data-next-comic-link="" {% if comic.isLast %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/nextdarks.jpg" /></a>
                     <a href="[[ common.comicUrl ]]" data-last-comic-link="" {% if comic.isLast %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/lastdarks.jpg" /></a>
                 </div>
                 <div class="comic-nav-header-publish-date-cell" data-display-comic-created-date="">
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="comic-container">
-            <img id="comic-image" data-bind-src-after-first-model-change="comic.image" src="[[ comic.image ]]" />
+            <a href="{% if comic.isLast %}#{% else %}[[ common.comicUrl ]]/[[ comic.sequenceNumber + 1 ]]{% endif %}" ng-href="{{ comic.isLast ? '#' : common.comicUrl + '/' + (comic.sequenceNumber + 1) }}" data-next-comic-link-no-hide=""><img id="comic-image" data-bind-src-after-first-model-change="comic.image" src="[[ comic.image ]]" /></a>
         </div>
         <div class="comic-nav-footer-container table-container">
             <div class="comic-nav-footer-links">
@@ -32,13 +32,13 @@
                     <a href="[[ common.comicUrl ]]/1" data-first-comic-link="" {% if comic.isFirst %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/firstdark.jpg" /></a>
                 </div>
                 <div class="comic-nav-footer-link">
-                    <a href="[[ common.comicUrl ]]/[[ comic.sequenceNumber - 1 ]]" data-previous-comic-link="" {% if comic.isFirst %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/prevdark.jpg" /></a>
+                    <a href="[[ common.comicUrl ]]/[[ comic.sequenceNumber - 1 ]]" ng-href="{{ common.comicUrl }}/{{ comic.sequenceNumber - 1 }}" data-previous-comic-link="" {% if comic.isFirst %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/prevdark.jpg" /></a>
                 </div>
                 <div class="comic-nav-footer-link">
                     <a href="[[ common.archivesUrl ]]"><img class="warnerburg-link-image" src="/images/navigation/archivesdark.jpg" /></a>
                 </div>
                 <div class="comic-nav-footer-link">
-                    <a href="[[ common.comicUrl ]]/[[ comic.sequenceNumber + 1 ]]" data-next-comic-link="" {% if comic.isLast %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/nextdark.jpg" /></a>
+                    <a href="[[ common.comicUrl ]]/[[ comic.sequenceNumber + 1 ]]" ng-href="{{ common.comicUrl }}/{{ comic.sequenceNumber + 1 }}" data-next-comic-link="" {% if comic.isLast %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/nextdark.jpg" /></a>
                 </div>
                 <div class="comic-nav-footer-link">
                     <a href="[[ common.comicUrl ]]" data-last-comic-link="" {% if comic.isLast %}class="invisible-nav-button"{% endif %}><img class="warnerburg-link-image" src="/images/navigation/lastdark.jpg" /></a>

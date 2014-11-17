@@ -7,6 +7,11 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
         }
     };
     var getComic = function(comicSequenceNumber, callback) {
+        // hide comic since we're about to change it - it will reappear in the
+        // code watching for a change to the image url (bindSrcAfterFirstModelChange directive)
+        if ($rootScope.firstModelChangeHappened) {
+            angular.element('#comic-image').css('opacity', '0');
+        }
         $http.get('/data/comic/' + comicSequenceNumber)
             .success(function (comic) {
                 // put new comic data in scope
@@ -67,7 +72,12 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
     var setComicNavOnClickHandler = function(element, sequenceNumberToUse) {
         element.on("click", function (event) {
             event.preventDefault();
-            navigateToComic(eval(sequenceNumberToUse));
+            var sequenceNumberString = ''+eval(sequenceNumberToUse);
+
+            // don't allow someone to try to progress past the last comic
+            if (!($rootScope.comic.isLast && sequenceNumberString > (''+$rootScope.comic.sequenceNumber))) {
+                navigateToComic(sequenceNumberString);
+            }
         });
     };
     var setHideConditionOnFirstModelChange = function(element, condition) {

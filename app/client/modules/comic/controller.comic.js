@@ -57,6 +57,14 @@ comicPageModule.directive("nextComicLink", ['$rootScope', 'comicService', functi
     };
 }]);
 
+comicPageModule.directive("nextComicLinkNoHide", ['$rootScope', 'comicService', function ($rootScope, comicService) {
+    return {
+        link: function (scope, element, attrs) {
+            comicService.setComicNavOnClickHandler(element, '$rootScope.comic.sequenceNumber + 1');
+        }
+    };
+}]);
+
 comicPageModule.directive("lastComicLink", ['$rootScope', 'comicService', function ($rootScope, comicService) {
     return {
         link: function (scope, element, attrs) {
@@ -75,7 +83,9 @@ comicPageModule.directive("bindSrcAfterFirstModelChange", ['$rootScope', functio
                 $rootScope.$on("firstModelChange", function () {
                     element.data('$binding', attr.bindSrcAfterFirstModelChange);
                     scope.$watch(attr.bindSrcAfterFirstModelChange, function ngBindWatchAction(value) {
-                        element.attr('src', value);
+                        element.attr('src', value).load(function() {
+                            element.animate({opacity: 1},50);
+                        });
                     });
                 });
             };
