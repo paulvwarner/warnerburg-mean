@@ -1,4 +1,5 @@
-angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$rootScope', '$location', function ($http, $sce, $rootScope, $location) {
+angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$rootScope', '$location', '$window',
+    function ($http, $sce, $rootScope, $location, $window) {
     var broadcastFirstModelChangeIfNecessary = function() {
         // broadcast event representing that the first model change happened if necessary
         if (!$rootScope.firstModelChangeHappened) {
@@ -87,16 +88,23 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
     };
     var syncModelToUrl = function() {
         var pathSequenceNumber = '' + getComicSequenceNumberFromPath($location.path());
-        var modelSequenceNumber = '' + $rootScope.comic.sequenceNumber;
-        console.log("path is '"+ pathSequenceNumber +"' and model is using '"+modelSequenceNumber+"'");
 
-        if (pathSequenceNumber != modelSequenceNumber) {
-            // we're okay if path seq num is blank but model says we're the latest comic;
-            // otherwise, show the comic in the path
-            if (!(pathSequenceNumber == '' && $rootScope.comic.isLast)) {
-                console.log("syncing model to use path comic")
-                showComic(eval("'"+pathSequenceNumber+"'"));
+        // sync if pathSequenceNumber is blank or a comic sequence number
+        console.log("'"+pathSequenceNumber+"'");
+        if (!(isNaN(pathSequenceNumber) && pathSequenceNumber != '')) {
+            var modelSequenceNumber = '' + $rootScope.comic.sequenceNumber;
+            console.log("path is '"+ pathSequenceNumber +"' and model is using '"+modelSequenceNumber+"'");
+
+            if (pathSequenceNumber != modelSequenceNumber) {
+                // we're okay if path seq num is blank but model says we're the latest comic;
+                // otherwise, show the comic in the path
+                if (!(pathSequenceNumber == '' && $rootScope.comic.isLast)) {
+                    console.log("syncing model to use path comic")
+                    showComic(eval("'"+pathSequenceNumber+"'"));
+                }
             }
+        } else {
+            $window.location.href = $location.path();
         }
 
     };

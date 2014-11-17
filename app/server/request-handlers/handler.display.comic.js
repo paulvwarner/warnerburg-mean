@@ -10,22 +10,20 @@ function processGetComicPage(req, res) {
             console.log("returned from service with comic "+comic);
             var pageData = {
                 common: common,
-                area: 'comic',
                 comic: comic
             };
 
-            res.render('comic', pageData);
+            res.render('comic.html', pageData);
             console.log("xendered from processGetComicPage for "+req.params.sequenceNumber);
         });
 }
 
 function processGetComicArchives(req, res) {
     var pageData = {
-        common: common,
-        area: 'comic'
+        common: common
     };
 
-    res.render('comic', pageData);
+    res.render('archives.html', pageData);
 }
 
 module.exports = function (app) {

@@ -36,6 +36,10 @@ swig.setDefaults({varControls: ['[[',']]']});
 
 // require request handler definition files
 require('./app/server/request-handlers/handler.display.main.js')(app);
+require('./app/server/request-handlers/handler.display.gallery.js')(app);
+require('./app/server/request-handlers/handler.display.info.js')(app);
+require('./app/server/request-handlers/handler.display.store.js')(app);
+require('./app/server/request-handlers/handler.display.links.js')(app);
 require('./app/server/request-handlers/handler.display.comic.js')(app);
 require('./app/server/request-handlers/handler.display.admin.js')(app);
 require('./app/server/request-handlers/handler.data.comic.comments.js')(app);

@@ -8,12 +8,12 @@ function processGetRoot(req, res) {
     };
 
     res.render(
-        'main.html', pageData
+        'links.html', pageData
     );
 }
 
 module.exports = function(app) {
-    app.get('/', processGetRoot);
+    app.get('/links', processGetRoot);
 };
 
 
