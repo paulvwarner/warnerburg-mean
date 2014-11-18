@@ -3,7 +3,7 @@ var mongoose = require("mongoose");
 function processPostCommentData(req, res) {
     console.log('posted:',req.body);
 
-    mongoose.model('content').find({sequenceNumber:req.body.comicSequenceNumber}).exec()
+    mongoose.model('content').find({sequenceNumber:req.body.sequenceNumber}).exec()
         .then(function(contents) {
             var Comment = mongoose.model('comment');
             var newComment = new Comment({
@@ -20,10 +20,10 @@ function processPostCommentData(req, res) {
                 res.send(newComment);
             });
         }).onReject(function(err) {
-            console.log("error saving comic comment: "+err);
+            console.log("error saving comment: "+err);
         });
 }
 
 module.exports = function(app) {
-    app.post('/data/comics/:sequenceNumber/comments', processPostCommentData);
+    app.post('/data/content/:sequenceNumber/comments', processPostCommentData);
 };

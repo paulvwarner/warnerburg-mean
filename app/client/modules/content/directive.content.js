@@ -1,43 +1,43 @@
 
-angular.module("contentModule").directive("firstComicLink", ['$rootScope', 'contentService', function ($rootScope, contentService) {
+angular.module("contentModule").directive("firstLink", ['$rootScope', 'contentService', function ($rootScope, contentService) {
     return {
         link: function (scope, element, attrs) {
-            contentService.setContentNavOnClickHandler(element, '1', 'comic');
+            contentService.setContentNavOnClickHandler(element, '1', attrs.contentCategory);
             contentService.setHideConditionOnFirstModelChange(element, 'content.isFirst');
         }
     };
 }]);
 
-angular.module("contentModule").directive("previousComicLink", ['$rootScope', 'contentService', function ($rootScope, contentService) {
+angular.module("contentModule").directive("previousLink", ['$rootScope', 'contentService', function ($rootScope, contentService) {
     return {
         link: function (scope, element, attrs) {
-            contentService.setContentNavOnClickHandler(element, '$rootScope.content.sequenceNumber - 1', 'comic');
+            contentService.setContentNavOnClickHandler(element, '$rootScope.content.sequenceNumber - 1', attrs.contentCategory);
             contentService.setHideConditionOnFirstModelChange(element, 'content.isFirst');
         }
     };
 }]);
 
-angular.module("contentModule").directive("nextComicLink", ['$rootScope', 'contentService', function ($rootScope, contentService) {
+angular.module("contentModule").directive("nextLink", ['$rootScope', 'contentService', function ($rootScope, contentService) {
     return {
         link: function (scope, element, attrs) {
-            contentService.setContentNavOnClickHandler(element, '$rootScope.content.sequenceNumber + 1', 'comic');
+            contentService.setContentNavOnClickHandler(element, '$rootScope.content.sequenceNumber + 1', attrs.contentCategory);
             contentService.setHideConditionOnFirstModelChange(element, 'content.isLast');
         }
     };
 }]);
 
-angular.module("contentModule").directive("nextComicLinkNoHide", ['$rootScope', 'contentService', function ($rootScope, contentService) {
+angular.module("contentModule").directive("nextLinkNoHide", ['$rootScope', 'contentService', function ($rootScope, contentService) {
     return {
         link: function (scope, element, attrs) {
-            contentService.setContentNavOnClickHandler(element, '$rootScope.content.sequenceNumber + 1', 'comic');
+            contentService.setContentNavOnClickHandler(element, '$rootScope.content.sequenceNumber + 1', attrs.contentCategory);
         }
     };
 }]);
 
-angular.module("contentModule").directive("lastComicLink", ['$rootScope', 'contentService', function ($rootScope, contentService) {
+angular.module("contentModule").directive("lastLink", ['$rootScope', 'contentService', function ($rootScope, contentService) {
     return {
         link: function (scope, element, attrs) {
-            contentService.setContentNavOnClickHandler(element, "''", 'comic');
+            contentService.setContentNavOnClickHandler(element, "''", attrs.contentCategory);
             contentService.setHideConditionOnFirstModelChange(element, 'content.isLast');
         }
     };
@@ -72,7 +72,7 @@ angular.module("contentModule").directive("bindContentTextAfterFirstModelChange"
     };
 }]);
 
-angular.module("contentModule").directive("displayComicSequenceNumber", ['$rootScope', 'contentService', function ($rootScope, contentService) {
+angular.module("contentModule").directive("displaySequenceNumber", ['$rootScope', 'contentService', function ($rootScope, contentService) {
     return {
         compile: function (templateElement) {
             return contentService.bindAfterFirstModelChange(templateElement, 'content.sequenceNumberElements', function(value) {
@@ -86,7 +86,7 @@ angular.module("contentModule").directive("displayComicSequenceNumber", ['$rootS
     };
 }]);
 
-angular.module("contentModule").directive("displayComicCreatedDate", ['$rootScope', 'contentService', function ($rootScope, contentService) {
+angular.module("contentModule").directive("displayCreatedDate", ['$rootScope', 'contentService', function ($rootScope, contentService) {
     return {
         compile: function (templateElement) {
             return contentService.bindAfterFirstModelChange(templateElement, 'content.createdDateElements', function(value) {
@@ -100,7 +100,7 @@ angular.module("contentModule").directive("displayComicCreatedDate", ['$rootScop
     };
 }]);
 
-angular.module("contentModule").directive("displayIfLastComic", ['$rootScope', 'contentService', function ($rootScope, contentService) {
+angular.module("contentModule").directive("displayIfLast", ['$rootScope', 'contentService', function ($rootScope, contentService) {
     return {
         link: function (scope, element, attrs) {
             $rootScope.$on("firstModelChange", function () {

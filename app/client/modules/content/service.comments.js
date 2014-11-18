@@ -11,16 +11,16 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
             });
     };
     var hideComments = function() {
-        var commentsContainer = angular.element(".comic-comments-container");
+        var commentsContainer = angular.element(".comments-container");
         commentsContainer.animate({opacity: 0,height:'hide'}, function() {
             commentsContainer.css('display','none');
         });
     };
     var hideCommentsInstant = function() {
-        angular.element(".comic-comments-container").css('display','none');
+        angular.element(".comments-container").css('display','none');
     };
     var showComments = function() {
-        var commentsContainer = angular.element(".comic-comments-container");
+        var commentsContainer = angular.element(".comments-container");
         commentsContainer.css("opacity", "0");
         commentsContainer.css("display", "block");
 
@@ -32,7 +32,7 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
         commentsContainer.animate({opacity: 1});
     };
     var toggleCommentsDisplay = function() {
-        var commentsContainer = angular.element(".comic-comments-container");
+        var commentsContainer = angular.element(".comments-container");
         if (commentsContainer.is(":visible")) {
             hideComments();
         } else {

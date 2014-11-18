@@ -67,15 +67,15 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     border-spacing: 0;
 }
 
-.comic-nav-header-container {
+.comic-content-nav-header-container {
     width: 796px;
 }
 
-.comic-nav-header-row {
+.content-nav-header-row {
     display: table-row;
 }
 
-.comic-nav-header-sequence-number-cell {
+.content-nav-header-sequence-number-cell {
     text-align: left;
     display: table-cell;
     position: relative;
@@ -83,12 +83,12 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     min-width: 160px;
 }
 
-.comic-nav-header-buttons-cell {
+.content-nav-header-buttons-cell {
     text-align: center;
     display: table-cell;
 }
 
-.comic-nav-header-publish-date-cell {
+.content-nav-header-publish-date-cell {
     text-align: right;
     display: table-cell;
     position: relative;
@@ -104,15 +104,15 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     padding-bottom: 3px;
 }
 
-.comic-nav-footer-container {
+.content-nav-footer-container {
     width:800px;
 }
 
-.comic-nav-footer-links {
+.content-nav-footer-links {
     display: table-row;
 }
 
-.comic-nav-footer-link {
+.content-nav-footer-link {
     display: table-cell;
     text-align: center;
     width: 160px;
@@ -162,7 +162,7 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     width: 100%;
 }
 
-.comic-comments-header {
+.comments-header {
     width: 100%;
     margin: 0 auto;
     text-align: left;
@@ -170,48 +170,41 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     font-size: 14pt;
 }
 
-.comic-comments {
-    text-align: left;
-}
-
-.comic-comments-container {
+.comments-container {
     padding-top: 5px;
     width: 796px;
     margin: 0 auto;
     display: none;
 }
 
-.comic-comment-container {
+.comment-container {
     width: 100%;
     text-align: left;
     padding: 5px;
 }
 
-.comic-comment-elements {
+.comment-elements {
     display: table-row;
 }
 
-.comic-comment-index {
+.comment-index {
     display: table-cell;
     padding: 5px;
 }
 
-.comic-comment-content {
+.comment-content {
     display: table-cell;
     padding: 5px;
 }
 
-.comic-comment-text {
+.comment-text {
     padding-bottom: 10px;
 }
 
-.comic-comment-details {
-    padding-bottom: 15px;
-}
-
-.comic-comment-details {
+.comment-details {
     color: #AAAAAA;
     font-style: italic;
+    padding-bottom: 15px;
 }
 
 .new-comment-field-label {
@@ -220,22 +213,22 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     display: inline-block;
 }
 
-.comic-new-comment-container {
+.new-comment-container {
     text-align: left;
 }
 
-.comic-new-comment-fields-container {
+.new-comment-fields-container {
     text-align: left;
     width: 100%;
 }
 
-.comic-new-comment-header {
+.new-comment-header {
     font-weight: bold;
     font-size: 12pt;
     padding-bottom: 5px;
 }
 
-.comic-new-comment-field {
+.new-comment-field {
     padding-bottom: 5px;
 }
 

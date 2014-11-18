@@ -119,14 +119,9 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
     var getSequenceNumberFromPath = function(category, path) {
         return path.split(''+category).join('').split('/').join('');
     };
-
-
-
-
-
-    var createComment = function(comicSequenceNumber, comment, scope) {
+    var createComment = function(sequenceNumber, comment, scope) {
         console.log("saving comment ",comment);
-        $http.post('/data/comics/' + comicSequenceNumber + '/comments', {comment: comment, comicSequenceNumber:comicSequenceNumber})
+        $http.post('/data/content/' + sequenceNumber + '/comments', {comment: comment, sequenceNumber:sequenceNumber})
             .success(function(newComment) {
                 $rootScope.content.comments.push(newComment);
                 scope.newComment = null;
@@ -135,16 +130,16 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
             });
     };
     var hideComments = function() {
-        var commentsContainer = angular.element(".comic-comments-container");
+        var commentsContainer = angular.element(".comments-container");
         commentsContainer.animate({opacity: 0,height:'hide'}, function() {
             commentsContainer.css('display','none');
         });
     };
     var hideCommentsInstant = function() {
-        angular.element(".comic-comments-container").css('display','none');
+        angular.element(".comments-container").css('display','none');
     };
     var showComments = function() {
-        var commentsContainer = angular.element(".comic-comments-container");
+        var commentsContainer = angular.element(".comments-container");
         commentsContainer.css("opacity", "0");
         commentsContainer.css("display", "block");
 
@@ -156,7 +151,7 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
         commentsContainer.animate({opacity: 1});
     };
     var toggleCommentsDisplay = function() {
-        var commentsContainer = angular.element(".comic-comments-container");
+        var commentsContainer = angular.element(".comments-container");
         if (commentsContainer.is(":visible")) {
             hideComments();
         } else {
