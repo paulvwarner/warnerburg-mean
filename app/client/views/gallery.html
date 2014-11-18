@@ -4,8 +4,61 @@
 
 {% block content %}
 
-    <!-- content -->
-    GALLERY
+<div class="gallery-container">
+    <div class="gallery-section-label">Color Drawings</div>
+    <div class="gallery-section-images-container">
+        {% for image in colorImages %}
+        <a href="gallery/color/[[image.sequenceNumber]]"><img src="[[image.thumbnail]]"></a>
+        {% endfor %}
+    </div>
+
+    <div class="gallery-section-label">Pencil Drawings</div>
+    <div class="gallery-section-images-container">
+        {% for image in pencilImages %}
+        <a href="gallery/pencil/[[image.sequenceNumber]]"><img src="[[image.thumbnail]]"></a>
+        {% endfor %}
+    </div>
+
+    <div class="gallery-section-label">Sketches, many of them made during classes!<div>
+    <div class="gallery-section-images-container">
+        <div class="gallery-subsection">
+            <div>Set #1</div>
+            <div><a href="gallery/sketches/1"><img src="/images/gallery/sketch/1/pane.jpg"></a></div>
+        </div>
+        <div class="gallery-subsection">
+            <div>Set #2</div>
+            <div><a href="gallery/sketches/2"><img src="/images/gallery/sketch/2/pane.png"></a></div>
+        </div>
+        <div class="gallery-subsection">
+            <div>Set #3</div>
+            <div><a href="gallery/sketches/3"><img src="/images/gallery/sketch/3/pane.jpg"></a></div>
+        </div>
+        <div class="gallery-subsection">
+            <div>Set #4</div>
+            <div><a href="gallery/sketches/4"><img src="/images/gallery/sketch/4/pane.jpg"></a></div>
+        </div>
+        <div class="gallery-subsection">
+            <div>Set #5</div>
+            <div><a href="gallery/sketches/5"><img src="/images/gallery/sketch/5/pane.jpg"></a></div>
+        </div>
+    </div>
+
+    <div class="gallery-section-label">Sketches made during classes ON A TABLET PC!!!</div>
+    <div class="gallery-section-images-container">
+        <a class=pic href="gallery/sketches/tablet"><img src="/images/gallery/sketch/tablet/pane.jpg"></a>
+    </div>
+
+    <div class="gallery-section-label">My progression as an artist!  A chronicle of my progress in drawing skill and style.</div>
+    <div class="gallery-section-images-container">
+        <a class=pic href="gallery/progression"><img src="/images/gallery/progression/pane.jpg"></a>
+    </div>
+
+    <div class="gallery-section-label">My first five drawings on a Wacom tablet! What is this thing you call a learning curve?</div>
+    <div class="gallery-section-images-container">
+        <a class=pic href="gallery/sketches/wacom"><img src="/images/gallery/sketch/wacom/pane.jpg"></a>
+    </div>
+
+</div>
 
 {% endblock %}
 

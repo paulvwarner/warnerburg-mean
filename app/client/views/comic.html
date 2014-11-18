@@ -3,7 +3,7 @@
 {% block title %}Comic &laquo; {% parent %}{% endblock %}
 
 {% block content %}
-    <div ng-app="comicPageModule" ng-controller="comicPageController" data-comic-sequence-number="[[ comic.sequenceNumber ]]">
+    <div ng-app="contentModule" ng-controller="contentController" data-content-sequence-number="[[ comic.sequenceNumber ]]" data-content-category="comic">
         <div class="comic-nav-header-container table-container">
             <div class="comic-nav-header-row">
                 <div class="comic-nav-header-sequence-number-cell">
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="comic-container">
-            <a href="{% if comic.isLast %}#{% else %}[[ common.comicUrl ]]/[[ comic.sequenceNumber + 1 ]]{% endif %}" ng-href="{{ comic.isLast ? '#' : common.comicUrl + '/' + (comic.sequenceNumber + 1) }}" data-next-comic-link-no-hide=""><img id="comic-image" data-bind-src-after-first-model-change="comic.image" src="[[ comic.image ]]" /></a>
+            <a href="{% if comic.isLast %}#{% else %}[[ common.comicUrl ]]/[[ comic.sequenceNumber + 1 ]]{% endif %}" ng-href="{{ comic.isLast ? '#' : common.comicUrl + '/' + (comic.sequenceNumber + 1) }}" data-next-comic-link-no-hide=""><img id="content-image" data-bind-src-after-first-model-change="comic.image" src="[[ comic.image ]]" /></a>
         </div>
         <div class="comic-nav-footer-container table-container">
             <div class="comic-nav-footer-links">
@@ -106,6 +106,6 @@
     <script type="text/javascript" src="/bower_components/angular-resource/angular-resource.js"></script>
     <script type="text/javascript" src="/common/common.js"></script>
     <script type="text/javascript" src="/modules/common/service.common.js"></script>
-    <script type="text/javascript" src="/modules/comic/controller.comic.js"></script>
-    <script type="text/javascript" src="/modules/comic/service.comic.js"></script>
+    <script type="text/javascript" src="/modules/content/controller.content.js"></script>
+    <script type="text/javascript" src="/modules/content/service.content.js"></script>
 {% endblock %}

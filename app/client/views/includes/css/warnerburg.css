@@ -55,7 +55,7 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     margin: 0 auto;
 }
 
-#comic-image {
+#content-image {
     display: block;
 }
 
@@ -341,4 +341,37 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 
 .invisible-nav-button {
     display: none;
+}
+
+.gallery-container {
+    width: 800px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.gallery-sketch-container {
+    width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.gallery-section-label {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.gallery-section-images-container {
+    padding-bottom: 30px;
+    overflow: auto;
+}
+
+.gallery-subsection {
+    float: left;
+    padding-top: 15px;
+    padding-right: 15px;
+}
+
+.gallery-subsection div {
+    padding-top: 2px;
+    padding-bottom: 2px;
 }

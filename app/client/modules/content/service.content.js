@@ -1,4 +1,4 @@
-angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$rootScope', '$location', '$window',
+angular.module("contentModule").factory("contentService", ['$http', '$sce', '$rootScope', '$location', '$window',
     function ($http, $sce, $rootScope, $location, $window) {
     var broadcastFirstModelChangeIfNecessary = function() {
         // broadcast event representing that the first model change happened if necessary
@@ -7,17 +7,17 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
             $rootScope.firstModelChangeHappened = true;
         }
     };
-    var getComic = function(comicSequenceNumber, callback) {
-        // hide comic since we're about to change it - it will reappear in the
+    var getContent = function(sequenceNumber, category, callback) {
+        // hide image since we're about to change it - it will reappear in the
         // code watching for a change to the image url (bindSrcAfterFirstModelChange directive)
         if ($rootScope.firstModelChangeHappened) {
-            angular.element('#comic-image').css('opacity', '0');
+            angular.element('#content-image').css('opacity', '0');
         }
-        $http.get('/data/comic/' + comicSequenceNumber)
-            .success(function (comic) {
+        $http.get('/data/' + category + '/' + sequenceNumber)
+            .success(function (content) {
                 // put new comic data in scope
-                $rootScope.comic = comic;
-                $rootScope.comic.text = $sce.trustAsHtml(comic.text);
+                $rootScope.comic = content;
+                $rootScope.comic.text = $sce.trustAsHtml(content.text);
 
                 callback();
             })
@@ -42,10 +42,10 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
         handleComicChange();
     };
     var showComic = function(comicSequenceNumber) {
-        getComic(comicSequenceNumber, handleComicChange);
+        getContent(comicSequenceNumber, 'comic', handleComicChange);
     };
     var navigateToComic = function(comicSequenceNumber) {
-        getComic(comicSequenceNumber, handleComicNavigationChange);
+        getContent(comicSequenceNumber, 'comic', handleComicNavigationChange);
     };
     var setHideCondition = function (element, watchVariable) {
         $rootScope.$watch(watchVariable, function(newVal) {
@@ -89,7 +89,7 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
     var syncModelToUrl = function() {
         var pathSequenceNumber = '' + getComicSequenceNumberFromPath($location.path());
 
-        // sync if pathSequenceNumber is blank or a comic sequence number
+        // sync if pathSequenceNumber is blank or a comic sequence number; otherwise navigate away
         console.log("'"+pathSequenceNumber+"'");
         if (!(isNaN(pathSequenceNumber) && pathSequenceNumber != '')) {
             var modelSequenceNumber = '' + $rootScope.comic.sequenceNumber;
@@ -106,17 +106,16 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
         } else {
             $window.location.href = $location.path();
         }
-
     };
     var getComicSequenceNumberFromPath = function(path) {
         return path.split('comic').join('').split('/').join('');
     };
-    var createComic = function(comicSequenceNumber, comment) {
+    var createComment = function(comicSequenceNumber, comment, scope) {
         console.log("saving comment ",comment);
         $http.post('/data/comics/' + comicSequenceNumber + '/comments', {comment: comment, comicSequenceNumber:comicSequenceNumber})
             .success(function(newComment) {
                 $rootScope.comic.comments.push(newComment);
-                $scope.newComment = null;
+                scope.newComment = null;
             }).error(function(data) {
                 console.log('error: ' + data);
             });
@@ -153,7 +152,7 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
     return {
         showComic: showComic,
         navigateToComic: navigateToComic,
-        getComic: getComic,
+        getContent: getContent,
         broadcastFirstModelChangeIfNecessary: broadcastFirstModelChangeIfNecessary,
         setHideCondition: setHideCondition,
         bindAfterFirstModelChange: bindAfterFirstModelChange,
@@ -161,7 +160,7 @@ angular.module("comicPageModule").factory("comicService", ['$http', '$sce', '$ro
         setHideConditionOnFirstModelChange: setHideConditionOnFirstModelChange,
         syncModelToUrl: syncModelToUrl,
         getComicSequenceNumberFromPath: getComicSequenceNumberFromPath,
-        createComic: createComic,
+        createComment: createComment,
         toggleCommentsDisplay: toggleCommentsDisplay
     };
 }]);

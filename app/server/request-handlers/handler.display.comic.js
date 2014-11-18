@@ -1,12 +1,11 @@
 var mongoose = require("mongoose");
 var common = require("warnerburg-common");
-var Q = require('q');
-var comicService = require("../services/service.data.comic.js");
+var contentService = require("../services/service.data.content.js");
 
 function processGetComicPage(req, res) {
     console.log("running processGetComicPage for "+req.params.sequenceNumber);
-    comicService.processGetComicData(req.params.sequenceNumber,
-        function(comic) {
+    contentService.processGetContentData(req.params.sequenceNumber, 'comic')
+        .then(function(comic) {
             console.log("returned from service with comic "+comic);
             var pageData = {
                 common: common,
@@ -15,6 +14,9 @@ function processGetComicPage(req, res) {
 
             res.render('comic.html', pageData);
             console.log("xendered from processGetComicPage for "+req.params.sequenceNumber);
+        })
+        .catch(function(err) {
+            console.log("error displaying comic: ", err);
         });
 }
 
@@ -23,7 +25,7 @@ function processGetComicArchives(req, res) {
         common: common
     };
 
-    res.render('archives.html', pageData);
+    res.render('comic.archives.html', pageData);
 }
 
 module.exports = function (app) {

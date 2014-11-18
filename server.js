@@ -44,7 +44,7 @@ require('./app/server/request-handlers/handler.display.comic.js')(app);
 require('./app/server/request-handlers/handler.display.admin.js')(app);
 require('./app/server/request-handlers/handler.data.comic.comments.js')(app);
 require('./app/server/request-handlers/handler.data.admin.comics.js')(app);
-require('./app/server/request-handlers/handler.data.comic.js')(app);
+require('./app/server/request-handlers/handler.data.content.js')(app);
 require('./app/server/request-handlers/handler.data.common.js')(app);
 
 // connect to the database, then start accepting requests if it works.
