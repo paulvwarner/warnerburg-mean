@@ -1,5 +1,5 @@
-angular.module("contentModule").factory("contentService", ['$http', '$sce', '$rootScope', '$location', '$window',
-    function ($http, $sce, $rootScope, $location, $window) {
+angular.module("contentModule").factory("contentService", ['$http', '$sce', '$rootScope', '$location', '$window', '$q',
+    function ($http, $sce, $rootScope, $location, $window, $q) {
     var broadcastFirstModelChangeIfNecessary = function() {
         // broadcast event representing that the first model change happened if necessary
         if (!$rootScope.firstModelChangeHappened) {
@@ -7,7 +7,9 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
             $rootScope.firstModelChangeHappened = true;
         }
     };
-    var getContent = function(sequenceNumber, category, callback) {
+    var getContent = function(sequenceNumber, category) {
+        var deferred = $q.defer();
+
         // hide image since we're about to change it - it will reappear in the
         // code watching for a change to the image url (bindSrcAfterFirstModelChange directive)
         if ($rootScope.firstModelChangeHappened) {
@@ -15,17 +17,21 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
         }
         $http.get('/data/' + category + '/' + sequenceNumber)
             .success(function (content) {
-                // put new comic data in scope
-                $rootScope.comic = content;
-                $rootScope.comic.text = $sce.trustAsHtml(content.text);
-
-                callback();
+                deferred.resolve(content);
             })
             .error(function (data) {
                 console.log('error: ' + data);
+                deferred.reject(data);
             });
+
+        return deferred.promise;
     };
-    var handleComicChange = function() {
+    var handleContentChange = function(category, updateBrowserHistory) {
+        if (updateBrowserHistory) {
+            console.log("updating history! " + $location.path() + " to " + $rootScope.content.sequenceNumber);
+            $location.path(eval('$rootScope.common.'+category+'.url') + '/' + $rootScope.content.sequenceNumber);
+        }
+        
         // scroll to top of page
         window.scrollTo(0,0);
 
@@ -34,18 +40,18 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
         // trigger broadcast of first model change event if necessary
         broadcastFirstModelChangeIfNecessary();
     };
-    var handleComicNavigationChange = function() {
-        // update history
-        console.log("updating history! " + $location.path() + " to " + $rootScope.comic.sequenceNumber);
-        $location.path($rootScope.common.comicUrl + '/' + $rootScope.comic.sequenceNumber);
+    var changeDisplayedContent = function(category, sequenceNumber, updateBrowserHistory) {
+        getContent(sequenceNumber, category)
+            .then(function(content) {
+                // put new content data in scope
+                $rootScope.content = content;
+                $rootScope.content.text = $sce.trustAsHtml(content.text);
 
-        handleComicChange();
-    };
-    var showComic = function(comicSequenceNumber) {
-        getContent(comicSequenceNumber, 'comic', handleComicChange);
-    };
-    var navigateToComic = function(comicSequenceNumber) {
-        getContent(comicSequenceNumber, 'comic', handleComicNavigationChange);
+                handleContentChange(category, updateBrowserHistory);
+            })
+            .catch(function(err) {
+                console.log("error getting content: ",err);
+            });
     };
     var setHideCondition = function (element, watchVariable) {
         $rootScope.$watch(watchVariable, function(newVal) {
@@ -70,14 +76,17 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
     // sequenceNumberToUse is a string meant to be eval'd (necessary because some include rootScope variables that
     // aren't defined at the point the callers call this, but which will exist at the point the app is ready to
     // process these clicks with JS)
-    var setComicNavOnClickHandler = function(element, sequenceNumberToUse) {
+    var setContentNavOnClickHandler = function(element, sequenceNumberToUse, category) {
+        console.log("sntu:"+sequenceNumberToUse);
         element.on("click", function (event) {
             event.preventDefault();
+            console.log("sntu pre:"+sequenceNumberToUse);
+            console.log("rc:"+$rootScope.content.sequenceNumber);
             var sequenceNumberString = ''+eval(sequenceNumberToUse);
-
-            // don't allow someone to try to progress past the last comic
-            if (!($rootScope.comic.isLast && sequenceNumberString > (''+$rootScope.comic.sequenceNumber))) {
-                navigateToComic(sequenceNumberString);
+            console.log("sequenceNumberString:"+sequenceNumberString);
+            // don't allow someone to try to progress past the last content item
+            if (!($rootScope.content.isLast && sequenceNumberString > (''+$rootScope.content.sequenceNumber))) {
+                changeDisplayedContent(category, sequenceNumberString, true);
             }
         });
     };
@@ -86,35 +95,40 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
             setHideCondition(element, condition);
         });
     };
-    var syncModelToUrl = function() {
-        var pathSequenceNumber = '' + getComicSequenceNumberFromPath($location.path());
+    var syncModelToUrl = function(category) {
+        var pathSequenceNumber = '' + getSequenceNumberFromPath(category, $location.path());
 
-        // sync if pathSequenceNumber is blank or a comic sequence number; otherwise navigate away
+        // sync if pathSequenceNumber is blank or a sequence number; otherwise navigate away
         console.log("'"+pathSequenceNumber+"'");
         if (!(isNaN(pathSequenceNumber) && pathSequenceNumber != '')) {
-            var modelSequenceNumber = '' + $rootScope.comic.sequenceNumber;
+            var modelSequenceNumber = '' + $rootScope.content.sequenceNumber;
             console.log("path is '"+ pathSequenceNumber +"' and model is using '"+modelSequenceNumber+"'");
 
             if (pathSequenceNumber != modelSequenceNumber) {
-                // we're okay if path seq num is blank but model says we're the latest comic;
-                // otherwise, show the comic in the path
-                if (!(pathSequenceNumber == '' && $rootScope.comic.isLast)) {
-                    console.log("syncing model to use path comic")
-                    showComic(eval("'"+pathSequenceNumber+"'"));
+                // we're okay if path seq num is blank but model says we're the latest content item;
+                // otherwise, show the content item in the path
+                if (!(pathSequenceNumber == '' && $rootScope.content.isLast)) {
+                    console.log("syncing model to use path content sequence number")
+                    changeDisplayedContent(category, eval("'"+pathSequenceNumber+"'"), false);
                 }
             }
         } else {
             $window.location.href = $location.path();
         }
     };
-    var getComicSequenceNumberFromPath = function(path) {
-        return path.split('comic').join('').split('/').join('');
+    var getSequenceNumberFromPath = function(category, path) {
+        return path.split(''+category).join('').split('/').join('');
     };
+
+
+
+
+
     var createComment = function(comicSequenceNumber, comment, scope) {
         console.log("saving comment ",comment);
         $http.post('/data/comics/' + comicSequenceNumber + '/comments', {comment: comment, comicSequenceNumber:comicSequenceNumber})
             .success(function(newComment) {
-                $rootScope.comic.comments.push(newComment);
+                $rootScope.content.comments.push(newComment);
                 scope.newComment = null;
             }).error(function(data) {
                 console.log('error: ' + data);
@@ -150,16 +164,13 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
         }
     };
     return {
-        showComic: showComic,
-        navigateToComic: navigateToComic,
         getContent: getContent,
         broadcastFirstModelChangeIfNecessary: broadcastFirstModelChangeIfNecessary,
         setHideCondition: setHideCondition,
         bindAfterFirstModelChange: bindAfterFirstModelChange,
-        setComicNavOnClickHandler: setComicNavOnClickHandler,
+        setContentNavOnClickHandler: setContentNavOnClickHandler,
         setHideConditionOnFirstModelChange: setHideConditionOnFirstModelChange,
         syncModelToUrl: syncModelToUrl,
-        getComicSequenceNumberFromPath: getComicSequenceNumberFromPath,
         createComment: createComment,
         toggleCommentsDisplay: toggleCommentsDisplay
     };

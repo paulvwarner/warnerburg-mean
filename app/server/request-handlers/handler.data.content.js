@@ -5,10 +5,10 @@ var contentDataService = require("../services/service.data.content.js");
 function processGetContentData(req, res) {
     console.log("running processGetContentData for "+req.params.sequenceNumber + " "+req.params.category);
     contentDataService.processGetContentData(req.params.sequenceNumber, req.params.category)
-        .then(function(comic) {
-            console.log("returned from service with "+req.params.category+" "+comic);
+        .then(function(content) {
+            console.log("returned from service with "+req.params.category+" "+content);
 
-            res.send(comic);
+            res.send(content);
             console.log("returned "+req.params.category+" data for "+req.params.sequenceNumber);
         })
         .catch(function(err) {

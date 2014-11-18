@@ -5,15 +5,15 @@ var contentService = require("../services/service.data.content.js");
 function processGetComicPage(req, res) {
     console.log("running processGetComicPage for "+req.params.sequenceNumber);
     contentService.processGetContentData(req.params.sequenceNumber, 'comic')
-        .then(function(comic) {
-            console.log("returned from service with comic "+comic);
+        .then(function(content) {
+            console.log("returned from service with comic "+content);
             var pageData = {
                 common: common,
-                comic: comic
+                content: content
             };
 
             res.render('comic.html', pageData);
-            console.log("xendered from processGetComicPage for "+req.params.sequenceNumber);
+            console.log("rendered from processGetComicPage for "+req.params.sequenceNumber);
         })
         .catch(function(err) {
             console.log("error displaying comic: ", err);

@@ -3,11 +3,11 @@ var Q = require('q');
 
 module.exports = {
     processGetContentData: function(sequenceNumber, category) {
-        console.log("getting comic at "+sequenceNumber);
+        console.log("getting content at "+sequenceNumber);
 
         var deferred = Q.defer();
 
-        var comic;
+        var content;
         var query;
 
         if (sequenceNumber) {
@@ -22,22 +22,22 @@ module.exports = {
         query.lean().exec()
             .then(function (contents) {
                 console.log(contents);
-                comic = contents[0];
+                content = contents[0];
 
-                console.log("finding comments for " + comic._id);
+                console.log("finding comments for " + content._id);
                 return mongoose.model('comment').find({contentId: contents[0]._id}).sort({commentDate:'asc'}).exec();
             }).then(function(comments) {
                 console.log("cm l "+comments.length);
 
                 // attach comment data
-                comic.comments = comments;
+                content.comments = comments;
 
-                // return comic by resolving promise with it
-                console.log("returning comic from service");
-                deferred.resolve(comic);
+                // return content by resolving promise with it
+                console.log("returning content from service");
+                deferred.resolve(content);
 
             }).onReject(function (err) {
-                console.log("error getting comic page data: " + err);
+                console.log("error getting content: " + err);
                 deferred.reject(err);
             });
 

@@ -79,6 +79,7 @@ function processDisplayGalleryProgressionPage(req, res) {
 module.exports = function(app) {
     app.get('/gallery', processDisplayGalleryPage);
     app.get('/gallery/progression', processDisplayGalleryProgressionPage);
+    app.get('/gallery/progression/:imageSequenceNumber', processDisplayGalleryProgressionPage);
     app.get('/gallery/color/:imageSequenceNumber', processDisplayColorGalleryImage);
     app.get('/gallery/pencil/:imageSequenceNumber', processDisplayPencilGalleryImage);
     app.get('/gallery/sketches/:sketchPageNumber', processDisplayGallerySketchPage);
