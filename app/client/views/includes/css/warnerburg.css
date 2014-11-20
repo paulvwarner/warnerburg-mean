@@ -19,11 +19,6 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     opacity: 0.25;
 }
 
-.warnerburg-link-image-hover {
-    opacity: 0.25;
-    cursor: pointer;
-}
-
 .warnerburg-selected-link-image {
     opacity: 0.25;
 }
@@ -51,12 +46,20 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 }
 
 .comic-container {
+    text-align: center;
+    width: 796px;
+    margin: 0 auto;
+}
+
+.image-container {
+    text-align: center;
     width: 796px;
     margin: 0 auto;
 }
 
 #content-image {
     display: block;
+    margin:auto;
 }
 
 .table-container {
@@ -65,6 +68,12 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     border-collapse: collapse;
     border-width: 0;
     border-spacing: 0;
+}
+
+.image-caption-container {
+    padding-top: 20px;
+    width: 1024px;
+    margin: 0 auto;
 }
 
 .comic-content-nav-header-container {
@@ -343,7 +352,7 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 }
 
 .gallery-sketch-container {
-    width: 800px;
+    width: 1024px;
     margin: 0 auto;
     text-align: center;
 }
@@ -367,4 +376,68 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 .gallery-subsection div {
     padding-top: 2px;
     padding-bottom: 2px;
+}
+
+.comic-archives-section {
+    display: inline-block;
+    padding-bottom: 30px;
+}
+
+.comic-archives-section-thumbnail {
+    float: left;
+}
+
+.comic-archives-section-desc {
+    float: left;
+}
+
+.comic-archives-section-row {
+    display: table-row;
+    width: 800px;
+}
+
+.comic-archives-section-row-right {
+    text-align: right;
+}
+.comic-archives-section-row-left {
+    text-align: left;
+}
+
+.comic-archives-section-desc-container {
+    display: table-cell;
+    width: 596px;
+}
+
+.comic-archives-section-thumbnail-container {
+    display: table-cell;
+}
+
+.comic-archives-section-links {
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 16px;
+}
+
+.comic-archives-section-row-right .comic-archives-section-desc-container {
+    float:left;
+}
+
+.comic-archives-section-row-right .comic-archives-section-thumbnail-container {
+    float:right;
+}
+
+.comic-archives-section-row-left .comic-archives-section-desc-container {
+    float:right;
+}
+.comic-archives-section-row-left .comic-archives-section-thumbnail-container {
+    float:left;
+}
+
+.comic-archives-section-desc {
+    display: block;
+    float: none;
+}
+.comic-archives-section-thumbnail {
+    display: block;
+    float: none;
 }

@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var Q = require('q');
 
 module.exports = {
-    processGetContentData: function(sequenceNumber, category) {
+    processGetContentDataBySequenceNumber: function(sequenceNumber, category) {
         console.log("getting content at "+sequenceNumber);
 
         var deferred = Q.defer();
@@ -35,6 +35,41 @@ module.exports = {
                 // return content by resolving promise with it
                 console.log("returning content from service");
                 deferred.resolve(content);
+
+            }).onReject(function (err) {
+                console.log("error getting content: " + err);
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
+    },
+    processGetContentSequenceNumbersBySection: function(category) {
+        console.log("processGetContentDataBySection getting content at "+category);
+
+        var deferred = Q.defer();
+
+        var content;
+        var query = mongoose.model('content').find({category: category}).sort({ sequenceNumber: 1 });
+
+        query.lean().exec()
+            .then(function (contents) {
+
+                var contentItemsBySection = {};
+                contents.forEach(function(item) {
+                    if (typeof contentItemsBySection[item.section] === 'undefined') {
+                        contentItemsBySection[item.section] = {
+                            section: item.section,
+                            sequenceNumbers: []
+                        };
+                    }
+
+                    contentItemsBySection[item.section].sequenceNumbers.push(item.sequenceNumber);
+                });
+
+
+
+                // return content by resolving promise with it
+                deferred.resolve(contentItemsBySection);
 
             }).onReject(function (err) {
                 console.log("error getting content: " + err);

@@ -4,10 +4,11 @@ var contentService = require("../services/service.data.content.js");
 
 function processGetComicPage(req, res) {
     console.log("running processGetComicPage for "+req.params.sequenceNumber);
-    contentService.processGetContentData(req.params.sequenceNumber, 'comic')
+    contentService.processGetContentDataBySequenceNumber(req.params.sequenceNumber, 'comic')
         .then(function(content) {
             console.log("returned from service with comic "+content);
             var pageData = {
+                area: 'comic',
                 common: common,
                 content: content
             };
@@ -21,11 +22,21 @@ function processGetComicPage(req, res) {
 }
 
 function processGetComicArchives(req, res) {
-    var pageData = {
-        common: common
-    };
+    contentService.processGetContentSequenceNumbersBySection('comic')
+        .then(function(contentItemsBySection) {
+            console.log("returned from service with comic "+contentItemsBySection);
+            var pageData = {
+                area: 'comic',
+                common: common,
+                contentItemsBySection: contentItemsBySection
+            };
 
-    res.render('comic.archives.html', pageData);
+            res.render('comic.archives.html', pageData);
+            console.log("rendered from processGetComicArchives");
+        })
+        .catch(function(err) {
+            console.log("error displaying comic: ", err);
+        });
 }
 
 module.exports = function (app) {

@@ -29,7 +29,7 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
     var handleContentChange = function(category, updateBrowserHistory) {
         if (updateBrowserHistory) {
             console.log("updating history! " + $location.path() + " to " + $rootScope.content.sequenceNumber);
-            $location.path(eval('$rootScope.common.'+category+'.url') + '/' + $rootScope.content.sequenceNumber);
+            $location.path(eval('$rootScope.common["'+category+'"].url') + '/' + $rootScope.content.sequenceNumber);
         }
         
         // scroll to top of page
@@ -43,6 +43,7 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
     var changeDisplayedContent = function(category, sequenceNumber, updateBrowserHistory) {
         getContent(sequenceNumber, category)
             .then(function(content) {
+                console.log("got it");
                 // put new content data in scope
                 $rootScope.content = content;
                 $rootScope.content.text = $sce.trustAsHtml(content.text);
@@ -86,6 +87,7 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
             console.log("sequenceNumberString:"+sequenceNumberString);
             // don't allow someone to try to progress past the last content item
             if (!($rootScope.content.isLast && sequenceNumberString > (''+$rootScope.content.sequenceNumber))) {
+                console.log("change");
                 changeDisplayedContent(category, sequenceNumberString, true);
             }
         });
@@ -97,10 +99,12 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
     };
     var syncModelToUrl = function(category) {
         var pathSequenceNumber = '' + getSequenceNumberFromPath(category, $location.path());
+        console.log("syncing with path "+$location.path());
 
         // sync if pathSequenceNumber is blank or a sequence number; otherwise navigate away
         console.log("'"+pathSequenceNumber+"'");
         if (!(isNaN(pathSequenceNumber) && pathSequenceNumber != '')) {
+            console.log("sync causing path change only");
             var modelSequenceNumber = '' + $rootScope.content.sequenceNumber;
             console.log("path is '"+ pathSequenceNumber +"' and model is using '"+modelSequenceNumber+"'");
 
@@ -113,11 +117,12 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
                 }
             }
         } else {
+            console.log("sync causing hard redirect");
             $window.location.href = $location.path();
         }
     };
     var getSequenceNumberFromPath = function(category, path) {
-        return path.split(''+category).join('').split('/').join('');
+        return path.split(''+$rootScope.common[category].url).join('').split('/').join('');
     };
     var createComment = function(sequenceNumber, comment, scope) {
         console.log("saving comment ",comment);

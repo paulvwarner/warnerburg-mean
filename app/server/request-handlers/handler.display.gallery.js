@@ -5,6 +5,7 @@ var contentService = require("../services/service.data.content.js");
 // request handlers
 function processDisplayGalleryPage(req, res) {
     var pageData = {
+        area: 'gallery',
         common: common,
         colorImages: {},
         pencilImages: {}
@@ -29,50 +30,45 @@ function processDisplayGalleryPage(req, res) {
         });
 }
 
-function renderImagePageWithContent(content, res) {
-    console.log("returned from service with content "+content);
-    var pageData = {
-        common: common,
-        comic: content
-    };
-
-    res.render('gallery.image.html', pageData);
-    console.log("processDisplayColorGalleryImage for "+req.params.sequenceNumber);
-}
-
-function processDisplayColorGalleryImage(req, res) {
-    console.log("running processDisplayColorGalleryImage for "+req.params.sequenceNumber);
-    contentService.processGetContentData(req.params.sequenceNumber, 'gallery-color')
+function renderImagePageWithContent(category, req, res) {
+    contentService.processGetContentDataBySequenceNumber(req.params.imageSequenceNumber, category)
         .then(function(content) {
             console.log("rendering... with ",content);
-            renderImagePageWithContent(content, res);
+
+            var pageData = {
+                area: 'gallery',
+                common: common,
+                content: content
+            };
+
+            res.render('gallery.image.html', pageData);
+            console.log("processDisplayColorGalleryImage for "+req.params.imageSequenceNumber);
         })
         .catch(function(err) {
             console.log("error getting gallery image: " + err);
         });
 }
 
-function processDisplayPencilGalleryImage(req, res) {
+function processDisplayColorGalleryImage(req, res) {
+    renderImagePageWithContent('gallery-color', req, res);
+}
 
+function processDisplayPencilGalleryImage(req, res) {
+    renderImagePageWithContent('gallery-pencil', req, res);
+}
+
+function processDisplayGalleryProgressionPage(req, res) {
+    renderImagePageWithContent('gallery-progression', req, res);
 }
 
 function processDisplayGallerySketchPage(req, res) {
     var pageData = {
+        area: 'gallery',
         common: common
     }
 
     res.render(
-        'gallery.sketches.'+req.params.sketchPageNumber+'.html', pageData
-    );
-}
-
-function processDisplayGalleryProgressionPage(req, res) {
-    var pageData = {
-        common: common
-    }
-
-    res.render(
-        'gallery.progression.html', pageData
+            'gallery.sketches.'+req.params.sketchPageNumber+'.html', pageData
     );
 }
 

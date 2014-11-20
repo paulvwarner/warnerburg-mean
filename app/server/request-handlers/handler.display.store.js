@@ -4,6 +4,7 @@ var common = require("warnerburg-common");
 // request handlers
 function processGetRoot(req, res) {
     var pageData = {
+        area: 'store',
         common: common
     };
 

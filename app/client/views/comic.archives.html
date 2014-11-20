@@ -4,12 +4,27 @@
 
 {% block content %}
 
-    <!-- content -->
-    ARCHIVES
+    <div>
+        <img src="/images/archive/archives.png">
+    </div>
+    {% for contentForSection in contentItemsBySection %}
+    <div class="comic-archives-section table-container">
+        <div>
+            <div class="comic-archives-section-row-{% if loop.index % 2 == 0 %}right{% else %}left{% endif %} comic-archives-section-row">
+                <div class="comic-archives-section-desc-container">
+                    <a href="[[common.comic.url]]/[[contentForSection.sequenceNumbers[0] ]]"><img class="comic-archives-section-desc" src="/images/archive/cht[[contentForSection.section]].png"></a>
+                    <div class="comic-archives-section-links">
+                    {% for sequenceNumber in contentForSection.sequenceNumbers %}
+                        <a href="[[common.comic.url]]/[[sequenceNumber]]">[[sequenceNumber]]</a>{% if not loop.last %} -{% endif %}
+                    {% endfor %}
+                    </div>
+                </div>
+                <div class="comic-archives-section-thumbnail-container">
+                    <a href="[[common.comic.url]]/[[contentForSection.sequenceNumbers[0] ]]"><img class="comic-archives-section-thumbnail" src="/images/archive/ch[[contentForSection.section]].png"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
 
-{% endblock %}
-
-{% block footerIncludes %}
-    {% parent %}
-    <!-- other footer includes -->
 {% endblock %}

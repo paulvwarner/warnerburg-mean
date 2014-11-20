@@ -1,11 +1,64 @@
 {% extends 'includes/layouts/commonLayoutWithNav.html' %}
 
-{% block title %}Comic &laquo; {% parent %}{% endblock %}
+{% block title %}Gallery &laquo; {% parent %}{% endblock %}
 
 {% block content %}
-GALURY
+<div ng-app="contentModule" ng-controller="contentController" data-content-sequence-number="[[ content.sequenceNumber ]]" data-content-category="[[ content.category ]]">
+    
+    <div class="image-container">
+        <a href="{% if content.isLast %}#{% else %}[[ common[content.category].url ]]/[[ content.sequenceNumber + 1 ]]{% endif %}"
+           ng-href="{{ content.isLast ? '#' : common[content.category].url + '/' + (content.sequenceNumber + 1) }}"
+           data-next-link-no-hide=""
+           data-content-category="[[ content.category ]]"><img id="content-image" data-bind-src-after-first-model-change="content.image" src="[[ content.image ]]" /></a>
+    </div>
+
+    <div class="image-caption-container" data-bind-content-text-after-first-model-change="">[[ content.text|safe ]]</div>
+
+    <div class="content-nav-footer-container table-container">
+        <div class="content-nav-footer-links">
+            <div class="content-nav-footer-link">
+                <a href="[[ common[content.category].url ]]/1"
+                   data-first-link=""
+                   data-content-category="[[ content.category ]]"
+                   class="{% if content.isFirst %}invisible-nav-button{% endif %}"><img class="warnerburg-link-image" src="/images/navigation/firstdark.jpg" /></a>
+            </div>
+            <div class="content-nav-footer-link">
+                <a href="[[ common[content.category].url ]]/[[ content.sequenceNumber - 1 ]]"
+                   ng-href="{{ common[content.category].url }}/{{ content.sequenceNumber - 1 }}"
+                   data-previous-link=""
+                   data-content-category="[[ content.category ]]"
+                   class="{% if content.isFirst %}invisible-nav-button{% endif %}"><img class="warnerburg-link-image" src="/images/navigation/prevdark.jpg" /></a>
+            </div>
+            <div class="content-nav-footer-link">
+                <a
+                   ng-href="{{ common[content.category].url }}/{{ content.sequenceNumber + 1 }}"
+                   data-next-link=""
+                   data-content-category="[[ content.category ]]"
+                   class="{% if content.isLast %}invisible-nav-button{% endif %}"><img class="warnerburg-link-image" src="/images/navigation/nextdark.jpg" /></a>
+            </div>
+            <div class="content-nav-footer-link">
+                <a href="[[ common[content.category].url ]]"
+                   data-last-link=""
+                   data-content-category="[[ content.category ]]"
+                   class="{% if content.isLast %}invisible-nav-button{% endif %}"><img class="warnerburg-link-image" src="/images/navigation/lastdark.jpg" /></a>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>
 {% endblock %}
 
 {% block footerIncludes %}
-    {% parent %}
+{% parent %}
+<script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script type="text/javascript" src="/bower_components/angular-resource/angular-resource.js"></script>
+<script type="text/javascript" src="/common/common.js"></script>
+<script type="text/javascript" src="/modules/common/service.common.js"></script>
+<script type="text/javascript" src="/modules/content/module.content.js"></script>
+<script type="text/javascript" src="/modules/content/controller.content.js"></script>
+<script type="text/javascript" src="/modules/content/directive.content.js"></script>
+<script type="text/javascript" src="/modules/content/service.content.js"></script>
 {% endblock %}
