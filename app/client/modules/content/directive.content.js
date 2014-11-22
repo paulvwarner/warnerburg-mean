@@ -52,8 +52,9 @@ angular.module("contentModule").directive("bindSrcAfterFirstModelChange", ['$roo
                 $rootScope.$on("firstModelChange", function () {
                     element.data('$binding', attr.bindSrcAfterFirstModelChange);
                     scope.$watch(attr.bindSrcAfterFirstModelChange, function ngBindWatchAction(value) {
+                        element.css("opacity","0");
                         element.attr('src', value).load(function() {
-                            element.animate({opacity: 1},50);
+                            element.css({opacity: 1});
                         });
                     });
                 });
@@ -105,18 +106,6 @@ angular.module("contentModule").directive("displayIfLast", ['$rootScope', 'conte
         link: function (scope, element, attrs) {
             $rootScope.$on("firstModelChange", function () {
                 contentService.setHideCondition(element, '!content.isLast');
-            });
-        }
-    };
-}]);
-
-// fade in when dom is ready
-angular.module("contentModule").directive("showWhenDocumentIsReady", ['$document', function($document) {
-    return {
-        restrict: 'A',
-        link : function (scope, element, attrs) {
-            $document.ready(function () {
-                element.css({opacity: 0, visibility:'visible'}).animate({opacity: 1});
             });
         }
     };

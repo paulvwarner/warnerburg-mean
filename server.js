@@ -10,7 +10,6 @@ var app = express();
 require('./app/server/models/content.model.js');
 require('./app/server/models/comment.model.js');
 
-
 // set view engine
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');

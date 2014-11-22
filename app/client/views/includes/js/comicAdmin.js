@@ -1,8 +1,10 @@
 // javascript functions specific to the admin app page
 function removeOverlays() {
     unHighlightItem($(".comic-thumbnail-image-overlay"));
+
     bindEnterOverlay();
     bindLeaveOverlay();
+
 }
 
 function highlightItem(item) {
@@ -42,37 +44,14 @@ function unmarkForUpdate(element) {
 
 
 $(document).ready(function() {
-
+/*
     $("#comic-grid").sortable({
-        delay: 100,
-        distance: 10,
-        revert: 300,
-        tolerance: "pointer",
-        start: function(e, ui)
-        {
 
-        },
-        sort: function(e, ui)
-        {
-
-        },
-        stop: function(e, ui){
-            // update form for items that had a sequence number change
-            $(".comic-grid-item").each(function(index) {
-                var rearrangeSequenceNumber = ""+$.trim("" + (index + 1));
-                var persistedSequenceNumber = ""+$.trim($(this).find(".comic-thumbnail-image-overlay-text").text());
-                if (rearrangeSequenceNumber != persistedSequenceNumber) {
-                    $(this).find(".comic-sequence-number-field").val(rearrangeSequenceNumber);
-                    $(this).find(".comic-sequence-number-field").trigger('input');
-                    $(this).find(".comic-thumbnail-image-overlay-text").text(rearrangeSequenceNumber);
-                    markForUpdate($(this).find(".comic-thumbnail-image-overlay-text"));
-                }
-            });
-        }
     });
 
-    $("#comic-grid").disableSelection();
+
 
     bindEnterOverlay();
     bindLeaveOverlay();
+    */
 });

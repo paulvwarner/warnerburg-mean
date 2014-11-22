@@ -1,4 +1,4 @@
-angular.module("comicAdminModule", ['ngSanitize','ngResource']);
+angular.module("comicAdminModule", ['ngSanitize','ngResource','ui.sortable']);
 angular.module("comicAdminModule")
     .controller("comicAdminController", function ($scope, $attrs, $http, $resource) {
 
@@ -13,6 +13,35 @@ angular.module("comicAdminModule")
             .error(function (data) {
                 console.log('error: ' + data);
             });
+
+        $("#comic-grid").disableSelection();
+
+        $scope.sortableOptions = {
+            delay: 100,
+            placeholder: "comic-grid-item",
+            distance: 10,
+            revert: false,
+            tolerance: "pointer",
+            start: function(e, ui) {
+
+            },
+            sort: function(e, ui) {
+
+            },
+            stop: function(e, ui){
+                // update form for items that had a sequence number change
+                $(".comic-grid-item").each(function(index) {
+                    var rearrangeSequenceNumber = ""+$.trim("" + (index + 1));
+                    var persistedSequenceNumber = ""+$.trim($(this).find(".comic-thumbnail-image-overlay-text").text());
+                    if (rearrangeSequenceNumber != persistedSequenceNumber) {
+                        $(this).find(".comic-sequence-number-field").val(rearrangeSequenceNumber);
+                        $(this).find(".comic-sequence-number-field").trigger('input');
+                        $(this).find(".comic-thumbnail-image-overlay-text").text(rearrangeSequenceNumber);
+                        markForUpdate($(this).find(".comic-thumbnail-image-overlay-text"));
+                    }
+                });
+            }
+        };
 
         // save reordering changes
         $scope.commitChanges = function() {

@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 var Q = require('q');
 var common = require("warnerburg-common");
+var contentDataService = require("../services/service.data.content.js");
 
 function processGetAllComicData(req, res) {
     var pageData = {
@@ -8,8 +9,10 @@ function processGetAllComicData(req, res) {
     };
 
     // get all comics
-    mongoose.model('content').find().sort({sequenceNumber:1}).lean().exec()
+    mongoose.model('content').find({category:'comic'}).sort({sequenceNumber:1}).lean().exec()
         .then(function(contents) {
+            console.log("contents");
+            console.log(contents);
             res.send(contents);
         }).onReject(function(err) {
             console.log("error getting comics: "+err);

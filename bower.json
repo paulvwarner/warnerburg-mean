@@ -8,5 +8,6 @@
     "angular-resource": "~1.2.26",
     "jquery-ui": "~1.11.2",
     "angular-ui-router": "~0.2.11",
+    "angular-ui-sortable": "~0.13.1"
   }
 }
