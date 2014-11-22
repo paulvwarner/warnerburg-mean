@@ -15,7 +15,7 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
         if ($rootScope.firstModelChangeHappened) {
             angular.element('#content-image').css('opacity', '0');
         }
-        $http.get('/data/' + category + '/' + sequenceNumber)
+        $http.get('/data/content/' + category + '/' + sequenceNumber)
             .success(function (content) {
                 deferred.resolve(content);
             })

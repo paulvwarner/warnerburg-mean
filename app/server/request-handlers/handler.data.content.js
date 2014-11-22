@@ -40,8 +40,20 @@ function processPostCommentData(req, res) {
         });
 }
 
+function processGetContentCategories(req, res) {
+    mongoose.model('content').collection.distinct('category', function(err, categories) {
+        if (err) {
+            console.log("error getting categories: "+err);
+        } else {
+            console.log("returning categories ", categories);
+            res.send(categories);
+        }
+    });
+}
+
 module.exports = function (app) {
-    app.get('/data/:category/:sequenceNumber', processGetContentDataBySequenceNumber);
-    app.get('/data/:category/', processGetContentDataBySequenceNumber);
+    app.get('/data/content/categories', processGetContentCategories);
+    app.get('/data/content/:category/', processGetContentDataBySequenceNumber);
+    app.get('/data/content/:category/:sequenceNumber', processGetContentDataBySequenceNumber);
     app.post('/data/content/:sequenceNumber/comments', processPostCommentData);
 };

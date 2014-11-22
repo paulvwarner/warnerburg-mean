@@ -253,8 +253,16 @@ a.unobtrusive-link:active {
   top: 50%;
   transform: translateY(-50%); }
 
-#comic-grid {
+.admin-page-content {
   margin-top: 70px; }
+
+.admin-category-list {
+  text-align: left;
+  padding-left: 30px; }
+
+.admin-page-content-header {
+  font-size: 14pt;
+  font-weight: bold; }
 
 .comic-thumbnail-image-overlay:hover {
   transition: background-color 0.3s ease;
@@ -279,14 +287,22 @@ a.unobtrusive-link:active {
   background-color: rgba(0, 0, 0, 0.5);
   text-align: center; }
 
+.comic-thumbnail-image-overlay-changed {
+  background-color: rgba(255, 0, 0, 0.5) !important; }
+
 .comic-thumbnail-image-overlay-text {
-  font-size: 40pt;
   color: rgba(255, 255, 255, 0.9);
   padding: 20px;
   position: relative;
   top: 50%;
-  transform: translateY(-50%);
-  text-align: center; }
+  transform: translateY(-50%); }
+
+.comic-thumbnail-image-overlay-sequence-number-text {
+  font-size: 40pt; }
+
+.comic-thumbnail-image-overlay-date-text {
+  font-size: 12pt;
+  display: none; }
 
 .comic-thumbnail-image-container {
   text-align: center;
@@ -308,13 +324,32 @@ a.unobtrusive-link:active {
 .admin-header-button-container {
   position: absolute;
   width: 100%;
-  text-align: right;
+  text-align: center;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%); }
+  transform: translateY(-50%);
+  overflow: hidden; }
 
-.admin-header-button {
+.admin-header-left {
+  float: left;
   margin: 20px; }
+
+.admin-header-center {
+  margin: 20px; }
+
+.admin-header-right {
+  float: right;
+  margin: 20px; }
+
+.admin-header-label {
+  font-size: 14pt;
+  color: white; }
+
+.admin-text-link {
+  color: #FFFFFF !important; }
+
+.admin-text-link:hover {
+  color: #DA7676 !important; }
 
 .comic-sequence-number-field {
   display: none; }

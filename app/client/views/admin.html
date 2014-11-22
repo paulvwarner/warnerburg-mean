@@ -1,28 +1,8 @@
 {% extends 'includes/layouts/masterLayout.html' %}
 
 {% block content %}
-    <div ng-app="comicAdminModule" ng-controller="comicAdminController">
-        <form id="admin-form" ng-submit="commitChanges()">
-            <div class="admin-header-options">
-                <div class="admin-header-button-container">
-                    <input class="admin-header-button" type="submit" value="Commit Changes"/>
-                </div>
-            </div>
-            <ul id="comic-grid" class="sortable-grid" ng-model="comics" ui-sortable="sortableOptions">
-                <li class="comic-grid-item" ng-repeat="comic in comics">
-                    <div class="comic-thumbnail-image-overlay">
-                        <div class="comic-thumbnail-image-overlay-text">
-                            {{ comic.sequenceNumber }}
-                        </div>
-                    </div>
-                    <div class="comic-thumbnail-image-container">
-                        <img ng-src="{{ comic.image }}" class="comic-thumbnail-image"/>
-                    </div>
-                    <input class="comic-sequence-number-field" type="text" ng-model="comic.sequenceNumber" value="{{comic.sequenceNumber}}"/>
-                    <input class="comic-original-sequence-number-field" type="text" ng-model="comic.originalSequenceNumber" value="{{comic.originalSequenceNumber}}"/>
-                </li>
-            </ul>
-        </form>
+    <div ng-app="contentAdminModule">
+        <div ui-view=""></div>
     </div>
 {% endblock %}
 
@@ -32,7 +12,9 @@
 <script type="text/javascript" src="/bower_components/angular-ui-sortable/sortable.js"></script>
 <script type="text/javascript" src="/bower_components/angular-sanitize/angular-sanitize.js"></script>
 <script type="text/javascript" src="/bower_components/angular-resource/angular-resource.js"></script>
+<script type="text/javascript" src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script type="text/javascript" src="/bower_components/jquery-ui/jquery-ui.js"></script>
-<script type="text/javascript" src="/includes/js/comicAdmin.js"></script>
 <script type="text/javascript" src="/modules/admin/controller.admin.js"></script>
+<script type="text/javascript" src="/modules/admin/directive.admin.js"></script>
+<script type="text/javascript" src="/routes/route.admin.js"></script>
 {% endblock %}

@@ -12,4 +12,5 @@ function processGetAdminPage(req, res) {
 
 module.exports = function (app) {
     app.get('/admin', processGetAdminPage);
+    app.get('/admin/*', processGetAdminPage);
 };
