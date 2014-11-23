@@ -1,6 +1,6 @@
-$comic-grid-item-sequence-number-font-size: 40pt;
-$comic-grid-item-date-font-size: 12pt;
-$comic-grid-item-dimension: 170px;
+$content-grid-item-sequence-number-font-size: 40pt;
+$content-grid-item-date-font-size: 12pt;
+$content-grid-item-dimension: 170px;
 
 body {
     margin: 0;
@@ -261,14 +261,14 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     border: 1px solid #AAAAAA;
 }
 
-.comic-thumbnail-image-hover {
-    height: $comic-grid-item-dimension + 20;
-    width: $comic-grid-item-dimension + 20;
+.content-thumbnail-image-hover {
+    height: $content-grid-item-dimension + 20;
+    width: $content-grid-item-dimension + 20;
 }
 
-.comic-thumbnail-image {
-    max-height: $comic-grid-item-dimension - 20;
-    max-width: $comic-grid-item-dimension - 20;
+.content-thumbnail-image {
+    max-height: $content-grid-item-dimension - 20;
+    max-width: $content-grid-item-dimension - 20;
     margin: auto;
     position: relative;
     top: 50%;
@@ -289,15 +289,15 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     font-weight: bold;
 }
 
-.comic-thumbnail-image-overlay:hover {
+.content-thumbnail-image-overlay:hover {
     transition: background-color 0.3s ease;
     background-color: rgba(200,0,0,0.5);
 }
 
-.comic-grid-item {
+.content-grid-item {
     float: left;
-    width: $comic-grid-item-dimension;
-    height: $comic-grid-item-dimension;
+    width: $content-grid-item-dimension;
+    height: $content-grid-item-dimension;
     list-style-type: none;
     margin: 5px;
     background-color: #eeeeee;
@@ -305,21 +305,21 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     overflow: hidden;
 }
 
-.comic-thumbnail-image-overlay {
+.content-thumbnail-image-overlay {
     position: absolute;
     margin: 5px;
     z-index: 2;
-    width: $comic-grid-item-dimension - 10;
-    height: $comic-grid-item-dimension - 10;
+    width: $content-grid-item-dimension - 10;
+    height: $content-grid-item-dimension - 10;
     background-color: rgba(0,0,0,0.5);
     text-align: center;
 }
 
-.comic-thumbnail-image-overlay-changed {
+.content-thumbnail-image-overlay-changed {
     background-color: rgba(255,0,0,0.5) !important;
 }
 
-.comic-thumbnail-image-overlay-text {
+.content-thumbnail-image-overlay-text {
     color: rgba(255,255,255,0.9);
     padding: 20px;
     position: relative;
@@ -327,21 +327,21 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     transform: translateY(-50%);
 }
 
-.comic-thumbnail-image-overlay-sequence-number-text {
-    font-size: $comic-grid-item-sequence-number-font-size;
+.content-thumbnail-image-overlay-sequence-number-text {
+    font-size: $content-grid-item-sequence-number-font-size;
 }
 
 
 
-.comic-thumbnail-image-overlay-date-text {
-    font-size: $comic-grid-item-date-font-size;
+.content-thumbnail-image-overlay-date-text {
+    font-size: $content-grid-item-date-font-size;
     display: none;
 }
 
-.comic-thumbnail-image-container {
+.content-thumbnail-image-container {
     text-align: center;
-    width: $comic-grid-item-dimension - 10;
-    height: $comic-grid-item-dimension - 10;
+    width: $content-grid-item-dimension - 10;
+    height: $content-grid-item-dimension - 10;
     position: relative;
     z-index: 1;
     margin: 5px;
@@ -388,11 +388,11 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 .admin-text-link { color: #FFFFFF !important; }
 .admin-text-link:hover { color: #DA7676 !important; }
 
-.comic-sequence-number-field {
+.content-sequence-number-field {
     display: none;
 }
 
-.comic-original-sequence-number-field {
+.content-original-sequence-number-field {
     display: none;
 }
 

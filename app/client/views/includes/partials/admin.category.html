@@ -1,4 +1,4 @@
-<form id="admin-form" ng-submit="commitChanges()">
+<form id="admin-form" ng-submit="commitReorderingChanges()">
     <div class="admin-header-options">
         <div class="admin-header-button-container">
             <div class="admin-header-left">
@@ -14,19 +14,19 @@
             </div>
         </div>
     </div>
-    <ul id="comic-grid" class="sortable-grid admin-page-content" ng-model="comics" ui-sortable="sortableOptions">
-        <li class="comic-grid-item" ng-repeat="comic in comics">
-            <div class="comic-thumbnail-image-overlay">
-                <div class="comic-thumbnail-image-overlay-text">
-                    <div class="comic-thumbnail-image-overlay-sequence-number-text">{{ comic.sequenceNumber }}</div>
-                    <div class="comic-thumbnail-image-overlay-date-text">{{ comic.createdDate | date : 'MM/dd/yy' }}</div>
+    <ul id="content-grid" class="sortable-grid admin-page-content" ng-model="contents" ui-sortable="sortableOptions">
+        <li class="content-grid-item" ng-repeat="content in contents">
+            <div class="content-thumbnail-image-overlay">
+                <div class="content-thumbnail-image-overlay-text">
+                    <div class="content-thumbnail-image-overlay-sequence-number-text">{{ content.sequenceNumber }}</div>
+                    <div class="content-thumbnail-image-overlay-date-text">{{ content.createdDate | date : 'MM/dd/yy' }}</div>
                 </div>
             </div>
-            <div class="comic-thumbnail-image-container">
-                <img ng-src="{{ comic.image }}" class="comic-thumbnail-image"/>
+            <div class="content-thumbnail-image-container">
+                <img ng-src="{{ content.image }}" class="content-thumbnail-image"/>
             </div>
-            <input class="comic-sequence-number-field" type="text" ng-model="comic.sequenceNumber" value="{{comic.sequenceNumber}}"/>
-            <input class="comic-original-sequence-number-field" type="text" ng-model="comic.originalSequenceNumber" value="{{comic.originalSequenceNumber}}"/>
+            <input class="content-sequence-number-field" type="text" ng-model="content.sequenceNumber" value="{{content.sequenceNumber}}"/>
+            <input class="content-original-sequence-number-field" type="text" ng-model="content.originalSequenceNumber" value="{{content.originalSequenceNumber}}"/>
         </li>
     </ul>
 </form>

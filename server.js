@@ -41,7 +41,6 @@ require('./app/server/request-handlers/handler.display.store.js')(app);
 require('./app/server/request-handlers/handler.display.links.js')(app);
 require('./app/server/request-handlers/handler.display.comic.js')(app);
 require('./app/server/request-handlers/handler.display.admin.js')(app);
-require('./app/server/request-handlers/handler.data.admin.comics.js')(app);
 require('./app/server/request-handlers/handler.data.content.js')(app);
 require('./app/server/request-handlers/handler.data.common.js')(app);
 
