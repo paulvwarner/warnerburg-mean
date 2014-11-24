@@ -1,10 +1,10 @@
 var mongoose = require("mongoose");
 var common = require("warnerburg-common");
-var contentService = require("../services/service.data.content.js");
+var contentDataService = require("../services/service.data.content.js");
 
 function processGetComicPage(req, res) {
     console.log("running processGetComicPage for "+req.params.sequenceNumber);
-    contentService.processGetContentDataBySequenceNumber(req.params.sequenceNumber, 'comic')
+    contentDataService.processGetContentDataBySequenceNumber(req.params.sequenceNumber, 'comic')
         .then(function(content) {
             console.log("returned from service with comic "+content);
             var pageData = {
@@ -22,20 +22,20 @@ function processGetComicPage(req, res) {
 }
 
 function processGetComicArchives(req, res) {
-    contentService.processGetContentSequenceNumbersBySection('comic')
-        .then(function(contentItemsBySection) {
-            console.log("returned from service with comic "+contentItemsBySection);
+    contentDataService.processGetContentSequenceNumbersBySection('comic')
+        .then(function(contentSequenceNumbersBySection) {
+            console.log("returned from service with ", contentSequenceNumbersBySection);
             var pageData = {
                 area: 'comic',
                 common: common,
-                contentItemsBySection: contentItemsBySection
+                contentSequenceNumbersBySection: contentSequenceNumbersBySection
             };
 
             res.render('comic.archives.html', pageData);
             console.log("rendered from processGetComicArchives");
         })
         .catch(function(err) {
-            console.log("error displaying comic: ", err);
+            console.log("error getting archives content: ", err);
         });
 }
 

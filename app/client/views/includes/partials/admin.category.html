@@ -14,19 +14,24 @@
             </div>
         </div>
     </div>
-    <ul id="content-grid" class="sortable-grid admin-page-content" ng-model="contents" ui-sortable="sortableOptions">
-        <li class="content-grid-item" ng-repeat="content in contents">
-            <div class="content-thumbnail-image-overlay">
-                <div class="content-thumbnail-image-overlay-text">
-                    <div class="content-thumbnail-image-overlay-sequence-number-text">{{ content.sequenceNumber }}</div>
-                    <div class="content-thumbnail-image-overlay-date-text">{{ content.createdDate | date : 'MM/dd/yy' }}</div>
-                </div>
-            </div>
-            <div class="content-thumbnail-image-container">
-                <img ng-src="{{ content.image }}" class="content-thumbnail-image"/>
-            </div>
-            <input class="content-sequence-number-field" type="text" ng-model="content.sequenceNumber" value="{{content.sequenceNumber}}"/>
-            <input class="content-original-sequence-number-field" type="text" ng-model="content.originalSequenceNumber" value="{{content.originalSequenceNumber}}"/>
-        </li>
-    </ul>
+    <div class="category-admin-page-content">
+        <div ng-repeat="(section, contents) in sections" class="content-grid-container" data-connected-sortable-repeater="">
+            <h2 class="section-label">Section {{section}}</h2>
+            <ul class="admin-content-grid">
+                <li class="content-grid-item" ng-repeat="content in contents" ng-dblclick="openContentPage(category, content.sequenceNumber)">
+                    <div class="content-thumbnail-image-overlay">
+                        <div class="content-thumbnail-image-overlay-text">
+                            <div class="content-thumbnail-image-overlay-sequence-number-text">{{ content.sequenceNumber }}</div>
+                            <div class="content-thumbnail-image-overlay-date-text">{{ content.createdDate | date : 'MM/dd/yy' }}</div>
+                        </div>
+                    </div>
+                    <div class="content-thumbnail-image-container">
+                        <img ng-src="{{ content.image }}" class="content-thumbnail-image"/>
+                    </div>
+                    <input class="content-sequence-number-field" type="text" ng-model="content.sequenceNumber" value="{{content.sequenceNumber}}"/>
+                    <input class="content-original-sequence-number-field" type="text" ng-model="content.originalSequenceNumber" value="{{content.originalSequenceNumber}}"/>
+                </li>
+            </ul>
+        </div>
+    </div>
 </form>

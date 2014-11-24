@@ -3,7 +3,7 @@ var Q = require('q');
 
 module.exports = {
     processGetContentDataBySequenceNumber: function(sequenceNumber, category) {
-        console.log("getting content at "+sequenceNumber);
+        console.log("getting content at "+category+"/"+sequenceNumber);
 
         var deferred = Q.defer();
 
@@ -44,6 +44,36 @@ module.exports = {
         return deferred.promise;
     },
     processGetContentSequenceNumbersBySection: function(category) {
+        console.log("processGetContentSequenceNumbersBySection getting content at "+category);
+
+        var deferred = Q.defer();
+
+        var content;
+        var query = mongoose.model('content').find({category: category}).sort({ sequenceNumber: 1 });
+
+        query.lean().exec()
+            .then(function (contents) {
+
+                var contentSequenceNumbersBySection = {};
+                contents.forEach(function(item) {
+                    if (typeof contentSequenceNumbersBySection[item.section] === 'undefined') {
+                        contentSequenceNumbersBySection[item.section] = [];
+                    }
+
+                    contentSequenceNumbersBySection[item.section].push(item.sequenceNumber);
+                });
+
+                // return content by resolving promise with it
+                deferred.resolve(contentSequenceNumbersBySection);
+
+            }).onReject(function (err) {
+                console.log("error getting content: " + err);
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
+    },
+    processGetContentDataBySection: function(category) {
         console.log("processGetContentDataBySection getting content at "+category);
 
         var deferred = Q.defer();
@@ -56,17 +86,15 @@ module.exports = {
 
                 var contentItemsBySection = {};
                 contents.forEach(function(item) {
+                    if (''+item.section == 'undefined') {
+                        item.section = 'default';
+                    }
                     if (typeof contentItemsBySection[item.section] === 'undefined') {
-                        contentItemsBySection[item.section] = {
-                            section: item.section,
-                            sequenceNumbers: []
-                        };
+                        contentItemsBySection[item.section] = [];
                     }
 
-                    contentItemsBySection[item.section].sequenceNumbers.push(item.sequenceNumber);
+                    contentItemsBySection[item.section].push(item);
                 });
-
-
 
                 // return content by resolving promise with it
                 deferred.resolve(contentItemsBySection);

@@ -41,6 +41,7 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
         broadcastFirstModelChangeIfNecessary();
     };
     var changeDisplayedContent = function(category, sequenceNumber, updateBrowserHistory) {
+        console.log("changeDisplayedContent to use "+category+"/"+sequenceNumber   );
         getContent(sequenceNumber, category)
             .then(function(content) {
                 console.log("got it");
