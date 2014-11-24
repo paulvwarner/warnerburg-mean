@@ -283,7 +283,8 @@ a.unobtrusive-link:active {
 .admin-content-grid {
   display: block;
   padding: 0;
-  margin: 14px 10px 0 10px; }
+  margin: 14px 10px 0 10px;
+  float: left; }
 
 .admin-category-list {
   text-align: left;
@@ -305,7 +306,8 @@ a.unobtrusive-link:active {
   margin: 5px;
   background-color: #eeeeee;
   text-align: left;
-  overflow: hidden; }
+  overflow: hidden;
+  float: left; }
 
 .content-thumbnail-image-overlay {
   position: absolute;
@@ -320,14 +322,23 @@ a.unobtrusive-link:active {
 .content-thumbnail-image-overlay-changed {
   background-color: rgba(255, 0, 0, 0.5) !important; }
 
+.overlay-contents {
+  height: 100%;
+  vertical-align: middle;
+  display: block;
+  margin: 0 auto; }
+
 .content-thumbnail-image-overlay-text {
   color: rgba(255, 255, 255, 0.9);
-  padding: 5px;
   margin: 0 auto;
+  height: 100%;
+  width: 100%;
   vertical-align: middle;
   display: inline-block; }
 
 .content-thumbnail-image-overlay-sequence-number-text {
+  vertical-align: middle;
+  display: inline-block;
   font-size: 40pt; }
 
 .content-thumbnail-image-overlay-date-text {
