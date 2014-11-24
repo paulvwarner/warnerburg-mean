@@ -14,7 +14,7 @@ module.exports = {
             query = mongoose.model('content').find({sequenceNumber: sequenceNumber, category: category});
         } else {
             console.log("getting latest");
-            query = mongoose.model('content').find({category: category}).sort({ sequenceNumber: -1 }).limit(1);
+            query = mongoose.model('content').find({category: category, publishDate: {$lt: new Date()}}).sort({ sequenceNumber: -1 }).limit(1);
         }
 
         // get content using "lean" in order to attach comments to it afterwards (not allowed for
@@ -24,8 +24,23 @@ module.exports = {
                 console.log(contents);
                 content = contents[0];
 
+                return mongoose.model('content').find({category: category, publishDate: {$lt: new Date()}}).count().exec();
+            }).then(function(contentCount) {
+                console.log("COUNT "+contentCount);
+
+                content.isLast = false;
+                content.isFirst = false;
+
+                if (content.sequenceNumber == contentCount) {
+                    console.log("LAST");
+                    content.isLast = true;
+                } else if (content.sequenceNumber == '1') {
+                    console.log("FIRST");
+                    content.isFirst = true;
+                }
+
                 console.log("finding comments for " + content._id);
-                return mongoose.model('comment').find({contentId: contents[0]._id}).sort({commentDate:'asc'}).exec();
+                return mongoose.model('comment').find({contentId: content._id}).sort({commentDate:'asc'}).exec();
             }).then(function(comments) {
                 console.log("cm l "+comments.length);
 

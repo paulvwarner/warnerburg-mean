@@ -3,8 +3,21 @@ var path = require("path");
 var swig = require("swig");
 var mongoose = require("mongoose");
 var bodyParser = require('body-parser');
+var auth = require('basic-auth');
 
 var app = express();
+
+app.use(function(req, res, next) {
+    var user = auth(req);
+
+    if (user === undefined || user['name'] !== 'username' || user['pass'] !== 'password') {
+        res.statusCode = 401;
+        res.setHeader('WWW-Authenticate', 'Basic realm="MyRealmName"');
+        res.end('Unauthorized');
+    } else {
+        next();
+    }
+});
 
 // require all model files
 require('./app/server/models/content.model.js');

@@ -62,7 +62,7 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
                                 currentListElement.find(".content-previous-section-field").trigger('input');
 
                                 currentListElement.find(".content-thumbnail-image-overlay-sequence-number-text").text(rearrangeSequenceNumber);
-                                currentListElement.find(".content-thumbnail-image-overlay-text").addClass('content-thumbnail-image-overlay-changed');
+                                currentListElement.find(".content-thumbnail-image-change-indicator-overlay").addClass('content-thumbnail-image-overlay-changed');
                                 angular.element(".admin-reorder-button").removeAttr("disabled");
                             }
                         });
@@ -74,9 +74,6 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
                 });
 
             }
-            /*
-
-            */
         }
     };
 }]);

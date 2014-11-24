@@ -32,8 +32,8 @@
                        data-content-category="comic"
                        class="{% if content.isLast %}invisible-nav-button{% endif %}"><img class="warnerburg-link-image" src="/images/navigation/lastdarks.jpg" /></a>
                 </div>
-                <div class="content-nav-header-publish-date-cell" data-display-created-date="">
-                    {% for dateElement in content.createdDateElements %}<img src="/images/details/labels/[[dateElement]].jpg">{% endfor %}
+                <div class="content-nav-header-publish-date-cell" data-display-publish-date="">
+                    {% for dateElement in content.publishDateElements %}<img src="/images/details/labels/[[dateElement]].jpg">{% endfor %}
                 </div>
             </div>
         </div>

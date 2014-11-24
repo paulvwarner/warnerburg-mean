@@ -65,7 +65,7 @@ function processDisplayGallerySketchPage(req, res) {
     var pageData = {
         area: 'gallery',
         common: common
-    }
+    };
 
     res.render(
             'gallery.sketches.'+req.params.sketchPageNumber+'.html', pageData
@@ -78,5 +78,8 @@ module.exports = function(app) {
     app.get('/gallery/progression/:imageSequenceNumber', processDisplayGalleryProgressionPage);
     app.get('/gallery/color/:imageSequenceNumber', processDisplayColorGalleryImage);
     app.get('/gallery/pencil/:imageSequenceNumber', processDisplayPencilGalleryImage);
+    app.get('/gallery/progression', processDisplayGalleryProgressionPage);
+    app.get('/gallery/color', processDisplayColorGalleryImage);
+    app.get('/gallery/pencil', processDisplayPencilGalleryImage);
     app.get('/gallery/sketches/:sketchPageNumber', processDisplayGallerySketchPage);
 };

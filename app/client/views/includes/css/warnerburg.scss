@@ -1,5 +1,6 @@
 $content-grid-item-sequence-number-font-size: 40pt;
-$content-grid-item-date-font-size: 12pt;
+$content-grid-item-sequence-number-line-height: 60px;
+$content-grid-item-date-font-size: 10pt;
 $content-grid-item-dimension: 170px;
 $admin-option-bar-height: 50px;
 /*background-color: #BA3A3A;*/
@@ -288,7 +289,7 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 
 .section-label {
 
-    padding: 0 0 0 15px;
+    padding: 0 0 0 12px;
     margin: 0;
     font-size: 14pt;
     font-weight: bold;
@@ -301,7 +302,6 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     top: 50px;
     left: 0px;
 
-
     -webkit-transform-origin: 0 0;
     -moz-transform-origin:    0 0;
     -ms-transform-origin:     0 0;
@@ -311,13 +311,15 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     -moz-transform:    rotate(90deg);
     -ms-transform:     rotate(90deg);
     -o-transform:      rotate(90deg);
-
 }
 
 .admin-content-grid {
     display: block;
     padding: 0;
-    margin: 14px 10px 0 10px;
+    margin-top: 12px;
+    margin-right: 10px;
+    margin-left: 10px;
+    margin-bottom: 2px;
     float: left;
 }
 
@@ -355,22 +357,24 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     width: $content-grid-item-dimension - 10;
     height: $content-grid-item-dimension - 10;
     background-color: rgba(0,0,0,0.5);
+    color: rgba(255,255,255,0.9);
     text-align: center;
     display:inline-block;
+}
+
+.admin-page-content-field {
+
 }
 
 .content-thumbnail-image-overlay-changed {
     background-color: rgba(255,0,0,0.5) !important;
 }
 
-.overlay-contents {
-    height: 100%;
-    vertical-align: middle;
-    display: block;
-    margin: 0 auto;
+.content-thumbnail-image-overlay-changed .content-thumbnail-image-overlay-date-text {
+    visibility: visible !important;
 }
 
-.content-thumbnail-image-overlay-text {
+.content-thumbnail-image-change-indicator-overlay {
     color: rgba(255,255,255,0.9);
     margin: 0 auto;
     height: 100%;
@@ -379,15 +383,25 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     display: inline-block;
 }
 
-.content-thumbnail-image-overlay-sequence-number-text {
+.content-thumbnail-image-overlay:hover .content-thumbnail-image-overlay-date-text {
+    transition: visibility 0.3s ease;
+    visibility: visible;
+
+}
+
+.content-thumbnail-image-overlay-text-container {
     vertical-align: middle;
     display: inline-block;
+}
+
+.content-thumbnail-image-overlay-sequence-number-text {
     font-size: $content-grid-item-sequence-number-font-size;
 }
 
 .content-thumbnail-image-overlay-date-text {
     font-size: $content-grid-item-date-font-size;
-    display: none;
+    height: 0;
+    visibility: hidden;
 }
 
 .content-thumbnail-image-container {

@@ -23,11 +23,15 @@
             <ul class="admin-content-grid" data-section="{{section}}">
                 <li class="content-grid-item" ng-repeat="content in contents" ng-dblclick="openContentPage(category, content.sequenceNumber)">
                     <div class="content-thumbnail-image-overlay">
-                        <div class="overlay-contents">
-                            <div class="content-thumbnail-image-overlay-text">
-                                <span class="image-container-aligner"></span>
-                                <div class="content-thumbnail-image-overlay-sequence-number-text">{{ content.sequenceNumber }}</div>
-                                <div class="content-thumbnail-image-overlay-date-text">{{ content.createdDate | date : 'MM/dd/yy' }}</div>
+                        <div class="content-thumbnail-image-change-indicator-overlay">
+                            <span class="image-container-aligner"></span>
+                            <div class="content-thumbnail-image-overlay-text-container">
+                                <div class="content-thumbnail-image-overlay-sequence-number-text">
+                                    {{ content.sequenceNumber }}
+                                </div>
+                                <div class="content-thumbnail-image-overlay-date-text">
+                                    {{ content.publishDate | date : 'MM/dd/yy' }}
+                                </div>
                             </div>
                         </div>
                     </div>

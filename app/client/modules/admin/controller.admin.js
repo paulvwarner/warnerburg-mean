@@ -50,7 +50,7 @@ angular.module("adminModule").controller("categoryAdminController",
         $http.post('/data/content/'+$scope.category+'/reorder', {sections: $scope.sections})
             .success(function() {
                 console.log("updated content order");
-                angular.element(".content-thumbnail-image-overlay-text").removeClass('content-thumbnail-image-overlay-changed');
+                angular.element(".content-thumbnail-image-change-indicator-overlay").removeClass('content-thumbnail-image-overlay-changed');
                 angular.element(".admin-reorder-button").attr("disabled","disabled");
             }).error(function(data) {
                 console.log('error: ' + data);

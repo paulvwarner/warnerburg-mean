@@ -87,10 +87,10 @@ angular.module("contentModule").directive("displaySequenceNumber", ['$rootScope'
     };
 }]);
 
-angular.module("contentModule").directive("displayCreatedDate", ['$rootScope', 'contentService', function ($rootScope, contentService) {
+angular.module("contentModule").directive("displayPublishDate", ['$rootScope', 'contentService', function ($rootScope, contentService) {
     return {
         compile: function (templateElement) {
-            return contentService.bindAfterFirstModelChange(templateElement, 'content.createdDateElements', function(value) {
+            return contentService.bindAfterFirstModelChange(templateElement, 'content.publishDateElements', function(value) {
                 newSequenceNumberHtml = '';
                 value.forEach(function(entry) {
                     newSequenceNumberHtml = newSequenceNumberHtml + '<img src="/images/details/labels/'+entry+'.jpg">';
