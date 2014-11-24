@@ -1,6 +1,7 @@
 $content-grid-item-sequence-number-font-size: 40pt;
 $content-grid-item-date-font-size: 12pt;
 $content-grid-item-dimension: 170px;
+$admin-option-bar-height: 50px;
 /*background-color: #BA3A3A;*/
 
 body {
@@ -267,21 +268,12 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     width: $content-grid-item-dimension + 20;
 }
 
-.content-thumbnail-image {
-    max-height: $content-grid-item-dimension - 20;
-    max-width: $content-grid-item-dimension - 20;
-    margin: auto;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
 .admin-page-content {
     margin-top: 70px;
 }
 
 .category-admin-page-content {
-    margin-top: 10px;
+    margin-top: 15px;
     margin-bottom: 40px;
 }
 
@@ -295,20 +287,21 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 }
 
 .section-label {
+
     padding: 0 0 0 15px;
     margin: 0;
     font-size: 14pt;
     font-weight: bold;
-    line-height: 50px;
+    line-height: 40px;
     color: white;
     background-color: #4C4C4C;
 
-    /* Abs positioning makes it not take up vert space */
+
     position: relative;
-    top: 55px;
+    top: 50px;
     left: 0px;
 
-    /* Rotate from top left corner  */
+
     -webkit-transform-origin: 0 0;
     -moz-transform-origin:    0 0;
     -ms-transform-origin:     0 0;
@@ -318,12 +311,13 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     -moz-transform:    rotate(90deg);
     -ms-transform:     rotate(90deg);
     -o-transform:      rotate(90deg);
+
 }
 
 .admin-content-grid {
     display: block;
     padding: 0;
-    margin: 10px 10px 0 10px;
+    margin: 14px 10px 0 10px;
 }
 
 .admin-category-list {
@@ -360,6 +354,7 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     height: $content-grid-item-dimension - 10;
     background-color: rgba(0,0,0,0.5);
     text-align: center;
+    display:inline-block;
 }
 
 .content-thumbnail-image-overlay-changed {
@@ -369,16 +364,14 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 .content-thumbnail-image-overlay-text {
     color: rgba(255,255,255,0.9);
     padding: 5px;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    margin: 0 auto;
+    vertical-align: middle;
+    display: inline-block;
 }
 
 .content-thumbnail-image-overlay-sequence-number-text {
     font-size: $content-grid-item-sequence-number-font-size;
 }
-
-
 
 .content-thumbnail-image-overlay-date-text {
     font-size: $content-grid-item-date-font-size;
@@ -394,9 +387,23 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     margin: 5px;
 }
 
+.image-container-aligner {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.content-thumbnail-image {
+    max-height: $content-grid-item-dimension - 20;
+    max-width: $content-grid-item-dimension - 20;
+    margin: auto;
+    position: relative;
+    vertical-align: middle;
+}
+
 .admin-header-options {
     width: 100%;
-    height: 50px;
+    height: $admin-option-bar-height;
     position: fixed;
     top: 0;
     left: 0;
@@ -405,31 +412,58 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 }
 
 .admin-header-button-container {
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    text-align: center;
-    top: 50%;
-    transform: translateY(-50%);
+    padding: 0;
+    margin: 0 auto;
     overflow: hidden;
+    display: table;
+    height: $admin-option-bar-height;
 }
 
+.header-option-container {
+    margin: 0 auto;
+    padding: 0;
+    display: inline-block;
+    vertical-align: middle;
+    width: 100%;
+    height: $admin-option-bar-height;
+}
 
 .admin-header-left {
-    float:left;
-    margin: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 32%;
+    text-align: left;
+    padding: 0;
+    margin: 0;
 }
+
 .admin-header-center{
-    margin: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 33%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
 }
 
 .admin-header-right {
-    float: right;
-    margin: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    width: 33%;
+    text-align: right;
+    padding: 0;
+    margin: 0;
 }
 
 .admin-header-label {
     font-size: 14pt;
     color: white;
+    padding: 0;
+    margin: 0;
 }
 
 .admin-text-link { color: #FFFFFF !important; }

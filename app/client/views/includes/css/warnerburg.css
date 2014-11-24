@@ -246,19 +246,11 @@ a.unobtrusive-link:active {
   height: 190px;
   width: 190px; }
 
-.content-thumbnail-image {
-  max-height: 150px;
-  max-width: 150px;
-  margin: auto;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%); }
-
 .admin-page-content {
   margin-top: 70px; }
 
 .category-admin-page-content {
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 40px; }
 
 .content-grid-container {
@@ -273,14 +265,12 @@ a.unobtrusive-link:active {
   margin: 0;
   font-size: 14pt;
   font-weight: bold;
-  line-height: 50px;
+  line-height: 40px;
   color: white;
   background-color: #4C4C4C;
-  /* Abs positioning makes it not take up vert space */
   position: relative;
-  top: 55px;
+  top: 50px;
   left: 0px;
-  /* Rotate from top left corner  */
   -webkit-transform-origin: 0 0;
   -moz-transform-origin: 0 0;
   -ms-transform-origin: 0 0;
@@ -293,7 +283,7 @@ a.unobtrusive-link:active {
 .admin-content-grid {
   display: block;
   padding: 0;
-  margin: 10px 10px 0 10px; }
+  margin: 14px 10px 0 10px; }
 
 .admin-category-list {
   text-align: left;
@@ -324,7 +314,8 @@ a.unobtrusive-link:active {
   width: 160px;
   height: 160px;
   background-color: rgba(0, 0, 0, 0.5);
-  text-align: center; }
+  text-align: center;
+  display: inline-block; }
 
 .content-thumbnail-image-overlay-changed {
   background-color: rgba(255, 0, 0, 0.5) !important; }
@@ -332,9 +323,9 @@ a.unobtrusive-link:active {
 .content-thumbnail-image-overlay-text {
   color: rgba(255, 255, 255, 0.9);
   padding: 5px;
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%); }
+  margin: 0 auto;
+  vertical-align: middle;
+  display: inline-block; }
 
 .content-thumbnail-image-overlay-sequence-number-text {
   font-size: 40pt; }
@@ -351,6 +342,18 @@ a.unobtrusive-link:active {
   z-index: 1;
   margin: 5px; }
 
+.image-container-aligner {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle; }
+
+.content-thumbnail-image {
+  max-height: 150px;
+  max-width: 150px;
+  margin: auto;
+  position: relative;
+  vertical-align: middle; }
+
 .admin-header-options {
   width: 100%;
   height: 50px;
@@ -361,27 +364,53 @@ a.unobtrusive-link:active {
   background-color: rgba(0, 0, 0, 0.7); }
 
 .admin-header-button-container {
-  position: absolute;
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  text-align: center;
-  top: 50%;
-  transform: translateY(-50%);
-  overflow: hidden; }
+  padding: 0;
+  margin: 0 auto;
+  overflow: hidden;
+  display: table;
+  height: 50px; }
+
+.header-option-container {
+  margin: 0 auto;
+  padding: 0;
+  display: inline-block;
+  vertical-align: middle;
+  width: 100%;
+  height: 50px; }
 
 .admin-header-left {
-  float: left;
-  margin: 20px; }
+  display: inline-block;
+  vertical-align: middle;
+  width: 32%;
+  text-align: left;
+  padding: 0;
+  margin: 0; }
 
 .admin-header-center {
-  margin: 20px; }
+  display: inline-block;
+  vertical-align: middle;
+  width: 33%;
+  text-align: center;
+  padding: 0;
+  margin: 0; }
 
 .admin-header-right {
-  float: right;
-  margin: 20px; }
+  display: inline-block;
+  vertical-align: middle;
+  width: 33%;
+  text-align: right;
+  padding: 0;
+  margin: 0; }
 
 .admin-header-label {
   font-size: 14pt;
-  color: white; }
+  color: white;
+  padding: 0;
+  margin: 0; }
 
 .admin-text-link {
   color: #FFFFFF !important; }

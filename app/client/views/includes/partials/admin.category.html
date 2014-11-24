@@ -1,16 +1,19 @@
 <form id="admin-form" ng-submit="commitReorderingChanges()">
     <div class="admin-header-options">
         <div class="admin-header-button-container">
-            <div class="admin-header-left">
-                <a ui-sref="main" class="admin-text-link" href="#">&laquo; back to category list</a>
-            </div>
-            <div class="admin-header-right">
-                <input class="admin-reorder-button" disabled="disabled" type="submit" value="Commit Reordering Changes"/>
-            </div>
-            <div class="admin-header-center">
-                <h1 class="admin-header-label">
-                    {{ adminHeaderLabel }}
-                </h1>
+            <div class="header-option-container">
+                <span class="image-container-aligner"></span>
+                <div class="admin-header-left">
+                    <a ui-sref="main" class="admin-text-link" href="#">&laquo; back to category list</a>
+                </div>
+                <div class="admin-header-center">
+                    <h1 class="admin-header-label">
+                        {{ adminHeaderLabel }}
+                    </h1>
+                </div>
+                <div class="admin-header-right">
+                    <input class="admin-reorder-button" disabled="disabled" type="submit" value="Commit Reordering Changes"/>
+                </div>
             </div>
         </div>
     </div>
@@ -20,13 +23,16 @@
             <ul class="admin-content-grid" data-section="{{section}}">
                 <li class="content-grid-item" ng-repeat="content in contents" ng-dblclick="openContentPage(category, content.sequenceNumber)">
                     <div class="content-thumbnail-image-overlay">
+                        <span class="image-container-aligner"></span>
                         <div class="content-thumbnail-image-overlay-text">
                             <div class="content-thumbnail-image-overlay-sequence-number-text">{{ content.sequenceNumber }}</div>
                             <div class="content-thumbnail-image-overlay-date-text">{{ content.createdDate | date : 'MM/dd/yy' }}</div>
                         </div>
                     </div>
                     <div class="content-thumbnail-image-container">
+                        <span class="image-container-aligner"></span>
                         <img ng-src="{{ content.image }}" class="content-thumbnail-image"/>
+
                     </div>
                     <input class="content-admin-field content-sequence-number-field" type="text" ng-model="content.sequenceNumber" value="{{content.sequenceNumber}}"/>
                     <input class="content-admin-field content-previous-sequence-number-field" type="text" ng-model="content.previousSequenceNumber" value="{{content.previousSequenceNumber}}"/>
