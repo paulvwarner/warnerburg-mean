@@ -1,6 +1,7 @@
 $content-grid-item-sequence-number-font-size: 40pt;
 $content-grid-item-date-font-size: 12pt;
 $content-grid-item-dimension: 170px;
+/*background-color: #BA3A3A;*/
 
 body {
     margin: 0;
@@ -367,7 +368,7 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 
 .content-thumbnail-image-overlay-text {
     color: rgba(255,255,255,0.9);
-    padding: 20px;
+    padding: 5px;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
@@ -434,11 +435,7 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 .admin-text-link { color: #FFFFFF !important; }
 .admin-text-link:hover { color: #DA7676 !important; }
 
-.content-sequence-number-field {
-    display: none;
-}
-
-.content-original-sequence-number-field {
+.content-admin-field {
     display: none;
 }
 

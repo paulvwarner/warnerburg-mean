@@ -25,11 +25,12 @@ function processContentReorder(req, res) {
         console.log("reorder ",section);
 
         req.body.sections[section].forEach(function (content) {
-            console.log("id:" + content._id + " oldseq:" + content.originalSequenceNumber + " newseq:"+content.sequenceNumber);
+            console.log("id:" + content._id + " oldseq:" + content.originalSequenceNumber + " newseq:"+content.sequenceNumber
+                + " oldsec:" + content.originalSection+ " newsec:" + content.section);
             var query = {"_id":content._id};
-            updateTasks.push(mongoose.model('content').update(query,{sequenceNumber:content.sequenceNumber}).exec()
+            updateTasks.push(mongoose.model('content').update(query,{sequenceNumber:content.sequenceNumber, section:content.section}).exec()
                 .then(function() {
-                    console.log("updated content "+content._id);
+                    console.log("updated content seq num "+content._id);
                 }).onReject(function(err) {
                     console.log("error updating content sequence number for content "+content._id+": "+err);
                 }));
@@ -41,12 +42,6 @@ function processContentReorder(req, res) {
         console.log("END")
         res.send("");
     });
-
-    /*
-
-
-
-    */
 }
 
 function processGetContentDataBySequenceNumber(req, res) {

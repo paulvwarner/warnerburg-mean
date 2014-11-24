@@ -17,7 +17,8 @@ var contentSchema = mongoose.Schema({
         category: String,
         status: String,
         isFirst: Boolean,
-        isLast: Boolean
+        isLast: Boolean,
+        section: String
     },
     {collection:'content'});
 

@@ -17,7 +17,7 @@
     <div class="category-admin-page-content">
         <div ng-repeat="(section, contents) in sections" class="content-grid-container" data-connected-sortable-repeater="">
             <h2 class="section-label">Section {{section}}</h2>
-            <ul class="admin-content-grid">
+            <ul class="admin-content-grid" data-section="{{section}}">
                 <li class="content-grid-item" ng-repeat="content in contents" ng-dblclick="openContentPage(category, content.sequenceNumber)">
                     <div class="content-thumbnail-image-overlay">
                         <div class="content-thumbnail-image-overlay-text">
@@ -28,8 +28,12 @@
                     <div class="content-thumbnail-image-container">
                         <img ng-src="{{ content.image }}" class="content-thumbnail-image"/>
                     </div>
-                    <input class="content-sequence-number-field" type="text" ng-model="content.sequenceNumber" value="{{content.sequenceNumber}}"/>
-                    <input class="content-original-sequence-number-field" type="text" ng-model="content.originalSequenceNumber" value="{{content.originalSequenceNumber}}"/>
+                    <input class="content-admin-field content-sequence-number-field" type="text" ng-model="content.sequenceNumber" value="{{content.sequenceNumber}}"/>
+                    <input class="content-admin-field content-previous-sequence-number-field" type="text" ng-model="content.previousSequenceNumber" value="{{content.previousSequenceNumber}}"/>
+                    <input class="content-admin-field content-original-sequence-number-field" type="text" ng-model="content.originalSequenceNumber" value="{{content.originalSequenceNumber}}"/>
+                    <input class="content-admin-field content-section-field" type="text" ng-model="content.section" value="{{content.section}}"/>
+                    <input class="content-admin-field content-previous-section-field" type="text" ng-model="content.previousSection" value="{{content.previousSection}}"/>
+                    <input class="content-admin-field content-original-section-field" type="text" ng-model="content.originalSection" value="{{content.originalSection}}"/>
                 </li>
             </ul>
         </div>

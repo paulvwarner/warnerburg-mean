@@ -35,18 +35,34 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
                     sort: function(e, ui) {
 
                     },
-                    stop: function(e, ui){
+                    stop: function(e, ui) {
                         // update form for items that had a sequence number change
                         angular.forEach(angular.element(".content-grid-item"), function(value, key) {
                             var currentListElement = angular.element(value);
                             var rearrangeSequenceNumber = ""+$.trim("" + (key + 1));
-                            var persistedSequenceNumber = ""+$.trim(currentListElement.find(".content-thumbnail-image-overlay-sequence-number-text").text());
-                            console.log(rearrangeSequenceNumber+" vs "+persistedSequenceNumber);
-                            if (rearrangeSequenceNumber != persistedSequenceNumber) {
+                            var previousSequenceNumber = ""+$.trim(currentListElement.find(".content-previous-sequence-number-field").val());
+
+                            var rearrangeSection = currentListElement.parents(".admin-content-grid").data("section");
+                            var previousSection = ""+$.trim(currentListElement.find(".content-previous-section-field").val());
+
+                            console.log(rearrangeSequenceNumber+" vs "+previousSequenceNumber);
+                            console.log(rearrangeSection+" vs "+previousSection);
+
+                            if (rearrangeSequenceNumber != previousSequenceNumber || rearrangeSection != previousSection) {
+                                // update sequence number
                                 currentListElement.find(".content-sequence-number-field").val(rearrangeSequenceNumber);
                                 currentListElement.find(".content-sequence-number-field").trigger('input');
+                                currentListElement.find(".content-previous-sequence-number-field").val(rearrangeSequenceNumber);
+                                currentListElement.find(".content-previous-sequence-number-field").trigger('input');
+
+                                // update section
+                                currentListElement.find(".content-section-field").val(rearrangeSection);
+                                currentListElement.find(".content-section-field").trigger('input');
+                                currentListElement.find(".content-previous-section-field").val(rearrangeSection);
+                                currentListElement.find(".content-previous-section-field").trigger('input');
+
                                 currentListElement.find(".content-thumbnail-image-overlay-sequence-number-text").text(rearrangeSequenceNumber);
-                                currentListElement.find(".content-thumbnail-image-overlay").addClass('content-thumbnail-image-overlay-changed');
+                                currentListElement.find(".content-thumbnail-image-overlay-text").addClass('content-thumbnail-image-overlay-changed');
                                 angular.element(".admin-reorder-button").removeAttr("disabled");
                             }
                         });

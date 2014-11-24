@@ -28,6 +28,9 @@ angular.module("adminModule").controller("categoryAdminController",
                 console.log("foreach "+key+" val ",value);
                 value.forEach(function(content) {
                     content.originalSequenceNumber = content.sequenceNumber;
+                    content.previousSequenceNumber = content.sequenceNumber;
+                    content.originalSection = content.section;
+                    content.previousSection = content.section;
                 });
             });
         })
@@ -39,14 +42,15 @@ angular.module("adminModule").controller("categoryAdminController",
     $scope.commitReorderingChanges = function() {
         angular.forEach($scope.sections, function(value, key) {
             value.forEach(function (content) {
-                console.log("id:" + content._id + " oldseq:" + content.originalSequenceNumber + " newseq:" + content.sequenceNumber)
+                console.log("id:" + content._id + " oldseq:" + content.originalSequenceNumber + " newseq:" + content.sequenceNumber
+                    + " oldsec:" + content.originalSection+ " newsec:" + content.section);
             });
         });
 
         $http.post('/data/content/'+$scope.category+'/reorder', {sections: $scope.sections})
             .success(function() {
                 console.log("updated content order");
-                angular.element(".content-thumbnail-image-overlay").removeClass('content-thumbnail-image-overlay-changed');
+                angular.element(".content-thumbnail-image-overlay-text").removeClass('content-thumbnail-image-overlay-changed');
                 angular.element(".admin-reorder-button").attr("disabled","disabled");
             }).error(function(data) {
                 console.log('error: ' + data);

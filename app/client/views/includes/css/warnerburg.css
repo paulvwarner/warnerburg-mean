@@ -1,3 +1,4 @@
+/*background-color: #BA3A3A;*/
 body {
   margin: 0;
   padding: 0;
@@ -330,7 +331,7 @@ a.unobtrusive-link:active {
 
 .content-thumbnail-image-overlay-text {
   color: rgba(255, 255, 255, 0.9);
-  padding: 20px;
+  padding: 5px;
   position: relative;
   top: 50%;
   transform: translateY(-50%); }
@@ -388,10 +389,7 @@ a.unobtrusive-link:active {
 .admin-text-link:hover {
   color: #DA7676 !important; }
 
-.content-sequence-number-field {
-  display: none; }
-
-.content-original-sequence-number-field {
+.content-admin-field {
   display: none; }
 
 .invisible-nav-button {
