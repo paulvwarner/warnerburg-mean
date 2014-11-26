@@ -18,15 +18,76 @@
         </div>
     </div>
     <div class="admin-page-content">
-        <div class="admin-page-content-field">
-            authorPicture
-            publishDate
-            text
-            image
-            title
-            category
-            status
-            section
+        <div class="admin-page-content-field-table-container">
+            <div class="admin-page-content-field-table">
+                <div id="author-pic-drop-zone" class="admin-page-content-field-row">
+                    <div class="admin-page-content-field-label">Author Pic</div>
+                    <div class="admin-page-content-field">
+                        <div class="author-pic-preview">
+                            <img ng-src="{{content.authorPicture}}" />
+                            <div id="author-pic-upload-results"></div>
+                            <div id="author-pic-dropzone-template"></div>
+                            <a href="#" data-toggle-author-pic-options="">change</a> - <a href="#" id="author-pic-upload">add new</a>
+                        </div>
+                        <div class="author-pic-option-display">
+                            <div class="author-pic-option-display-header">select author pic:</div>
+                            <div class="author-pic-option" ng-repeat="pic in authorPics">
+                                <img ng-src="{{pic}}">
+                            </div>
+                            <div class="author-pic-option-display-footer">
+                                <a href="#" data-toggle-author-pic-options="">hide</a> - <a href="#" id="author-pic-upload">add new</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="admin-page-content-field-row">
+                    <div class="admin-page-content-field-label">Publish Date</div>
+                    <div class="admin-page-content-field">
+                        date picker
+                        <input ng-model="content.publishDate" value="content.publishDate" />
+                    </div>
+                </div>
+                <div class="admin-page-content-field-row">
+                    <div class="admin-page-content-field-label">Text</div>
+                    <div class="admin-page-content-field">
+                        <input ng-model="content.text" value="content.text" />
+                    </div>
+                </div>
+                <div class="admin-page-content-field-row">
+                    <div class="admin-page-content-field-label">Image</div>
+                    <div class="admin-page-content-field">
+                        <input ng-model="content.image" value="content.image" />
+                    </div>
+                </div>
+                <div class="admin-page-content-field-row">
+                    <div class="admin-page-content-field-label">Title</div>
+                    <div class="admin-page-content-field">
+                        <input ng-model="content.title" value="content.title" />
+                    </div>
+                </div>
+                <div class="admin-page-content-field-row">
+                    <div class="admin-page-content-field-label">Category</div>
+                    <div class="admin-page-content-field">
+                        change - add new
+                        <input ng-model="content.category" value="content.category" />
+                    </div>
+                </div>
+                <!--
+                <div class="admin-page-content-field-row">
+                    <div class="admin-page-content-field-label">Status</div>
+                    <div class="admin-page-content-field">
+                        <input ng-model="content.status" value="content.status" />
+                    </div>
+                </div>
+                -->
+                <div class="admin-page-content-field-row">
+                    <div class="admin-page-content-field-label">Section</div>
+                    <div class="admin-page-content-field">
+                        change - add new
+                        <input ng-model="content.section" value="content.section" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </form>

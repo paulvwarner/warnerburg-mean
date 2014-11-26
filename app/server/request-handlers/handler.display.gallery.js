@@ -31,7 +31,7 @@ function processDisplayGalleryPage(req, res) {
 }
 
 function renderImagePageWithContent(category, req, res) {
-    contentService.processGetContentDataBySequenceNumber(req.params.imageSequenceNumber, category)
+    contentService.getContentDataBySequenceNumber(req.params.imageSequenceNumber, category)
         .then(function(content) {
             console.log("rendering... with ",content);
 

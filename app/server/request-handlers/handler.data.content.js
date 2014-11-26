@@ -6,7 +6,7 @@ var Q = require('q');
 function processGetContentInCategory(req, res) {
     var category = req.params.category;
 
-    contentDataService.processGetContentDataBySection(category)
+    contentDataService.getContentDataBySection(category)
         .then(function(contentItemsBySection) {
             console.log("returned from service with ",contentItemsBySection);
             res.send(contentItemsBySection);
@@ -46,7 +46,7 @@ function processContentReorder(req, res) {
 
 function processGetContentDataBySequenceNumber(req, res) {
     console.log("running processGetContentDataBySequenceNumber for "+req.params.sequenceNumber + " "+req.params.category);
-    contentDataService.processGetContentDataBySequenceNumber(req.params.sequenceNumber, req.params.category)
+    contentDataService.getContentDataBySequenceNumber(req.params.sequenceNumber, req.params.category)
         .then(function(content) {
             console.log("returned from service with "+req.params.category+" "+content);
 

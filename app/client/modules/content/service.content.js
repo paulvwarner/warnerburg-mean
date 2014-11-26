@@ -1,5 +1,6 @@
 angular.module("contentModule").factory("contentService", ['$http', '$sce', '$rootScope', '$location', '$window', '$q',
     function ($http, $sce, $rootScope, $location, $window, $q) {
+
     var broadcastFirstModelChangeIfNecessary = function() {
         // broadcast event representing that the first model change happened if necessary
         if (!$rootScope.firstModelChangeHappened) {

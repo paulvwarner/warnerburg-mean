@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var Q = require('q');
 
 module.exports = {
-    processGetContentDataBySequenceNumber: function(sequenceNumber, category) {
+    getContentDataBySequenceNumber: function(sequenceNumber, category) {
         console.log("getting content at "+category+"/"+sequenceNumber);
 
         var deferred = Q.defer();
@@ -58,8 +58,8 @@ module.exports = {
 
         return deferred.promise;
     },
-    processGetContentSequenceNumbersBySection: function(category) {
-        console.log("processGetContentSequenceNumbersBySection getting content at "+category);
+    getContentSequenceNumbersBySection: function(category) {
+        console.log("getContentSequenceNumbersBySection getting content at "+category);
 
         var deferred = Q.defer();
 
@@ -88,8 +88,8 @@ module.exports = {
 
         return deferred.promise;
     },
-    processGetContentDataBySection: function(category) {
-        console.log("processGetContentDataBySection getting content at "+category);
+    getContentDataBySection: function(category) {
+        console.log("getContentDataBySection getting content at "+category);
 
         var deferred = Q.defer();
 

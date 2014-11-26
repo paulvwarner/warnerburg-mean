@@ -1,9 +1,20 @@
+angular.module("adminModule").directive("toggleAuthorPicOptions", ['adminService', function(adminService) {
+    return {
+        link: function (scope, element, attrs) {
+            element.on("click", function(event) {
+                event.preventDefault();
+                console.log("change auth pic");
+                adminService.toggleAuthorPicOptions();
+            });
+        }
+    };
+}]);
+
 angular.module("adminModule").directive("categoryDynamicStateHref", ['$state', function($state) {
     return {
         link: function (scope, element, attrs) {
             console.log("post ", scope.category);
 
-            var stateHref = "(category:'"+scope.category+"')";
             element.on("click", function(event) {
                 event.preventDefault();
                 console.log("going");
@@ -72,7 +83,6 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
                 $( ".admin-content-grid").each(function() {
                     $(this).sortable( "option", "connectWith", ".admin-content-grid" );
                 });
-
             }
         }
     };

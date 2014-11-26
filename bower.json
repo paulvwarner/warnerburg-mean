@@ -8,6 +8,8 @@
     "angular-resource": "~1.2.26",
     "jquery-ui": "~1.11.2",
     "angular-ui-router": "~0.2.11",
-    "angular-ui-sortable": "~0.13.1"
+    "angular-ui-sortable": "~0.13.1",
+    "dropzone": "~3.11.1",
+    "velocity": "~1.1.0"
   }
 }

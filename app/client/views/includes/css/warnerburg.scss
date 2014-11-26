@@ -287,8 +287,52 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     padding-left: 50px;
 }
 
-.section-label {
+.admin-page-content-field-table-container  {
+    padding: 10px;
+}
 
+.admin-page-content-field-table {
+    display: table;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+    border-spacing: 5px;
+}
+
+.admin-page-content-field-header-row {
+    font-weight: bold;
+}
+
+.admin-page-content-field-row {
+    display: table-row;
+    background-color: #eee;
+
+}
+
+.admin-page-content-field-label {
+    display: table-cell;
+    padding: 10px;
+    vertical-align: top;
+    font-weight: bold;
+    width: 120px;
+}
+
+.admin-page-content-field {
+    display: table-cell;
+    padding: 10px;
+    vertical-align: top;
+}
+
+.admin-page-content-field-image-preview {
+    float: right;
+}
+
+.admin-page-content-field-input {
+    float: left;
+}
+
+.section-label {
     padding: 0 0 0 12px;
     margin: 0;
     font-size: 14pt;
@@ -296,7 +340,6 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     line-height: 40px;
     color: white;
     background-color: #4C4C4C;
-
 
     position: relative;
     top: 50px;
@@ -360,10 +403,6 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     color: rgba(255,255,255,0.9);
     text-align: center;
     display:inline-block;
-}
-
-.admin-page-content-field {
-
 }
 
 .content-thumbnail-image-overlay-changed {
@@ -598,4 +637,36 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 .comic-archives-section-thumbnail {
     display: block;
     float: none;
+}
+
+.dropzone-preview {
+    visibility: hidden;
+    height: 0;
+}
+
+.admin-page-content-field-preview {
+    float: left;
+}
+.admin-page-content-field-options {
+    float: left;
+    padding-left: 10px;
+}
+
+.author-pic-option-display {
+    display: none;
+}
+
+.author-pic-option {
+    float: left;
+    padding: 10px;
+}
+
+.author-pic-option-display-header {
+    width: 100%;
+    clear: both;
+}
+
+.author-pic-option-display-footer {
+    clear: both;
+    width: 100%;
 }

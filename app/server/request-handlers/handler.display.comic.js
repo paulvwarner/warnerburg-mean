@@ -4,7 +4,7 @@ var contentDataService = require("../services/service.data.content.js");
 
 function processGetComicPage(req, res) {
     console.log("running processGetComicPage for "+req.params.sequenceNumber);
-    contentDataService.processGetContentDataBySequenceNumber(req.params.sequenceNumber, 'comic')
+    contentDataService.getContentDataBySequenceNumber(req.params.sequenceNumber, 'comic')
         .then(function(content) {
             console.log("returned from service with comic "+content);
             var pageData = {
@@ -22,7 +22,7 @@ function processGetComicPage(req, res) {
 }
 
 function processGetComicArchives(req, res) {
-    contentDataService.processGetContentSequenceNumbersBySection('comic')
+    contentDataService.getContentSequenceNumbersBySection('comic')
         .then(function(contentSequenceNumbersBySection) {
             console.log("returned from service with ", contentSequenceNumbersBySection);
             var pageData = {
