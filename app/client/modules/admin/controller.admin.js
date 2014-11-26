@@ -105,38 +105,47 @@ angular.module("adminModule").controller("contentAdminController",
         );
 
         authorDropZone.on("success", function(file, clientPathToUpload) {
-
-            if (!angular.element(".author-pic-preview").is(":visible")) {
-                adminService.toggleAuthorPicOptions(function() {
-                    adminService.addNewPicToList($scope, clientPathToUpload);
-                });
-            } else {
-                addNewPicToList($scope, clientPathToUpload);
-            }
-
-            console.log("SUCCESS",file);
-            angular.element("#author-pic-upload-results").css("display","block");
-            angular.element("#author-pic-upload-results").text("Uploaded '"+file.name+"' successfully.");
-            $timeout(function() {
-                angular.element("#author-pic-upload-results").velocity("slideUp");
-            }, 2000);
-            $scope.content.authorPicture = clientPathToUpload;
-            $scope.$apply();
-            console.log("scope? ",$scope);
+            adminService.updateAuthorPic($scope, clientPathToUpload, file.name);
+            adminService.showUploadSuccessMessage(file.name);
         }).on("error", function(file, errorMessage) {
-            console.log("FAILURE");
+            angular.element("#author-pic-upload-results").css("display","block");
             angular.element("#author-pic-upload-results").text("Error uploading '"+file.name+"':",errorMessage);
         });
     });
 }]);
 
+angular.module("adminModule").factory("adminService", ['$timeout', function ($timeout) {
 
-angular.module("adminModule").factory("adminService", [function () {
+    var updateAuthorPic = function (scope, clientPathToUpload) {
+        // add uploaded pic to list stored in scope.  do it after hiding the list if the list is currently displayed.
+        if (!angular.element(".author-pic-preview").is(":visible")) {
+            toggleAuthorPicOptions(function() {
+                addNewPicToList(scope, clientPathToUpload);
+            });
+        } else {
+            addNewPicToList(scope, clientPathToUpload);
+        }
+
+        // update author pic stored in scope
+        scope.content.authorPicture = clientPathToUpload;
+        scope.$apply();
+    };
+
+    var showUploadSuccessMessage = function(fileName) {
+        // show an upload success message that disappears after 2 seconds.
+        angular.element("#author-pic-upload-results").css("display","block");
+        angular.element("#author-pic-upload-results").text("Uploaded '"+fileName+"' successfully.");
+        $timeout(function() {
+            angular.element("#author-pic-upload-results").velocity("slideUp");
+        }, 2000);
+    };
 
     var addNewPicToList = function(scope, clientPathToUpload) {
         scope.authorPics.push(clientPathToUpload);
         scope.$apply();
     };
+
+    // toggle display of list of author pics
     var toggleAuthorPicOptions = function(hideOptionsCallback) {
         if (angular.element(".author-pic-preview").is(":visible")) {
             angular.element(".author-pic-preview").velocity("slideUp");
@@ -153,6 +162,8 @@ angular.module("adminModule").factory("adminService", [function () {
 
     return {
         toggleAuthorPicOptions: toggleAuthorPicOptions,
-        addNewPicToList: addNewPicToList
+        addNewPicToList: addNewPicToList,
+        updateAuthorPic: updateAuthorPic,
+        showUploadSuccessMessage: showUploadSuccessMessage
     };
 }]);

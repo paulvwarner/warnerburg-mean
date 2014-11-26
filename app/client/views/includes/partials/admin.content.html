@@ -24,7 +24,7 @@
                     <div class="admin-page-content-field-label">Author Pic</div>
                     <div class="admin-page-content-field">
                         <div class="author-pic-preview">
-                            <img ng-src="{{content.authorPicture}}" />
+                            <img class="author-pic-preview-image" ng-src="{{content.authorPicture}}" />
                             <div id="author-pic-upload-results"></div>
                             <div id="author-pic-dropzone-template"></div>
                             <a href="#" data-toggle-author-pic-options="">change</a> - <a href="#" id="author-pic-upload">add new</a>
@@ -32,7 +32,7 @@
                         <div class="author-pic-option-display">
                             <div class="author-pic-option-display-header">select author pic:</div>
                             <div class="author-pic-option" ng-repeat="pic in authorPics">
-                                <img ng-src="{{pic}}">
+                                <a href="#" data-use-as-author-pic-on-click="" data-image-to-use="{{pic}}"><img ng-src="{{pic}}"></a>
                             </div>
                             <div class="author-pic-option-display-footer">
                                 <a href="#" data-toggle-author-pic-options="">hide</a> - <a href="#" id="author-pic-upload">add new</a>

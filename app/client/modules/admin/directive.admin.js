@@ -10,6 +10,18 @@ angular.module("adminModule").directive("toggleAuthorPicOptions", ['adminService
     };
 }]);
 
+angular.module("adminModule").directive("useAsAuthorPicOnClick", ['adminService', function(adminService) {
+    return {
+        link: function (scope, element, attrs) {
+            element.on("click", function(event) {
+                event.preventDefault();
+                console.log("change auth pic");
+                adminService.updateAuthorPic(scope, attrs.imageToUse);
+            });
+        }
+    };
+}]);
+
 angular.module("adminModule").directive("categoryDynamicStateHref", ['$state', function($state) {
     return {
         link: function (scope, element, attrs) {

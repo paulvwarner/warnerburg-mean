@@ -658,7 +658,9 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 
 .author-pic-option {
     float: left;
-    padding: 10px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 .author-pic-option-display-header {
@@ -669,4 +671,12 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 .author-pic-option-display-footer {
     clear: both;
     width: 100%;
+}
+
+.author-pic-preview {
+
+}
+
+.author-pic-preview-image {
+    padding-bottom: 5px;
 }
