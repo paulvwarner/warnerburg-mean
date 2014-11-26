@@ -108,7 +108,7 @@ angular.module("adminModule").controller("contentAdminController",
 
             if (!angular.element(".author-pic-preview").is(":visible")) {
                 adminService.toggleAuthorPicOptions(function() {
-                    addNewPicToList($scope, clientPathToUpload);
+                    adminService.addNewPicToList($scope, clientPathToUpload);
                 });
             } else {
                 addNewPicToList($scope, clientPathToUpload);
@@ -130,14 +130,13 @@ angular.module("adminModule").controller("contentAdminController",
     });
 }]);
 
-function addNewPicToList(scope, clientPathToUpload) {
-    scope.authorPics.push(clientPathToUpload);
-    scope.$apply();
-}
-
 
 angular.module("adminModule").factory("adminService", [function () {
 
+    var addNewPicToList = function(scope, clientPathToUpload) {
+        scope.authorPics.push(clientPathToUpload);
+        scope.$apply();
+    };
     var toggleAuthorPicOptions = function(hideOptionsCallback) {
         if (angular.element(".author-pic-preview").is(":visible")) {
             angular.element(".author-pic-preview").velocity("slideUp");
@@ -153,6 +152,7 @@ angular.module("adminModule").factory("adminService", [function () {
     };
 
     return {
-        toggleAuthorPicOptions: toggleAuthorPicOptions
+        toggleAuthorPicOptions: toggleAuthorPicOptions,
+        addNewPicToList: addNewPicToList
     };
 }]);
