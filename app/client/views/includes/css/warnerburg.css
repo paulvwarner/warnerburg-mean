@@ -589,4 +589,8 @@ a.unobtrusive-link:active {
 .author-pic-preview-image {
   padding-bottom: 5px; }
 
+.content-save-message {
+  display: none;
+  color: white; }
+
 /*# sourceMappingURL=warnerburg.css.map */

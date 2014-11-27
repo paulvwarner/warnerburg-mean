@@ -1,4 +1,4 @@
-<form id="admin-form" ng-submit="commitReorderingChanges()">
+<form id="admin-form" ng-submit="commitContentChanges()">
     <div class="admin-header-options">
         <div class="admin-header-button-container">
             <div class="header-option-container">
@@ -12,6 +12,7 @@
                     </h1>
                 </div>
                 <div class="admin-header-right">
+                    <span class="content-save-message"></span>
                     <input type="submit" value="Save"/>
                 </div>
             </div>
@@ -24,10 +25,10 @@
                     <div class="admin-page-content-field-label">Author Pic</div>
                     <div class="admin-page-content-field">
                         <div class="author-pic-preview">
-                            <img class="author-pic-preview-image" ng-src="{{content.authorPicture}}" />
+                            <a href="#" data-toggle-author-pic-options=""><img class="author-pic-preview-image" ng-src="{{content.authorPicture}}" /></a>
                             <div id="author-pic-upload-results"></div>
                             <div id="author-pic-dropzone-template"></div>
-                            <a href="#" data-toggle-author-pic-options="">change</a> - <a href="#" id="author-pic-upload">add new</a>
+                            <a href="#" data-toggle-author-pic-options="">change</a> - <a href="#" class="author-pic-upload">add new</a>
                         </div>
                         <div class="author-pic-option-display">
                             <div class="author-pic-option-display-header">select author pic:</div>
@@ -35,7 +36,7 @@
                                 <a href="#" data-use-as-author-pic-on-click="" data-image-to-use="{{pic}}"><img ng-src="{{pic}}"></a>
                             </div>
                             <div class="author-pic-option-display-footer">
-                                <a href="#" data-toggle-author-pic-options="">hide</a> - <a href="#" id="author-pic-upload">add new</a>
+                                <a href="#" data-toggle-author-pic-options="">hide</a> - <a href="#" class="author-pic-upload">add new</a>
                             </div>
                         </div>
                     </div>

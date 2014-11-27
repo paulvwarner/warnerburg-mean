@@ -120,5 +120,33 @@ module.exports = {
             });
 
         return deferred.promise;
+    },
+    updateContentData: function(updatedContent) {
+        console.log("updating content at "+updatedContent.category+"/"+updatedContent.sequenceNumber);
+
+        var deferred = Q.defer();
+        var query = mongoose.model('content').findOne({sequenceNumber: updatedContent.sequenceNumber, category: updatedContent.category});
+
+        query.exec()
+            .then(function (content) {
+                console.log("pre-update:", content);
+
+                content.authorPicture = updatedContent.authorPicture;
+
+                content.save(function(err, savedContent, numberAffected) {
+                    if (err) {
+                        console.log("error updating content: ",err);
+                        deferred.reject(err);
+                    } else {
+                        console.log("post-update:", savedContent);
+                        deferred.resolve(savedContent);
+                    }
+                });
+            }).onReject(function (err) {
+                console.log("error getting content: " + err);
+                deferred.reject(err);
+            });
+
+        return deferred.promise;
     }
 };

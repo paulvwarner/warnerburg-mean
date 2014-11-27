@@ -53,6 +53,19 @@ function processGetContentDataBySequenceNumber(req, res) {
         })
         .catch(function(err) {
             console.log("error getting "+req.params.category+": ", err);
+            res.send(err);
+        });
+}
+
+function processPutContentDataBySequenceNumber(req, res) {
+
+    contentDataService.updateContentData(req.body.content)
+        .then(function(content) {
+            res.send(content);
+        })
+        .catch(function(err) {
+            console.log("error updating:", err);
+            res.send(err);
         });
 }
 
@@ -60,4 +73,5 @@ module.exports = function (app) {
     app.use(busboy());
     app.get('/data/admin/content/:category/:sequenceNumber', processGetContentDataBySequenceNumber);
     app.post('/data/upload/authorPic', processPostUploadAuthorPic);
+    app.put('/data/admin/content/:category/:sequenceNumber', processPutContentDataBySequenceNumber);
 };
