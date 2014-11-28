@@ -1,4 +1,4 @@
-var log = require('loglevel');
+var log = require('warnerburg-logging-config')();
 var mongoose = require("mongoose");
 var Q = require('q');
 

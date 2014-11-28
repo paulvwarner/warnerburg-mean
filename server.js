@@ -1,10 +1,12 @@
-var log = require('loglevel');
 var express = require('express');
 var swig = require("swig");
 var mongoose = require("mongoose");
 var bodyParser = require('body-parser');
 var auth = require('basic-auth');
 var app = express();
+
+// set up logging
+var log = require('warnerburg-logging-config')();
 
 // global authentication
 app.use(function(req, res, next) {

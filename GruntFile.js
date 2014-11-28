@@ -12,13 +12,14 @@ module.exports = function(grunt) {
             dev: {
                 options: {
                     script: 'server.js',
-                    debug: true
+                    debug: true,
+                    node_env: 'development'
                 }
             }
         },
         open: {
             server: {
-                url: 'http://localhost:<%= express.options.port %>/comic'
+                url: 'http://localhost:<%= express.options.port %>/'
             }
         },
         watch: {
