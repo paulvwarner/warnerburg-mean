@@ -1,6 +1,6 @@
 angular.module("contentModule").controller("contentController", ['$scope', '$http', '$sce', '$rootScope', '$attrs', 'contentService',
     function ($scope, $http, $sce, $rootScope, $attrs, contentService) {
-        console.log("content controller constructor called");
+        log.debug("content controller constructor called");
         $rootScope.firstModelChangeHappened = false;
 
         // get current model once angular is set up for the first time, then sync model to url from then on
@@ -15,7 +15,7 @@ angular.module("contentModule").controller("contentController", ['$scope', '$htt
                 });
             })
             .catch(function(err) {
-                console.log("error getting content: ",err);
+                log.error("error getting content: ",err);
             });
 
         // expose function allowing users to create a new comment

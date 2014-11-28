@@ -1,3 +1,4 @@
+var log = require('loglevel');
 var mongoose = require("mongoose");
 var common = require("warnerburg-common");
 var contentService = require("../services/service.data.content.js");
@@ -21,19 +22,19 @@ function processDisplayGalleryPage(req, res) {
         }).then(function(contents) {
             pageData.pencilImages = contents;
 
-            console.log("rendering gallery page");
+            log.debug("rendering gallery page");
             res.render(
                 'gallery.html', pageData
             );
         }).onReject(function (err) {
-            console.log("error getting gallery images: " + err);
+            log.error("error getting gallery images: " + err);
         });
 }
 
 function renderImagePageWithContent(category, req, res) {
     contentService.getContentDataBySequenceNumber(req.params.imageSequenceNumber, category)
         .then(function(content) {
-            console.log("rendering... with ",content);
+            log.debug("rendering... with ",content);
 
             var pageData = {
                 area: 'gallery',
@@ -42,10 +43,10 @@ function renderImagePageWithContent(category, req, res) {
             };
 
             res.render('gallery.image.html', pageData);
-            console.log("processDisplayColorGalleryImage for "+req.params.imageSequenceNumber);
+            log.debug("processDisplayColorGalleryImage for "+req.params.imageSequenceNumber);
         })
         .catch(function(err) {
-            console.log("error getting gallery image: " + err);
+            log.error("error getting gallery image: " + err);
         });
 }
 

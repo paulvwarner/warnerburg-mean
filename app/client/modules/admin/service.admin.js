@@ -1,31 +1,42 @@
-angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$resource', '$sce', function ($timeout, $http, $resource, $sce) {
+angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$resource', '$sce', 'commonService', '$filter',
+    function ($timeout, $http, $resource, $sce, commonService, $filter) {
+
+    var publishDateTimeAdminFormat = commonService.getCommonData().publishDateTimeAdminFormat.datepicker;
+
+    var updateContentForDisplay = function(scope) {
+        scope.content.publishDate = new Date(scope.content.publishDate);
+        scope.content.publishDateForDisplay = $filter('date')(scope.content.publishDate, scope.common.publishDateTimeAdminFormat.angular);
+    };
 
     var getContentToEdit = function(scope) {
         $http.get('/data/admin/content/' + scope.category + '/' + scope.sequenceNumber)
             .success(function (contentAdminData) {
                 scope.content = contentAdminData.content;
                 scope.content.text = $sce.trustAsHtml(contentAdminData.content.text);
+                updateContentForDisplay(scope);
                 scope.authorPics = contentAdminData.authorPics;
             })
             .error(function (data) {
-                console.log('error: ' + data);
+                log.error('error: ' + data);
             })
         ;
     };
 
     var commitContentChanges = function(scope) {
-        console.log("commit");
+        log.debug("committing content changes");
         $http.put('/data/admin/content/'+scope.content.category+'/'+scope.content.sequenceNumber, {content: scope.content})
             .success(function(updatedContent) {
                 scope.content = updatedContent;
+                updateContentForDisplay(scope);
+
                 var saveMessage = angular.element(".content-save-message");
-                saveMessage.css("display","inline");
                 saveMessage.text("saved successfully");
+                saveMessage.velocity("fadeIn");
                 $timeout(function() {
                     saveMessage.velocity("fadeOut");
                 }, 2000);
             }).error(function(data) {
-                console.log('error: ' + data);
+                log.error('error: ' + data);
             });
     };
 

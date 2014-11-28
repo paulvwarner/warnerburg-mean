@@ -1,3 +1,4 @@
+var log = require('loglevel');
 var common = require("warnerburg-common");
 
 function processGetCommonData(req, res) {

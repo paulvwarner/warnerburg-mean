@@ -1,3 +1,4 @@
+var log = require('loglevel');
 var express = require('express');
 var swig = require("swig");
 var mongoose = require("mongoose");
@@ -65,7 +66,7 @@ mongoose.connect('mongodb://localhost/warnerburgLocal', { keepAlive: 1 }, functi
     if (err) throw err;
 
     // if no error, db is now open and we can accept requests
-    console.log('db open');
+    log.debug('db open');
 
     app.listen(3001);
 });

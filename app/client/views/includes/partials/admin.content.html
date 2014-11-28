@@ -44,8 +44,9 @@
                 <div class="admin-page-content-field-row">
                     <div class="admin-page-content-field-label">Publish Date</div>
                     <div class="admin-page-content-field">
-                        date picker
-                        <input ng-model="content.publishDate" value="content.publishDate" />
+                        <div class="date-time-picker-container">
+                            <input data-admin-date-picker="" id="admin-publish-date" ng-model="content.publishDateForDisplay" />
+                        </div>
                     </div>
                 </div>
                 <div class="admin-page-content-field-row">

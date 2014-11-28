@@ -21,7 +21,7 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
                 deferred.resolve(content);
             })
             .error(function (data) {
-                console.log('error: ' + data);
+                log.error('error: ' + data);
                 deferred.reject(data);
             });
 
@@ -29,7 +29,7 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
     };
     var handleContentChange = function(category, updateBrowserHistory) {
         if (updateBrowserHistory) {
-            console.log("updating history! " + $location.path() + " to " + $rootScope.content.sequenceNumber);
+            log.debug("updating history: " + $location.path() + " to " + $rootScope.content.sequenceNumber);
             $location.path(eval('$rootScope.common["'+category+'"].url') + '/' + $rootScope.content.sequenceNumber);
         }
         
@@ -42,10 +42,9 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
         broadcastFirstModelChangeIfNecessary();
     };
     var changeDisplayedContent = function(category, sequenceNumber, updateBrowserHistory) {
-        console.log("changeDisplayedContent to use "+category+"/"+sequenceNumber   );
+        log.debug("changeDisplayedContent to use "+category+"/"+sequenceNumber   );
         getContent(sequenceNumber, category)
             .then(function(content) {
-                console.log("got it");
                 // put new content data in scope
                 $rootScope.content = content;
                 $rootScope.content.text = $sce.trustAsHtml(content.text);
@@ -53,7 +52,7 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
                 handleContentChange(category, updateBrowserHistory);
             })
             .catch(function(err) {
-                console.log("error getting content: ",err);
+                log.error("error getting content: ",err);
             });
     };
     var setHideCondition = function (element, watchVariable) {
@@ -80,16 +79,16 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
     // aren't defined at the point the callers call this, but which will exist at the point the app is ready to
     // process these clicks with JS)
     var setContentNavOnClickHandler = function(element, sequenceNumberToUse, category) {
-        console.log("sntu:"+sequenceNumberToUse);
+        log.debug("sntu:"+sequenceNumberToUse);
         element.on("click", function (event) {
             event.preventDefault();
-            console.log("sntu pre:"+sequenceNumberToUse);
-            console.log("rc:"+$rootScope.content.sequenceNumber);
+            log.debug("sntu pre:"+sequenceNumberToUse);
+            log.debug("rc:"+$rootScope.content.sequenceNumber);
             var sequenceNumberString = ''+eval(sequenceNumberToUse);
-            console.log("sequenceNumberString:"+sequenceNumberString);
+            log.debug("sequenceNumberString:"+sequenceNumberString);
             // don't allow someone to try to progress past the last content item
             if (!($rootScope.content.isLast && sequenceNumberString > (''+$rootScope.content.sequenceNumber))) {
-                console.log("change");
+                log.debug("change");
                 changeDisplayedContent(category, sequenceNumberString, true);
             }
         });
@@ -101,25 +100,25 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
     };
     var syncModelToUrl = function(category) {
         var pathSequenceNumber = '' + getSequenceNumberFromPath(category, $location.path());
-        console.log("syncing with path "+$location.path());
+        log.debug("syncing with path "+$location.path());
 
         // sync if pathSequenceNumber is blank or a sequence number; otherwise navigate away
-        console.log("'"+pathSequenceNumber+"'");
+        log.debug("'"+pathSequenceNumber+"'");
         if (!(isNaN(pathSequenceNumber) && pathSequenceNumber != '')) {
-            console.log("sync causing path change only");
+            log.debug("sync causing path change only");
             var modelSequenceNumber = '' + $rootScope.content.sequenceNumber;
-            console.log("path is '"+ pathSequenceNumber +"' and model is using '"+modelSequenceNumber+"'");
+            log.debug("path is '"+ pathSequenceNumber +"' and model is using '"+modelSequenceNumber+"'");
 
             if (pathSequenceNumber != modelSequenceNumber) {
                 // we're okay if path seq num is blank but model says we're the latest content item;
                 // otherwise, show the content item in the path
                 if (!(pathSequenceNumber == '' && $rootScope.content.isLast)) {
-                    console.log("syncing model to use path content sequence number")
+                    log.debug("syncing model to use path content sequence number")
                     changeDisplayedContent(category, eval("'"+pathSequenceNumber+"'"), false);
                 }
             }
         } else {
-            console.log("sync causing hard redirect");
+            log.debug("sync causing hard redirect");
             $window.location.href = $location.path();
         }
     };
@@ -127,13 +126,13 @@ angular.module("contentModule").factory("contentService", ['$http', '$sce', '$ro
         return path.split(''+$rootScope.common[category].url).join('').split('/').join('');
     };
     var createComment = function(sequenceNumber, comment, scope) {
-        console.log("saving comment ",comment);
+        log.debug("saving comment ",comment);
         $http.post('/data/content/' + sequenceNumber + '/comments', {comment: comment, sequenceNumber:sequenceNumber})
             .success(function(newComment) {
                 $rootScope.content.comments.push(newComment);
                 scope.newComment = null;
             }).error(function(data) {
-                console.log('error: ' + data);
+                log.error('error: ' + data);
             });
     };
     var hideComments = function() {

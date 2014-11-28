@@ -1,152 +1,232 @@
+var log = require('loglevel');
 var mongoose = require("mongoose");
 var Q = require('q');
 
-module.exports = {
-    getContentDataBySequenceNumber: function(sequenceNumber, category) {
-        console.log("getting content at "+category+"/"+sequenceNumber);
+var getContentDataBySequenceNumber = function(sequenceNumber, category) {
+    log.debug("getting content at "+category+"/"+sequenceNumber);
 
-        var deferred = Q.defer();
+    var deferred = Q.defer();
 
-        var content;
-        var query;
+    var content;
+    var query;
 
-        if (sequenceNumber) {
-            query = mongoose.model('content').find({sequenceNumber: sequenceNumber, category: category});
-        } else {
-            console.log("getting latest");
-            query = mongoose.model('content').find({category: category, publishDate: {$lt: new Date()}}).sort({ sequenceNumber: -1 }).limit(1);
-        }
+    if (sequenceNumber) {
+        query = mongoose.model('content').find({sequenceNumber: sequenceNumber, category: category});
+    } else {
+        log.debug("getting latest");
+        query = mongoose.model('content').find({category: category, publishDate: {$lt: new Date()}}).sort({ sequenceNumber: -1 }).limit(1);
+    }
 
-        // get content using "lean" in order to attach comments to it afterwards (not allowed for
-        // the true mongoose document object, since "comments" aren't part of the "content" schema)
-        query.lean().exec()
-            .then(function (contents) {
-                console.log(contents);
-                content = contents[0];
+    // get content using "lean" in order to attach comments to it afterwards (not allowed for
+    // the true mongoose document object, since "comments" aren't part of the "content" schema)
+    query.lean().exec()
+        .then(function (contents) {
+            log.debug(contents);
+            content = contents[0];
 
-                return mongoose.model('content').find({category: category, publishDate: {$lt: new Date()}}).count().exec();
-            }).then(function(contentCount) {
-                console.log("COUNT "+contentCount);
+            return mongoose.model('content').find({category: category, publishDate: {$lt: new Date()}}).count().exec();
+        }).then(function(contentCount) {
+            log.debug("count: "+contentCount);
 
-                content.isLast = false;
-                content.isFirst = false;
+            content.isLast = false;
+            content.isFirst = false;
 
-                if (content.sequenceNumber == contentCount) {
-                    console.log("LAST");
-                    content.isLast = true;
-                } else if (content.sequenceNumber == '1') {
-                    console.log("FIRST");
-                    content.isFirst = true;
+            if (content.sequenceNumber == contentCount) {
+                log.debug("is last = true");
+                content.isLast = true;
+            } else if (content.sequenceNumber == '1') {
+                log.debug("is first = true");
+                content.isFirst = true;
+            }
+
+            log.debug("finding comments for " + content._id);
+            return mongoose.model('comment').find({contentId: content._id}).sort({commentDate:'asc'}).exec();
+        }).then(function(comments) {
+            log.debug("cm l "+comments.length);
+
+            // attach comment data
+            content.comments = comments;
+
+            // return content by resolving promise with it
+            log.debug("returning content from service");
+            deferred.resolve(content);
+
+        }).onReject(function (err) {
+            log.error("error getting content: " + err);
+            deferred.reject(err);
+        });
+
+    return deferred.promise;
+};
+
+var getContentSequenceNumbersBySection = function(category) {
+    log.debug("getContentSequenceNumbersBySection getting content at "+category);
+
+    var deferred = Q.defer();
+
+    var content;
+    var query = mongoose.model('content').find({category: category}).sort({ sequenceNumber: 1 });
+
+    query.lean().exec()
+        .then(function (contents) {
+
+            var contentSequenceNumbersBySection = {};
+            contents.forEach(function(item) {
+                if (typeof contentSequenceNumbersBySection[item.section] === 'undefined') {
+                    contentSequenceNumbersBySection[item.section] = [];
                 }
 
-                console.log("finding comments for " + content._id);
-                return mongoose.model('comment').find({contentId: content._id}).sort({commentDate:'asc'}).exec();
-            }).then(function(comments) {
-                console.log("cm l "+comments.length);
-
-                // attach comment data
-                content.comments = comments;
-
-                // return content by resolving promise with it
-                console.log("returning content from service");
-                deferred.resolve(content);
-
-            }).onReject(function (err) {
-                console.log("error getting content: " + err);
-                deferred.reject(err);
+                contentSequenceNumbersBySection[item.section].push(item.sequenceNumber);
             });
 
-        return deferred.promise;
-    },
-    getContentSequenceNumbersBySection: function(category) {
-        console.log("getContentSequenceNumbersBySection getting content at "+category);
+            // return content by resolving promise with it
+            deferred.resolve(contentSequenceNumbersBySection);
 
-        var deferred = Q.defer();
+        }).onReject(function (err) {
+            log.error("error getting content: " + err);
+            deferred.reject(err);
+        });
 
-        var content;
-        var query = mongoose.model('content').find({category: category}).sort({ sequenceNumber: 1 });
+    return deferred.promise;
+};
 
-        query.lean().exec()
-            .then(function (contents) {
+var getContentDataBySection = function(category) {
+    log.debug("getContentDataBySection getting content at "+category);
 
-                var contentSequenceNumbersBySection = {};
-                contents.forEach(function(item) {
-                    if (typeof contentSequenceNumbersBySection[item.section] === 'undefined') {
-                        contentSequenceNumbersBySection[item.section] = [];
-                    }
+    var deferred = Q.defer();
 
-                    contentSequenceNumbersBySection[item.section].push(item.sequenceNumber);
-                });
+    var content;
+    var query = mongoose.model('content').find({category: category}).sort({ sequenceNumber: 1 });
 
-                // return content by resolving promise with it
-                deferred.resolve(contentSequenceNumbersBySection);
+    query.lean().exec()
+        .then(function (contents) {
 
-            }).onReject(function (err) {
-                console.log("error getting content: " + err);
-                deferred.reject(err);
+            var contentItemsBySection = {};
+            contents.forEach(function(item) {
+                if (''+item.section == 'undefined') {
+                    item.section = 'default';
+                }
+                if (typeof contentItemsBySection[item.section] === 'undefined') {
+                    contentItemsBySection[item.section] = [];
+                }
+
+                contentItemsBySection[item.section].push(item);
             });
 
-        return deferred.promise;
-    },
-    getContentDataBySection: function(category) {
-        console.log("getContentDataBySection getting content at "+category);
+            // return content by resolving promise with it
+            deferred.resolve(contentItemsBySection);
 
-        var deferred = Q.defer();
+        }).onReject(function (err) {
+            log.error("error getting content: " + err);
+            deferred.reject(err);
+        });
 
-        var content;
-        var query = mongoose.model('content').find({category: category}).sort({ sequenceNumber: 1 });
+    return deferred.promise;
+};
 
-        query.lean().exec()
-            .then(function (contents) {
+var updateContentData = function(updatedContent) {
+    log.debug("updating content at "+updatedContent.category+"/"+updatedContent.sequenceNumber);
 
-                var contentItemsBySection = {};
-                contents.forEach(function(item) {
-                    if (''+item.section == 'undefined') {
-                        item.section = 'default';
-                    }
-                    if (typeof contentItemsBySection[item.section] === 'undefined') {
-                        contentItemsBySection[item.section] = [];
-                    }
+    var deferred = Q.defer();
+    var query = mongoose.model('content').findOne({sequenceNumber: updatedContent.sequenceNumber, category: updatedContent.category});
 
-                    contentItemsBySection[item.section].push(item);
-                });
+    query.exec()
+        .then(function (content) {
+            log.debug("pre-update:", content);
 
-                // return content by resolving promise with it
-                deferred.resolve(contentItemsBySection);
+            content.authorPicture = updatedContent.authorPicture;
+            content.publishDate = updatedContent.publishDate;
+            content.publishDateElements = getPublishDateElements(updatedContent.publishDate);
+            content.lastModifiedDate = new Date();
 
-            }).onReject(function (err) {
-                console.log("error getting content: " + err);
-                deferred.reject(err);
+            content.save(function(err, savedContent, numberAffected) {
+                if (err) {
+                    log.error("error updating content: ",err);
+                    deferred.reject(err);
+                } else {
+                    log.debug("post-update:", savedContent);
+                    deferred.resolve(savedContent);
+                }
             });
+        }).onReject(function (err) {
+            log.error("error getting content: " + err);
+            deferred.reject(err);
+        });
 
-        return deferred.promise;
-    },
-    updateContentData: function(updatedContent) {
-        console.log("updating content at "+updatedContent.category+"/"+updatedContent.sequenceNumber);
+    return deferred.promise;
+};
 
-        var deferred = Q.defer();
-        var query = mongoose.model('content').findOne({sequenceNumber: updatedContent.sequenceNumber, category: updatedContent.category});
-
-        query.exec()
-            .then(function (content) {
-                console.log("pre-update:", content);
-
-                content.authorPicture = updatedContent.authorPicture;
-
-                content.save(function(err, savedContent, numberAffected) {
-                    if (err) {
-                        console.log("error updating content: ",err);
-                        deferred.reject(err);
-                    } else {
-                        console.log("post-update:", savedContent);
-                        deferred.resolve(savedContent);
-                    }
-                });
-            }).onReject(function (err) {
-                console.log("error getting content: " + err);
-                deferred.reject(err);
-            });
-
-        return deferred.promise;
+// return date string formatted as MM/DD/YY
+var getComicDisplayDateStringFromPublishDate = function(publishDate) {
+    var dayOfMonth = ''+publishDate.getDate();
+    if (dayOfMonth.length == 1) {
+        dayOfMonth = "0"+dayOfMonth;
     }
+    var monthOfYear = ''+(publishDate.getMonth() + 1);
+    if (monthOfYear.length == 1) {
+        monthOfYear = "0"+monthOfYear;
+    }
+    var year = (''+publishDate.getFullYear()).substring(2,4);
+
+    return monthOfYear + "/"+dayOfMonth+ "/"+year;
+};
+
+var getPublishDateElements = function(publishDate) {
+    var publishDateString = getComicDisplayDateStringFromPublishDate(new Date(publishDate));
+    var dateElements = new Array();
+    for ( var j = 0; j < publishDateString.length; j++ ) {
+        var dateCharacter = publishDateString.charAt(j);
+        if (dateCharacter == '/') {
+            dateElements.push('slash');
+        } else {
+            dateElements.push(''+publishDateString.charAt(j));
+        }
+    }
+    return dateElements;
+};
+
+var getSequenceNumberElements = function(sequenceNumber) {
+    var sequenceNumber = parseInt(sequenceNumber);
+    var sequenceNumberString = ''+sequenceNumber;
+    var sequenceNumberElements = new Array();
+    for ( var m = 0; m < sequenceNumberString.length; m++ ) {
+        sequenceNumberElements.push((sequenceNumberString).charAt(m));
+    }
+    return sequenceNumberElements;
+};
+
+var reorderContentItems = function(sections) {
+    var updateTasks = [];
+
+    for (var section in sections) {
+        log.debug("reorder ",section);
+
+        sections[section].forEach(function (content) {
+            log.debug("id:" + content._id + " oldseq:" + content.originalSequenceNumber + " newseq:"+content.sequenceNumber
+                + " oldsec:" + content.originalSection+ " newsec:" + content.section);
+            var query = {"_id":content._id};
+            var update = {
+                sequenceNumber: content.sequenceNumber,
+                section: content.section,
+                sequenceNumberElements: getSequenceNumberElements(content.sequenceNumber)
+            };
+            updateTasks.push(mongoose.model('content').update(query,update).exec()
+                .then(function() {
+                    log.debug("updated content seq num "+content._id);
+                }).onReject(function(err) {
+                    log.error("error updating content sequence number for content "+content._id+": "+err);
+                }));
+        });
+    }
+
+    // don't return until all mongoose updates are done
+    return Q.allSettled(updateTasks);
+}
+
+module.exports = {
+    getContentDataBySequenceNumber: getContentDataBySequenceNumber,
+    getContentSequenceNumbersBySection: getContentSequenceNumbersBySection,
+    getContentDataBySection: getContentDataBySection,
+    updateContentData: updateContentData,
+    reorderContentItems: reorderContentItems
 };

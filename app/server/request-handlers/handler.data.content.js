@@ -1,3 +1,4 @@
+var log = require('loglevel');
 var mongoose = require("mongoose");
 var common = require("warnerburg-common");
 var contentDataService = require("../services/service.data.content.js");
@@ -8,58 +9,37 @@ function processGetContentInCategory(req, res) {
 
     contentDataService.getContentDataBySection(category)
         .then(function(contentItemsBySection) {
-            console.log("returned from service with ",contentItemsBySection);
+            log.debug("returned from service with ",contentItemsBySection);
             res.send(contentItemsBySection);
         })
         .catch(function(err) {
-            console.log("error displaying comic: ", err);
+            log.error("error displaying comic: ", err);
         });
 }
 
 function processContentReorder(req, res) {
-    var updateTasks = [];
-
-    console.log("START");
-
-    for (var section in req.body.sections) {
-        console.log("reorder ",section);
-
-        req.body.sections[section].forEach(function (content) {
-            console.log("id:" + content._id + " oldseq:" + content.originalSequenceNumber + " newseq:"+content.sequenceNumber
-                + " oldsec:" + content.originalSection+ " newsec:" + content.section);
-            var query = {"_id":content._id};
-            updateTasks.push(mongoose.model('content').update(query,{sequenceNumber:content.sequenceNumber, section:content.section}).exec()
-                .then(function() {
-                    console.log("updated content seq num "+content._id);
-                }).onReject(function(err) {
-                    console.log("error updating content sequence number for content "+content._id+": "+err);
-                }));
-        });
-    }
-
-    // don't return until all mongoose updates are done
-    Q.allSettled(updateTasks).then(function() {
-        console.log("END")
+    contentDataService.reorderContentItems(req.body.sections).then(function() {
+        log.debug("reorder complete")
         res.send("");
     });
 }
 
 function processGetContentDataBySequenceNumber(req, res) {
-    console.log("running processGetContentDataBySequenceNumber for "+req.params.sequenceNumber + " "+req.params.category);
+    log.debug("running processGetContentDataBySequenceNumber for "+req.params.sequenceNumber + " "+req.params.category);
     contentDataService.getContentDataBySequenceNumber(req.params.sequenceNumber, req.params.category)
         .then(function(content) {
-            console.log("returned from service with "+req.params.category+" "+content);
+            log.debug("returned from service with "+req.params.category+" "+content);
 
             res.send(content);
-            console.log("returned "+req.params.category+" data for "+req.params.sequenceNumber);
+            log.debug("returned "+req.params.category+" data for "+req.params.sequenceNumber);
         })
         .catch(function(err) {
-            console.log("error getting "+req.params.category+": ", err);
+            log.error("error getting "+req.params.category+": ", err);
         });
 }
 
 function processPostCommentData(req, res) {
-    console.log('posted:',req.body);
+    log.debug('posted:',req.body);
 
     mongoose.model('content').find({sequenceNumber:req.body.sequenceNumber}).exec()
         .then(function(contents) {
@@ -78,16 +58,16 @@ function processPostCommentData(req, res) {
                 res.send(newComment);
             });
         }).onReject(function(err) {
-            console.log("error saving comment: "+err);
+            log.error("error saving comment: "+err);
         });
 }
 
 function processGetContentCategories(req, res) {
     mongoose.model('content').collection.distinct('category', function(err, categories) {
         if (err) {
-            console.log("error getting categories: "+err);
+            log.error("error getting categories: "+err);
         } else {
-            console.log("returning categories ", categories);
+            log.debug("returning categories ", categories);
             res.send(categories);
         }
     });

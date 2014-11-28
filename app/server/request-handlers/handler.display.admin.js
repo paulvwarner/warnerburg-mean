@@ -1,3 +1,4 @@
+var log = require('loglevel');
 var mongoose = require("mongoose");
 var common = require("warnerburg-common");
 

@@ -1,12 +1,13 @@
+var log = require('loglevel');
 var mongoose = require("mongoose");
 var common = require("warnerburg-common");
 var contentDataService = require("../services/service.data.content.js");
 
 function processGetComicPage(req, res) {
-    console.log("running processGetComicPage for "+req.params.sequenceNumber);
+    log.debug("running processGetComicPage for "+req.params.sequenceNumber);
     contentDataService.getContentDataBySequenceNumber(req.params.sequenceNumber, 'comic')
         .then(function(content) {
-            console.log("returned from service with comic "+content);
+            log.debug("returned from service with comic "+content);
             var pageData = {
                 area: 'comic',
                 common: common,
@@ -14,17 +15,17 @@ function processGetComicPage(req, res) {
             };
 
             res.render('comic.html', pageData);
-            console.log("rendered from processGetComicPage for "+req.params.sequenceNumber);
+            log.debug("rendered from processGetComicPage for "+req.params.sequenceNumber);
         })
         .catch(function(err) {
-            console.log("error displaying comic: ", err);
+            log.error("error displaying comic: ", err);
         });
 }
 
 function processGetComicArchives(req, res) {
     contentDataService.getContentSequenceNumbersBySection('comic')
         .then(function(contentSequenceNumbersBySection) {
-            console.log("returned from service with ", contentSequenceNumbersBySection);
+            log.debug("returned from service with ", contentSequenceNumbersBySection);
             var pageData = {
                 area: 'comic',
                 common: common,
@@ -32,10 +33,10 @@ function processGetComicArchives(req, res) {
             };
 
             res.render('comic.archives.html', pageData);
-            console.log("rendered from processGetComicArchives");
+            log.debug("rendered from processGetComicArchives");
         })
         .catch(function(err) {
-            console.log("error getting archives content: ", err);
+            log.error("error getting archives content: ", err);
         });
 }
 

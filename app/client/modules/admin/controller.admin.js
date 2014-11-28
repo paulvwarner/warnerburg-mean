@@ -1,4 +1,4 @@
-angular.module("adminModule", ['ngSanitize','ngResource','ui.sortable','ui.router']);
+angular.module("adminModule", ['ngSanitize','ngResource','ui.router','commonModule']);
 
 angular.module("adminModule").controller("mainAdminController", function ($scope, $http, $resource) {
     $scope.adminHeaderLabel = "Category List";
@@ -9,7 +9,7 @@ angular.module("adminModule").controller("mainAdminController", function ($scope
             $scope.categories = categories;
         })
         .error(function (data) {
-            console.log('error getting categories: ' + data);
+            log.error('error getting categories: ' + data);
         });
 });
 
@@ -25,7 +25,6 @@ angular.module("adminModule").controller("categoryAdminController",
             $scope.sections = sections;
 
             angular.forEach($scope.sections, function(value, key) {
-                console.log("foreach "+key+" val ",value);
                 value.forEach(function(content) {
                     content.originalSequenceNumber = content.sequenceNumber;
                     content.previousSequenceNumber = content.sequenceNumber;
@@ -35,42 +34,43 @@ angular.module("adminModule").controller("categoryAdminController",
             });
         })
         .error(function (data) {
-            console.log('error: ' + data);
+            log.error('error: ' + data);
         });
 
     // expose function allowing users to save reordering changes
     $scope.commitReorderingChanges = function() {
         angular.forEach($scope.sections, function(value, key) {
             value.forEach(function (content) {
-                console.log("id:" + content._id + " oldseq:" + content.originalSequenceNumber + " newseq:" + content.sequenceNumber
+                log.debug("id:" + content._id + " oldseq:" + content.originalSequenceNumber + " newseq:" + content.sequenceNumber
                     + " oldsec:" + content.originalSection+ " newsec:" + content.section);
             });
         });
 
         $http.post('/data/content/'+$scope.category+'/reorder', {sections: $scope.sections})
             .success(function() {
-                console.log("updated content order");
+                log.debug("updated content order");
                 angular.element(".content-thumbnail-image-change-indicator-overlay").removeClass('content-thumbnail-image-overlay-changed');
                 angular.element(".admin-reorder-button").attr("disabled","disabled");
             }).error(function(data) {
-                console.log('error: ' + data);
+                log.error('error: ' + data);
             });
     };
 
     // expose function to route to edit page for a piece of content
     $scope.openContentPage = function(category, sequenceNumber) {
-        console.log("opening content page for "+category +" #"+ sequenceNumber);
+        log.debug("opening content page for "+category +" #"+ sequenceNumber);
         $state.go("content", {categoryId: category, sequenceNumber: sequenceNumber});
     };
 }]);
 
 angular.module("adminModule").controller("contentAdminController",
-['$stateParams', '$state', '$scope', 'adminService',
-    function ($stateParams, $state, $scope, adminService) {
+['$stateParams', '$state', '$scope', 'adminService', 'commonService',
+    function ($stateParams, $state, $scope, adminService, commonService) {
 
     $scope.category = $stateParams.categoryId;
     $scope.sequenceNumber = $stateParams.sequenceNumber;
     $scope.adminHeaderLabel = 'Managing '+$scope.category +' #'+$scope.sequenceNumber;
+    $scope.common = commonService.getCommonData();
 
     // populate scope from service on controller construction
     adminService.getContentToEdit($scope);
@@ -106,8 +106,11 @@ angular.module("adminModule").controller("contentAdminController",
             adminService.updateAuthorPic($scope, clientPathToUpload, file.name);
             adminService.showUploadSuccessMessage(file.name);
         }).on("error", function(file, errorMessage) {
+            log.error("error uploading file");
             angular.element("#author-pic-upload-results").css("display","block");
             angular.element("#author-pic-upload-results").text("Error uploading '"+file.name+"':",errorMessage);
         });
+
+
     });
 }]);

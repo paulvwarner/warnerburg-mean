@@ -3,7 +3,7 @@ angular.module("adminModule").directive("toggleAuthorPicOptions", ['adminService
         link: function (scope, element, attrs) {
             element.on("click", function(event) {
                 event.preventDefault();
-                console.log("change auth pic");
+                log.debug("change auth pic");
                 adminService.toggleAuthorPicOptions();
             });
         }
@@ -15,7 +15,7 @@ angular.module("adminModule").directive("useAsAuthorPicOnClick", ['adminService'
         link: function (scope, element, attrs) {
             element.on("click", function(event) {
                 event.preventDefault();
-                console.log("change auth pic");
+                log.debug("change auth pic");
                 adminService.updateAuthorPic(scope, attrs.imageToUse);
             });
         }
@@ -25,12 +25,37 @@ angular.module("adminModule").directive("useAsAuthorPicOnClick", ['adminService'
 angular.module("adminModule").directive("categoryDynamicStateHref", ['$state', function($state) {
     return {
         link: function (scope, element, attrs) {
-            console.log("post ", scope.category);
+            log.debug("post ", scope.category);
 
             element.on("click", function(event) {
                 event.preventDefault();
-                console.log("going");
                 $state.go("category", {categoryId: scope.category});
+            });
+        }
+    };
+}]);
+
+angular.module("adminModule").directive("showDatePicker", ['$state', function($state) {
+    return {
+        link: function (scope, element, attrs) {
+            element.on("click", function(event) {
+                jQuery('#admin-publish-date').datetimepicker('show');
+            });
+        }
+    };
+}]);
+
+angular.module("adminModule").directive("adminDatePicker", ['$filter', function($filter) {
+    return {
+        link: function (scope, element, attrs) {
+            element.datetimepicker({
+                onChangeDateTime: function(dp, input) {
+                    log.debug("scope pre ",scope.content.publishDate);
+                    scope.content.publishDate = new Date(input.val());
+                    log.debug("scope post ",scope.content.publishDate);
+                    scope.$apply();
+                },
+                format: 'm/d/Y H:i'
             });
         }
     };
@@ -68,8 +93,8 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
                             var rearrangeSection = currentListElement.parents(".admin-content-grid").data("section");
                             var previousSection = ""+$.trim(currentListElement.find(".content-previous-section-field").val());
 
-                            console.log(rearrangeSequenceNumber+" vs "+previousSequenceNumber);
-                            console.log(rearrangeSection+" vs "+previousSection);
+                            log.debug(rearrangeSequenceNumber+" vs "+previousSequenceNumber);
+                            log.debug(rearrangeSection+" vs "+previousSection);
 
                             if (rearrangeSequenceNumber != previousSequenceNumber || rearrangeSection != previousSection) {
                                 // update sequence number
