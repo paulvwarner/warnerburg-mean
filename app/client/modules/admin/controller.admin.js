@@ -39,12 +39,14 @@ angular.module("adminModule").controller("categoryAdminController",
 
     // expose function allowing users to save reordering changes
     $scope.commitReorderingChanges = function() {
-        angular.forEach($scope.sections, function(value, key) {
-            value.forEach(function (content) {
-                log.debug("id:" + content._id + " oldseq:" + content.originalSequenceNumber + " newseq:" + content.sequenceNumber
-                    + " oldsec:" + content.originalSection+ " newsec:" + content.section);
+        if (window.localStorage['loglevel'] == 'DEBUG') {
+            angular.forEach($scope.sections, function(value, key) {
+                value.forEach(function (content) {
+                    log.debug("id:" + content._id + " oldseq:" + content.originalSequenceNumber + " newseq:" + content.sequenceNumber
+                        + " oldsec:" + content.originalSection+ " newsec:" + content.section);
+                });
             });
-        });
+        }
 
         $http.post('/data/content/'+$scope.category+'/reorder', {sections: $scope.sections})
             .success(function() {

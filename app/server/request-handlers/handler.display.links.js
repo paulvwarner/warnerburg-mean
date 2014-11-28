@@ -5,6 +5,7 @@ var common = require("warnerburg-common");
 // request handlers
 function processGetRoot(req, res) {
     var pageData = {
+        environment: process.env.NODE_ENV,
         area: 'links',
         common: common
     };

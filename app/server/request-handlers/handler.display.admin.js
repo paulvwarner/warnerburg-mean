@@ -4,6 +4,7 @@ var common = require("warnerburg-common");
 
 function processGetAdminPage(req, res) {
     var pageData = {
+        environment: process.env.NODE_ENV,
         common: common,
         area: 'admin'
     };

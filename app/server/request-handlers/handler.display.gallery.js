@@ -6,6 +6,7 @@ var contentService = require("../services/service.data.content.js");
 // request handlers
 function processDisplayGalleryPage(req, res) {
     var pageData = {
+        environment: process.env.NODE_ENV,
         area: 'gallery',
         common: common,
         colorImages: {},

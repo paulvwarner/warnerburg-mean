@@ -16,7 +16,11 @@
     {% block footerIncludes %}
         <script src="/bower_components/jquery/dist/jquery.min.js"></script>
         <script src="/bower_components/loglevel/dist/loglevel.min.js"></script>
-        <script src="http://localhost:35729/livereload.js"></script>
+        <script src="/env/properties/common.properties.js"></script>
+        <script id="warnerburg-logging-config" src="/env/logging/logging.config.js" data-environment-identifier="[[environment]]"></script>
+        {% if environment == 'development' %}
+            <script src="http://localhost:35729/livereload.js"></script>
+        {% endif %}
     {% endblock %}
 </body>
 </html>

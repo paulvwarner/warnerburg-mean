@@ -9,6 +9,7 @@ function processGetComicPage(req, res) {
         .then(function(content) {
             log.debug("returned from service with comic "+content);
             var pageData = {
+                environment: process.env.NODE_ENV,
                 area: 'comic',
                 common: common,
                 content: content
@@ -27,6 +28,7 @@ function processGetComicArchives(req, res) {
         .then(function(contentSequenceNumbersBySection) {
             log.debug("returned from service with ", contentSequenceNumbersBySection);
             var pageData = {
+                environment: process.env.NODE_ENV,
                 area: 'comic',
                 common: common,
                 contentSequenceNumbersBySection: contentSequenceNumbersBySection

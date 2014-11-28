@@ -5,6 +5,8 @@ var bodyParser = require('body-parser');
 var auth = require('basic-auth');
 var app = express();
 
+console.log("level:",process.env.NODE_ENV);
+
 // set up logging
 var log = require('warnerburg-logging-config')();
 
@@ -45,7 +47,8 @@ app.use('/includes',    express.static(__dirname + '/app/client/views/includes')
 app.use('/images',    express.static(__dirname + '/app/client/images'));
 app.use('/bower_components',    express.static(__dirname + '/app/client/bower_components'));
 app.use('/views',    express.static(__dirname + '/app/client/views'));
-app.use('/common',    express.static(__dirname + '/node_modules/warnerburg-common'));
+app.use('/env/properties',    express.static(__dirname + '/node_modules/warnerburg-common'));
+app.use('/env/logging',    express.static(__dirname + '/node_modules/warnerburg-logging-config'));
 
 // override swig's use of handlebars so it doesn't conflict with angular
 swig.setDefaults({varControls: ['[[',']]']});
