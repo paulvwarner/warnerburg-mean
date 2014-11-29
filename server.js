@@ -4,17 +4,17 @@ var mongoose = require("mongoose");
 var bodyParser = require('body-parser');
 var auth = require('basic-auth');
 var app = express();
-
-console.log("level:",process.env.NODE_ENV);
+var crypto = require("crypto");
 
 // set up logging
 var log = require('warnerburg-logging-config')();
 
-// global authentication
+// enforce global authentication
 app.use(function(req, res, next) {
     var user = auth(req);
-
-    if (user === undefined || user['name'] !== 'username' || user['pass'] !== 'password') {
+    if (user === undefined ||
+        user['name'] !== 'admin' ||
+        ('' + crypto.createHmac('sha1', process.env.ENCKEY).update(user['pass']).digest('hex')) !== '19ce8ba148cf53f0514aa3300def80549cd70f75') {
         res.statusCode = 401;
         res.setHeader('WWW-Authenticate', 'Basic realm="MyRealmName"');
         res.end('Unauthorized');
@@ -71,7 +71,7 @@ mongoose.connect('mongodb://localhost/warnerburgLocal', { keepAlive: 1 }, functi
     if (err) throw err;
 
     // if no error, db is now open and we can accept requests
-    log.debug('db open');
+    log.info('db open - listening at 3001');
 
     app.listen(3001);
 });

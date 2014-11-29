@@ -52,17 +52,8 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('serve', function (target) {
+    grunt.registerTask('serve', function () {
         grunt.task.run([
-            /*
-            'clean:server',
-            'env:all',
-            'injector:sass',
-            'concurrent:server',
-            'injector',
-            'wiredep',
-            'autoprefixer',
-            */
             'express:dev',
             'wait',
             'open',
