@@ -23,7 +23,6 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
     };
 
     var commitContentChanges = function(scope) {
-        log.debug("committing content changes");
         $http.put('/data/admin/content/'+scope.content.category+'/'+scope.content.sequenceNumber, {content: scope.content})
             .success(function(updatedContent) {
                 scope.content = updatedContent;

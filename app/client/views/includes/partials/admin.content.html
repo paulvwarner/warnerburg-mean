@@ -36,7 +36,7 @@
                                 <a href="#" data-use-as-author-pic-on-click="" data-image-to-use="{{pic}}"><img ng-src="{{pic}}"></a>
                             </div>
                             <div class="author-pic-option-display-footer">
-                                <a href="#" data-toggle-author-pic-options="">hide</a> - <a href="#" class="author-pic-upload">add new</a>
+                                <a href="#" data-toggle-author-pic-options="">back</a> - <a href="#" class="author-pic-upload">add new</a>
                             </div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                 <div class="admin-page-content-field-row">
                     <div class="admin-page-content-field-label">Text</div>
                     <div class="admin-page-content-field">
-                        <input ng-model="content.text" value="content.text" />
+                        <textarea id="admin-content-text" data-ck-editor="" ng-model="content.text" ></textarea>
                     </div>
                 </div>
                 <div class="admin-page-content-field-row">

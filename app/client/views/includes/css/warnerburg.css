@@ -476,6 +476,10 @@ a.unobtrusive-link:active {
 .content-admin-field {
   display: none; }
 
+#admin-content-text {
+  width: 800px;
+  height: 400px; }
+
 .invisible-nav-button {
   display: none; }
 

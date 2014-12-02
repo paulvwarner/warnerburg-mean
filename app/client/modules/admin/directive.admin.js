@@ -124,3 +124,34 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
         }
     };
 }]);
+
+angular.module("adminModule").directive('ckEditor', function() {
+    return {
+        require: '?ngModel',
+        link: function(scope, element, attr, ngModel) {
+            var ckEditor = CKEDITOR.replace(element[0]);
+
+            if (!ngModel) return;
+
+            ckEditor.on('instanceReady', function() {
+                ckEditor.setData(ngModel.$viewValue);
+            });
+
+            function updateModel() {
+                scope.$apply(function() {
+                    ngModel.$setViewValue(ckEditor.getData());
+                });
+            }
+
+            ckEditor.on('change', updateModel);
+            ckEditor.on('key', updateModel);
+            ckEditor.on('dataReady', updateModel);
+
+             /*
+            ngModel.$render = function(value) {
+                ckEditor.setData(ngModel.$viewValue);
+            };
+            */
+        }
+    };
+});

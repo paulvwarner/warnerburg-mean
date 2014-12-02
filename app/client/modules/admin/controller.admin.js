@@ -81,8 +81,8 @@ angular.module("adminModule").controller("contentAdminController",
         adminService.commitContentChanges($scope);
     };
 
-    // set up dropzone file upload areas
     angular.element(document).ready(function () {
+        // set up dropzone file upload areas
         var authorDropZone = new Dropzone(
             'div#author-pic-drop-zone',
             {
@@ -112,7 +112,5 @@ angular.module("adminModule").controller("contentAdminController",
             angular.element("#author-pic-upload-results").css("display","block");
             angular.element("#author-pic-upload-results").text("Error uploading '"+file.name+"':",errorMessage);
         });
-
-
     });
 }]);

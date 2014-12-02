@@ -138,6 +138,7 @@ var updateContentData = function(updatedContent) {
             content.publishDate = updatedContent.publishDate;
             content.publishDateElements = getPublishDateElements(updatedContent.publishDate);
             content.lastModifiedDate = new Date();
+            content.text = updatedContent.text;
 
             content.save(function(err, savedContent, numberAffected) {
                 if (err) {
