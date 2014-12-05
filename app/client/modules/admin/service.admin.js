@@ -1,43 +1,35 @@
-angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$resource', '$sce', 'commonService', '$filter',
-    function ($timeout, $http, $resource, $sce, commonService, $filter) {
+angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$resource', '$sce', 'commonService', '$filter', '$q',
+    function ($timeout, $http, $resource, $sce, commonService, $filter, $q) {
 
     var publishDateTimeAdminFormat = commonService.getCommonData().publishDateTimeAdminFormat.datepicker;
 
-    var updateContentForDisplay = function(scope) {
-        scope.content.publishDate = new Date(scope.content.publishDate);
-        scope.content.publishDateForDisplay = $filter('date')(scope.content.publishDate, scope.common.publishDateTimeAdminFormat.angular);
-    };
 
-    var getContentToEdit = function(scope) {
-        $http.get('/data/admin/content/' + scope.category + '/' + scope.sequenceNumber)
+
+    var getContentToEdit = function(category, sequenceNumber) {
+        var deferred = $q.defer();
+        $http.get('/data/admin/content/' + category + '/' + sequenceNumber)
             .success(function (contentAdminData) {
-                scope.content = contentAdminData.content;
-                scope.content.text = $sce.trustAsHtml(contentAdminData.content.text);
-                updateContentForDisplay(scope);
-                scope.authorPics = contentAdminData.authorPics;
+                deferred.resolve(contentAdminData);
             })
             .error(function (data) {
                 log.error('error: ' + data);
+                deferred.reject(data);
             })
         ;
+        return deferred.promise;
     };
 
-    var commitContentChanges = function(scope) {
-        log.debug("committing content changes: ",scope);
-        $http.put('/data/admin/content/'+scope.content.category+'/'+scope.content.sequenceNumber, {content: scope.content})
+    var commitContentChanges = function(content) {
+        var deferred = $q.defer();
+        log.debug("committing content changes: ",content);
+        $http.put('/data/admin/content/'+content.category+'/'+content.sequenceNumber, {content: content})
             .success(function(updatedContent) {
-                scope.content = updatedContent;
-                updateContentForDisplay(scope);
-
-                var saveMessage = angular.element(".content-save-message");
-                saveMessage.text("saved successfully");
-                saveMessage.velocity("fadeIn");
-                $timeout(function() {
-                    saveMessage.velocity("fadeOut");
-                }, 2000);
+                deferred.resolve(updatedContent);
             }).error(function(data) {
                 log.error('error: ' + data);
+                deferred.reject(data);
             });
+        return deferred.promise;
     };
 
     var handleImagePickerSelectionUpdate = function (imageList, clientPathToUpload, pickerBaseElementId) {
@@ -53,8 +45,8 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
 
     var showUploadSuccessMessage = function(messageElement, fileName) {
         // show an upload success message that disappears after 2 seconds.
-        messageElement.css("display","block");
-        messageElement.html("<div class=\"upload-results-message\">Uploaded '"+fileName+"' successfully.</div>");
+        messageElement.html('<div class="upload-results-message">Uploaded "'+fileName+'" successfully.</div>');
+        messageElement.velocity("slideDown");
         $timeout(function() {
             messageElement.velocity("slideUp");
         }, 2000);

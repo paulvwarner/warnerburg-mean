@@ -16,7 +16,7 @@ angular.module("adminModule").directive("useAsImageOnClick", ['adminService', fu
             element.on("click", function(event) {
                 event.preventDefault();
                 log.debug("change auth pic to "+attrs.imageToUse);
-                scope.updateFunction({pic: attrs.imageToUse, pickerBaseElementId: ''+element.closest(".content-image-picker").attr("id")});
+                scope.updateFunction({image: attrs.imageToUse, pickerBaseElementId: ''+element.closest(".content-image-picker").attr("id")});
             });
         }
     };
@@ -185,7 +185,7 @@ angular.module("adminModule").directive('contentImagePicker', ['adminService', f
                 );
 
                 imageDropZone.on("success", function(file, clientPathToUpload) {
-                    scope.updateFunction({pic: clientPathToUpload, pickerBaseElementId: element.attr("id")});
+                    scope.updateFunction({image: clientPathToUpload, pickerBaseElementId: element.attr("id")});
                     adminService.showUploadSuccessMessage(element.find(".upload-results"), file.name);
                 }).on("error", function(file, errorMessage) {
                     log.error("error uploading file");

@@ -1,7 +1,7 @@
 var log = require('warnerburg-logging-config')();
-var mongoose = require("mongoose");
 var common = require("warnerburg-common");
 var contentDataService = require("../services/service.data.content.js");
+var commentsDataService = require("../services/service.data.comments.js");
 var Q = require('q');
 
 function processGetContentInCategory(req, res) {
@@ -19,7 +19,7 @@ function processGetContentInCategory(req, res) {
 
 function processContentReorder(req, res) {
     contentDataService.reorderContentItems(req.body.sections).then(function() {
-        log.debug("reorder complete")
+        log.debug("reorder complete");
         res.send("");
     });
 }
@@ -40,41 +40,38 @@ function processGetContentDataBySequenceNumber(req, res) {
 
 function processPostCommentData(req, res) {
     log.debug('posted:',req.body);
-
-    mongoose.model('content').find({sequenceNumber:req.body.sequenceNumber}).exec()
-        .then(function(contents) {
-            var Comment = mongoose.model('comment');
-            var newComment = new Comment({
-                contentId: contents[0]._id,
-                text: req.body.comment.text,
-                author: req.body.comment.author,
-                commentDate: new Date()
-            });
-
-            // save and return saved model if successful
-            newComment.save(function(err, newComment) {
-                if (err) throw err;
-
-                res.send(newComment);
-            });
-        }).onReject(function(err) {
+    commentsDataService.addComment(req.body.sequenceNumber, req.body.comment)
+        .then(function(newComment) {
+            res.send(newComment);
+        })
+        .catch(function(err) {
             log.error("error saving comment: "+err);
         });
 }
 
 function processGetContentCategories(req, res) {
-    mongoose.model('content').collection.distinct('category', function(err, categories) {
-        if (err) {
-            log.error("error getting categories: "+err);
-        } else {
-            log.debug("returning categories ", categories);
+    contentDataService.getContentCategories()
+        .then(function(categories) {
             res.send(categories);
-        }
-    });
+        })
+        .catch(function(err) {
+            log.error("error getting categories: "+err);
+        });
+}
+
+function processGetContentSections(req, res) {
+    contentDataService.getContentSections(req.params.category)
+        .then(function(sections) {
+            res.send(sections);
+        })
+        .catch(function(err) {
+            log.error("error getting sections: "+err);
+        });
 }
 
 module.exports = function (app) {
     app.get('/data/content/categories', processGetContentCategories);
+    app.get('/data/content/:category/sections', processGetContentSections);
     app.get('/data/content/:category/all', processGetContentInCategory);
     // defining /data/content/:category/ and /data/content/:category/:sequenceNumber to to the same thing
     // so that calls with no sequence number go to the last item of content in that category

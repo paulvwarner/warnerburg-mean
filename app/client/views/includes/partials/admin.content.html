@@ -39,7 +39,7 @@
                          data-selected-image="content.authorPicture"
                          data-update-function="updateAuthorPic(pic, pickerBaseElementId)"
                          data-selection-options-label="'select author pic:'"
-                         data-upload-url="'/data/upload/authorPic'">
+                         data-upload-url="'/data/upload/author-pic'">
                     </div>
                 </div>
                 <div class="admin-page-content-field-row">
@@ -50,8 +50,14 @@
                 </div>
                 <div class="admin-page-content-field-row">
                     <div class="admin-page-content-field-label">Image</div>
-                    <div class="admin-page-content-field">
-                        <input ng-model="content.image" value="content.image" />
+                    <div class="admin-page-content-field content-image-picker"
+                         id="content-image-drop-zone"
+                         data-content-image-picker=""
+                         data-images="images"
+                         data-selected-image="content.image"
+                         data-update-function="updateContentImage(image, pickerBaseElementId)"
+                         data-selection-options-label="'select image:'"
+                         data-upload-url="'/data/upload/'+content.category">
                     </div>
                 </div>
                 <div class="admin-page-content-field-row">
@@ -61,25 +67,9 @@
                     </div>
                 </div>
                 <div class="admin-page-content-field-row">
-                    <div class="admin-page-content-field-label">Category</div>
-                    <div class="admin-page-content-field">
-                        change - add new
-                        <input ng-model="content.category" value="content.category" />
-                    </div>
-                </div>
-                <!--
-                <div class="admin-page-content-field-row">
-                    <div class="admin-page-content-field-label">Status</div>
-                    <div class="admin-page-content-field">
-                        <input ng-model="content.status" value="content.status" />
-                    </div>
-                </div>
-                -->
-                <div class="admin-page-content-field-row">
                     <div class="admin-page-content-field-label">Section</div>
                     <div class="admin-page-content-field">
-                        change - add new
-                        <input ng-model="content.section" value="content.section" />
+                        <select ng-model="content.section" value="content.section" ng-options="section for section in sections"/>
                     </div>
                 </div>
             </div>

@@ -7,19 +7,21 @@ var path = require("path");
 var fs = require('fs');
 var busboy = require('connect-busboy');
 
-function processPostUploadAuthorPic(req, res) {
-    log.debug("upload start");
+function processPostImageUploadRequest(req, res) {
+    var serverFolder = common[req.params.uploadCategory].serverFolder;
+    var clientFolder = common[req.params.uploadCategory].clientFolder;
+    log.debug("upload start - s:"+serverFolder + " c:"+clientFolder);
 
     req.pipe(req.busboy);
     req.busboy.on('file', function (fieldname, file, filename) {
-        var uploadPath = path.dirname(require.main.filename) + common.authorPicServerFolder + filename;
+        var uploadPath = path.dirname(require.main.filename) + serverFolder + filename;
         log.debug("Uploading: " + uploadPath);
 
         var fileWriteStream = fs.createWriteStream(uploadPath);
         file.pipe(fileWriteStream);
         fileWriteStream.on('close', function () {
-            log.debug("upload end")
-            res.send(common.authorPicClientFolder + filename);
+            log.debug("upload end");
+            res.send(clientFolder + filename);
         }).on('error', function (err) {
             log.error("upload failed: ",err);
             res.send("ERROR");
@@ -29,25 +31,40 @@ function processPostUploadAuthorPic(req, res) {
 
 function processGetContentDataBySequenceNumber(req, res) {
     log.debug("running admin processGetContentDataBySequenceNumber for "+req.params.sequenceNumber + " "+req.params.category);
+    var returnData = {};
     contentDataService.getContentDataBySequenceNumber(req.params.sequenceNumber, req.params.category)
         .then(function(content) {
             log.debug("returned from service with "+req.params.category+" "+content);
 
+            returnData.content = content;
+
+            // get possible sections for this content category
+            return contentDataService.getContentSections(req.params.category);
+        })
+        .then(function(sections) {
+            returnData.sections = sections;
+
             // get possible author pics (urls)
-            var authorPicFolderFiles = fs.readdirSync(path.dirname(require.main.filename) + common.authorPicServerFolder);
+            var authorPicFolderFiles = fs.readdirSync(path.dirname(require.main.filename) + common['author-pic'].serverFolder);
             var authorPics = [];
             authorPicFolderFiles.forEach(function(pic) {
                 log.debug("looking for '"+path.extname(pic)+"'");
                 if (common.allowedImageExtensions.indexOf(path.extname(pic)) >= 0) {
-                    authorPics.push(common.authorPicClientFolder + pic);
+                    authorPics.push(common['author-pic'].clientFolder + pic);
                 }
             });
-            log.debug("authpics: ",authorPics);
 
-            var returnData = {
-                content: content,
-                authorPics: authorPics
-            }
+            // get possible content images (urls)
+            var imageFolderFiles = fs.readdirSync(path.dirname(require.main.filename) + common[req.params.category].serverFolder);
+            var images = [];
+            imageFolderFiles.forEach(function(pic) {
+                if (common.allowedImageExtensions.indexOf(path.extname(pic)) >= 0) {
+                    images.push(common[req.params.category].clientFolder + pic);
+                }
+            });
+
+            returnData.authorPics = authorPics;
+            returnData.images = images;
 
             res.send(returnData);
             log.debug("returned "+req.params.category+" data for "+req.params.sequenceNumber);
@@ -73,6 +90,6 @@ function processPutContentDataBySequenceNumber(req, res) {
 module.exports = function (app) {
     app.use(busboy());
     app.get('/data/admin/content/:category/:sequenceNumber', processGetContentDataBySequenceNumber);
-    app.post('/data/upload/authorPic', processPostUploadAuthorPic);
+    app.post('/data/upload/:uploadCategory', processPostImageUploadRequest);
     app.put('/data/admin/content/:category/:sequenceNumber', processPutContentDataBySequenceNumber);
 };

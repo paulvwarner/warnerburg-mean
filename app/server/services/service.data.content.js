@@ -139,6 +139,9 @@ var updateContentData = function(updatedContent) {
             content.publishDateElements = getPublishDateElements(updatedContent.publishDate);
             content.lastModifiedDate = new Date();
             content.text = updatedContent.text;
+            content.image = updatedContent.image;
+            content.title = updatedContent.title;
+            content.section = updatedContent.section;
 
             content.save(function(err, savedContent, numberAffected) {
                 if (err) {
@@ -222,12 +225,46 @@ var reorderContentItems = function(sections) {
 
     // don't return until all mongoose updates are done
     return Q.allSettled(updateTasks);
-}
+};
+
+var getContentCategories = function() {
+    var deferred = Q.defer();
+
+    mongoose.model('content').collection.distinct('category', function(err, categories) {
+        if (err) {
+            log.error("error getting categories: "+err);
+            deferred.reject(err);
+        } else {
+            log.debug("returning categories ", categories);
+            deferred.resolve(categories);
+        }
+    });
+
+    return deferred.promise;
+};
+
+var getContentSections = function(category) {
+    var deferred = Q.defer();
+
+    mongoose.model('content').find({category: category}).distinct('section', function(err, sections) {
+        if (err) {
+            log.error("error getting sections: "+err);
+            deferred.reject(err);
+        } else {
+            log.debug("returning sections ", sections);
+            deferred.resolve(sections.sort());
+        }
+    });
+
+    return deferred.promise;
+};
 
 module.exports = {
     getContentDataBySequenceNumber: getContentDataBySequenceNumber,
     getContentSequenceNumbersBySection: getContentSequenceNumbersBySection,
     getContentDataBySection: getContentDataBySection,
     updateContentData: updateContentData,
-    reorderContentItems: reorderContentItems
+    reorderContentItems: reorderContentItems,
+    getContentCategories: getContentCategories,
+    getContentSections: getContentSections
 };

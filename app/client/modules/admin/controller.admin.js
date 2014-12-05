@@ -66,30 +66,72 @@ angular.module("adminModule").controller("categoryAdminController",
 }]);
 
 angular.module("adminModule").controller("contentAdminController",
-['$stateParams', '$state', '$scope', 'adminService', 'commonService',
-    function ($stateParams, $state, $scope, adminService, commonService) {
+['$stateParams', '$state', '$scope', 'adminService', 'commonService', '$sce', '$filter', '$timeout',
+    function ($stateParams, $state, $scope, adminService, commonService, $sce, $filter, $timeout) {
 
     $scope.category = $stateParams.categoryId;
     $scope.sequenceNumber = $stateParams.sequenceNumber;
     $scope.adminHeaderLabel = 'Managing '+$scope.category +' #'+$scope.sequenceNumber;
     $scope.common = commonService.getCommonData();
 
-    // populate scope from service on controller construction
-    adminService.getContentToEdit($scope);
-
-    $scope.commitContentChanges = function() {
-        adminService.commitContentChanges($scope);
+    var updateContentForDisplay = function() {
+        $scope.content.publishDate = new Date($scope.content.publishDate);
+        $scope.content.publishDateForDisplay = $filter('date')($scope.content.publishDate, $scope.common.publishDateTimeAdminFormat.angular);
     };
 
-    $scope.updateAuthorPic = function(pic, pickerBaseElementId) {
-        log.debug("using: "+pic+" at "+pickerBaseElementId);
+    // populate scope from service on controller construction
+    adminService.getContentToEdit($scope.category, $scope.sequenceNumber)
+        .then(function(contentAdminData) {
+            $scope.content = contentAdminData.content;
+            $scope.content.text = $sce.trustAsHtml(contentAdminData.content.text);
+            updateContentForDisplay();
+            $scope.authorPics = contentAdminData.authorPics;
+            $scope.images = contentAdminData.images;
+            $scope.sections = contentAdminData.sections;
+        })
+        .catch(function(err) {
+            log.error("error getting content data for "+$scope.content.category+": ", err);
+        });
 
-        // show selected pic, add pic to list of available pics if it isn't there already
+    $scope.commitContentChanges = function() {
+        adminService.commitContentChanges($scope.content)
+            .then(function(updatedContent) {
+                $scope.content = updatedContent;
+                updateContentForDisplay();
+
+                var saveMessage = angular.element(".content-save-message");
+                saveMessage.text("saved successfully");
+                saveMessage.velocity("fadeIn");
+                $timeout(function() {
+                    saveMessage.velocity("fadeOut");
+                }, 2000);
+            })
+            .catch(function(err) {
+                log.error("error saving content data for "+$scope.content.category+": ", err);
+            });
+    };
+
+    $scope.updateAuthorPic = function(image, pickerBaseElementId) {
+        log.debug("using: "+image+" at "+pickerBaseElementId);
+
+        // show selected image, add image to list of available pics if it isn't there already
         imageUpdateElements = adminService.handleImagePickerSelectionUpdate(
-            $scope.authorPics, pic, pickerBaseElementId);
+            $scope.authorPics, image, pickerBaseElementId);
 
-        // update author pic stored in scope
-        $scope.content.authorPicture = pic;
+        // update author image stored in scope
+        $scope.content.authorPicture = image;
+        $scope.$apply();
+    };
+
+    $scope.updateContentImage = function(image, pickerBaseElementId) {
+        log.debug("using: "+image+" at "+pickerBaseElementId);
+
+        // show selected image, add image to list of available pics if it isn't there already
+        imageUpdateElements = adminService.handleImagePickerSelectionUpdate(
+            $scope.images, image, pickerBaseElementId);
+
+        // update author image stored in scope
+        $scope.content.image = image;
         $scope.$apply();
     };
 
