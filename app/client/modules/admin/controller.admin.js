@@ -88,6 +88,8 @@ angular.module("adminModule").controller("contentAdminController",
             $scope.authorPics = contentAdminData.authorPics;
             $scope.images = contentAdminData.images;
             $scope.sections = contentAdminData.sections;
+            $scope.imageUploadUrl = '/data/upload/' + $scope.content.category;
+            $scope.authorPicUploadUrl = '/data/upload/author-pic';
         })
         .catch(function(err) {
             log.error("error getting content data for "+$scope.content.category+": ", err);
@@ -134,5 +136,4 @@ angular.module("adminModule").controller("contentAdminController",
         $scope.content.image = image;
         $scope.$apply();
     };
-
 }]);

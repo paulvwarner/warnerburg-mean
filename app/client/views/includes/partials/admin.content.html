@@ -37,9 +37,9 @@
                          data-content-image-picker=""
                          data-images="authorPics"
                          data-selected-image="content.authorPicture"
-                         data-update-function="updateAuthorPic(pic, pickerBaseElementId)"
+                         data-update-function="updateAuthorPic(image, pickerBaseElementId)"
                          data-selection-options-label="'select author pic:'"
-                         data-upload-url="'/data/upload/author-pic'">
+                         data-upload-url="authorPicUploadUrl">
                     </div>
                 </div>
                 <div class="admin-page-content-field-row">
@@ -57,7 +57,7 @@
                          data-selected-image="content.image"
                          data-update-function="updateContentImage(image, pickerBaseElementId)"
                          data-selection-options-label="'select image:'"
-                         data-upload-url="'/data/upload/'+content.category">
+                         data-upload-url="imageUploadUrl">
                     </div>
                 </div>
                 <div class="admin-page-content-field-row">

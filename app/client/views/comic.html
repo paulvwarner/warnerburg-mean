@@ -81,7 +81,7 @@
             <div class="blog-post-container table-container">
                 <div class="blog-post-elements">
                     <div class="blog-post-author-pic">
-                        <img src="[[ content.authorPicture ]]" />
+                        <img src="[[ content.authorPicture ]]" data-bind-src-after-first-model-change="content.authorPicture" />
                     </div>
                     <div class="blog-post-content" data-bind-content-text-after-first-model-change="">
                         <div>[[ content.text|safe ]]</div>

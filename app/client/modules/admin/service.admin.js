@@ -3,8 +3,6 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
 
     var publishDateTimeAdminFormat = commonService.getCommonData().publishDateTimeAdminFormat.datepicker;
 
-
-
     var getContentToEdit = function(category, sequenceNumber) {
         var deferred = $q.defer();
         $http.get('/data/admin/content/' + category + '/' + sequenceNumber)

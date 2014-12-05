@@ -161,37 +161,39 @@ angular.module("adminModule").directive('contentImagePicker', ['adminService', f
         },
         templateUrl: '/views/includes/partials/admin.content.image.picker.html',
         link: function(scope, element, attrs) {
-            angular.element(document).ready(function () {
-                // set up dropzone file upload areas
-                var imageDropZone = new Dropzone(
-                    '#' + element.attr("id"),
-                    {
-                        createImageThumbnails: false,
-                        clickable: element.find('.image-picker-upload-link')[0],
-                        previewsContainer: element.find('.image-picker-dropzone-template')[0],
-                        previewTemplate:
-                            '<div class="dropzone-preview dz-message">' +
-                            '<div class="dz-preview dz-file-preview">' +
-                            '<div class="dz-details">'+
-                            '<div class="dz-filename">Uploaded <span data-dz-name></span> (<span class="dz-size" data-dz-size></span>)</div>'+
-                            '<img data-dz-thumbnail />'+
-                            '</div>'+
-                            '<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>'+
-                            '<div class="dz-error-message"><span data-dz-errormessage></span></div>'+
-                            '</div>' +
-                            '</div>',
-                        url: scope.uploadUrl
-                    }
-                );
+            scope.$watch('uploadUrl', function (newValue, oldValue) {
+                if (oldValue == undefined && newValue != undefined) {
+                    log.debug("scope url " + scope.uploadUrl);
+                    // set up dropzone file upload areas
+                    var imageDropZone = new Dropzone(
+                            '#' + element.attr("id"),
+                        {
+                            createImageThumbnails: false,
+                            clickable: element.find('.image-picker-upload-link')[0],
+                            previewsContainer: element.find('.image-picker-dropzone-template')[0],
+                            previewTemplate: '<div class="dropzone-preview dz-message">' +
+                                '<div class="dz-preview dz-file-preview">' +
+                                '<div class="dz-details">' +
+                                '<div class="dz-filename">Uploaded <span data-dz-name></span> (<span class="dz-size" data-dz-size></span>)</div>' +
+                                '<img data-dz-thumbnail />' +
+                                '</div>' +
+                                '<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>' +
+                                '<div class="dz-error-message"><span data-dz-errormessage></span></div>' +
+                                '</div>' +
+                                '</div>',
+                            url: scope.uploadUrl
+                        }
+                    );
 
-                imageDropZone.on("success", function(file, clientPathToUpload) {
-                    scope.updateFunction({image: clientPathToUpload, pickerBaseElementId: element.attr("id")});
-                    adminService.showUploadSuccessMessage(element.find(".upload-results"), file.name);
-                }).on("error", function(file, errorMessage) {
-                    log.error("error uploading file");
-                    element.find(".upload-results").css("display","block");
-                    element.find(".upload-results").text("Error uploading '"+file.name+"':",errorMessage);
-                });
+                    imageDropZone.on("success", function (file, clientPathToUpload) {
+                        scope.updateFunction({image: clientPathToUpload, pickerBaseElementId: element.attr("id")});
+                        adminService.showUploadSuccessMessage(element.find(".upload-results"), file.name);
+                    }).on("error", function (file, errorMessage) {
+                        log.error("error uploading file");
+                        element.find(".upload-results").css("display", "block");
+                        element.find(".upload-results").text("Error uploading '" + file.name + "':", errorMessage);
+                    });
+                }
             });
 
         }
