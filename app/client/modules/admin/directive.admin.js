@@ -1,22 +1,22 @@
-angular.module("adminModule").directive("toggleAuthorPicOptions", ['adminService', function(adminService) {
+angular.module("adminModule").directive("toggleImagePickerSelectionOptions", ['adminService', function(adminService) {
     return {
         link: function (scope, element, attrs) {
             element.on("click", function(event) {
                 event.preventDefault();
-                log.debug("change auth pic");
-                adminService.toggleAuthorPicOptions();
+                log.debug("toggle opts");
+                adminService.toggleImagePickerSelectionOptions(''+element.closest(".content-image-picker").attr("id"));
             });
         }
     };
 }]);
 
-angular.module("adminModule").directive("useAsAuthorPicOnClick", ['adminService', function(adminService) {
+angular.module("adminModule").directive("useAsImageOnClick", ['adminService', function(adminService) {
     return {
         link: function (scope, element, attrs) {
             element.on("click", function(event) {
                 event.preventDefault();
-                log.debug("change auth pic");
-                adminService.updateAuthorPic(scope, attrs.imageToUse);
+                log.debug("change auth pic to "+attrs.imageToUse);
+                scope.updateFunction({pic: attrs.imageToUse, pickerBaseElementId: ''+element.closest(".content-image-picker").attr("id")});
             });
         }
     };
@@ -146,12 +146,55 @@ angular.module("adminModule").directive('ckEditor', function() {
             ckEditor.on('change', updateModel);
             ckEditor.on('key', updateModel);
             ckEditor.on('dataReady', updateModel);
-
-             /*
-            ngModel.$render = function(value) {
-                ckEditor.setData(ngModel.$viewValue);
-            };
-            */
         }
     };
 });
+
+angular.module("adminModule").directive('contentImagePicker', ['adminService', function(adminService) {
+    return {
+        scope: {
+            selectedImage: '=',
+            images: '=',
+            updateFunction: '&',
+            selectionOptionsLabel: '='
+        },
+        templateUrl: '/views/includes/partials/admin.content.image.picker.html',
+        link: function(scope, element, attrs) {
+            angular.element(document).ready(function () {
+                // set up dropzone file upload areas
+                var authorDropZone = new Dropzone(
+                    '#' + element.attr("id"),
+                    {
+                        createImageThumbnails: false,
+                        clickable: element.find('.image-picker-upload-link')[0],
+                        previewsContainer: element.find('.image-picker-dropzone-template')[0],
+                        previewTemplate:
+                            '<div class="dropzone-preview dz-message">' +
+                            '<div class="dz-preview dz-file-preview">' +
+                            '<div class="dz-details">'+
+                            '<div class="dz-filename">Uploaded <span data-dz-name></span> (<span class="dz-size" data-dz-size></span>)</div>'+
+                            '<img data-dz-thumbnail />'+
+                            '</div>'+
+                            '<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>'+
+                            '<div class="dz-error-message"><span data-dz-errormessage></span></div>'+
+                            '</div>' +
+                            '</div>',
+                        url: "/data/upload/authorPic"
+                    }
+                );
+
+                authorDropZone.on("success", function(file, clientPathToUpload) {
+                    scope.updateFunction({pic: clientPathToUpload, pickerBaseElementId: element.attr("id")});
+                    adminService.showUploadSuccessMessage(element.find(".upload-results"), file.name);
+                }).on("error", function(file, errorMessage) {
+                    log.error("error uploading file");
+                    element.find(".upload-results").css("display","block");
+                    element.find(".upload-results").text("Error uploading '"+file.name+"':",errorMessage);
+                });
+            });
+
+        }
+    };
+}]);
+
+

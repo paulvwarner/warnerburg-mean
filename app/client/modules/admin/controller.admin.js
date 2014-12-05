@@ -81,36 +81,16 @@ angular.module("adminModule").controller("contentAdminController",
         adminService.commitContentChanges($scope);
     };
 
-    angular.element(document).ready(function () {
-        // set up dropzone file upload areas
-        var authorDropZone = new Dropzone(
-            'div#author-pic-drop-zone',
-            {
-                createImageThumbnails: false,
-                clickable: '.author-pic-upload',
-                previewsContainer: '#author-pic-dropzone-template',
-                previewTemplate:
-                    '<div class="dropzone-preview dz-message">' +
-                        '<div class="dz-preview dz-file-preview">' +
-                            '<div class="dz-details">'+
-                                '<div class="dz-filename">Uploaded <span data-dz-name></span> (<span class="dz-size" data-dz-size></span>)</div>'+
-                                '<img data-dz-thumbnail />'+
-                            '</div>'+
-                            '<div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>'+
-                            '<div class="dz-error-message"><span data-dz-errormessage></span></div>'+
-                        '</div>' +
-                    '</div>',
-                url: "/data/upload/authorPic"
-            }
-        );
+    $scope.updateAuthorPic = function(pic, pickerBaseElementId) {
+        log.debug("using: "+pic+" at "+pickerBaseElementId);
 
-        authorDropZone.on("success", function(file, clientPathToUpload) {
-            adminService.updateAuthorPic($scope, clientPathToUpload, file.name);
-            adminService.showUploadSuccessMessage(file.name);
-        }).on("error", function(file, errorMessage) {
-            log.error("error uploading file");
-            angular.element("#author-pic-upload-results").css("display","block");
-            angular.element("#author-pic-upload-results").text("Error uploading '"+file.name+"':",errorMessage);
-        });
-    });
+        // show selected pic, add pic to list of available pics if it isn't there already
+        imageUpdateElements = adminService.handleImagePickerSelectionUpdate(
+            $scope.authorPics, pic, pickerBaseElementId);
+
+        // update author pic stored in scope
+        $scope.content.authorPicture = pic;
+        $scope.$apply();
+    };
+
 }]);

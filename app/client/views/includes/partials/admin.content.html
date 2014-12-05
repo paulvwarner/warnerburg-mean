@@ -21,32 +21,20 @@
     <div class="admin-page-content">
         <div class="admin-page-content-field-table-container">
             <div class="admin-page-content-field-table">
-                <div id="author-pic-drop-zone" class="admin-page-content-field-row">
-                    <div class="admin-page-content-field-label">Author Pic</div>
-                    <div class="admin-page-content-field">
-                        <div class="author-pic-preview">
-                            <a href="#" data-toggle-author-pic-options=""><img class="author-pic-preview-image" ng-src="{{content.authorPicture}}" /></a>
-                            <div id="author-pic-upload-results"></div>
-                            <div id="author-pic-dropzone-template"></div>
-                            <a href="#" data-toggle-author-pic-options="">change</a> - <a href="#" class="author-pic-upload">add new</a>
-                        </div>
-                        <div class="author-pic-option-display">
-                            <div class="author-pic-option-display-header">select author pic:</div>
-                            <div class="author-pic-option" ng-repeat="pic in authorPics">
-                                <a href="#" data-use-as-author-pic-on-click="" data-image-to-use="{{pic}}"><img ng-src="{{pic}}"></a>
-                            </div>
-                            <div class="author-pic-option-display-footer">
-                                <a href="#" data-toggle-author-pic-options="">back</a> - <a href="#" class="author-pic-upload">add new</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
                 <div class="admin-page-content-field-row">
                     <div class="admin-page-content-field-label">Publish Date</div>
                     <div class="admin-page-content-field">
                         <div class="date-time-picker-container">
                             <input data-admin-date-picker="" id="admin-publish-date" ng-model="content.publishDateForDisplay" />
                         </div>
+                    </div>
+                </div>
+                <div class="admin-page-content-field-row" >
+                    <div class="admin-page-content-field-label">Author Pic</div>
+                    <div class="admin-page-content-field content-image-picker" id="author-pic-drop-zone" data-content-image-picker=""
+                         data-images="authorPics" data-selected-image="content.authorPicture" data-update-function="updateAuthorPic(pic, pickerBaseElementId)"
+                            data-selection-options-label="'select author pic:'">
                     </div>
                 </div>
                 <div class="admin-page-content-field-row">

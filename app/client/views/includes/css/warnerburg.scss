@@ -657,36 +657,40 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
     padding-left: 10px;
 }
 
-.author-pic-option-display {
+.image-picker-selection-option-display {
     display: none;
 }
 
-.author-pic-option {
+.image-picker-selection-option {
     float: left;
     padding-right: 15px;
     padding-bottom: 10px;
     padding-top: 10px;
 }
 
-.author-pic-option-display-header {
+.image-picker-selection-option-display-header {
     width: 100%;
     clear: both;
 }
 
-.author-pic-option-display-footer {
+.image-picker-selection-option-display-footer {
     clear: both;
     width: 100%;
 }
 
-.author-pic-preview {
+.image-picker-preview {
 
 }
 
-.author-pic-preview-image {
+.image-picker-preview-image {
     padding-bottom: 5px;
 }
 
 .content-save-message {
     display: none;
     color: white;
+}
+
+.upload-results {
+    padding-top:5px;
 }

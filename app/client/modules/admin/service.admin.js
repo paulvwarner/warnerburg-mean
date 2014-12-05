@@ -23,6 +23,7 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
     };
 
     var commitContentChanges = function(scope) {
+        log.debug("committing content changes: ",scope);
         $http.put('/data/admin/content/'+scope.content.category+'/'+scope.content.sequenceNumber, {content: scope.content})
             .success(function(updatedContent) {
                 scope.content = updatedContent;
@@ -39,56 +40,54 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
             });
     };
 
-    var updateAuthorPic = function (scope, clientPathToUpload) {
+    var handleImagePickerSelectionUpdate = function (imageList, clientPathToUpload, pickerBaseElementId) {
         // add uploaded pic to list stored in scope.  do it after hiding the list if the list is currently displayed.
-        if (!angular.element(".author-pic-preview").is(":visible")) {
-            toggleAuthorPicOptions(function() {
-                addNewPicToList(scope, clientPathToUpload);
+        if (!angular.element("#"+pickerBaseElementId).find(".image-picker-preview").is(":visible")) {
+            toggleImagePickerSelectionOptions(pickerBaseElementId, function() {
+                addNewPicToList(imageList, clientPathToUpload);
             });
         } else {
-            addNewPicToList(scope, clientPathToUpload);
+            addNewPicToList(imageList, clientPathToUpload);
         }
-
-        // update author pic stored in scope
-        scope.content.authorPicture = clientPathToUpload;
-        scope.$apply();
     };
 
-    var showUploadSuccessMessage = function(fileName) {
+    var showUploadSuccessMessage = function(messageElement, fileName) {
         // show an upload success message that disappears after 2 seconds.
-        angular.element("#author-pic-upload-results").css("display","block");
-        angular.element("#author-pic-upload-results").text("Uploaded '"+fileName+"' successfully.");
+        messageElement.css("display","block");
+        messageElement.text("Uploaded '"+fileName+"' successfully.");
         $timeout(function() {
-            angular.element("#author-pic-upload-results").velocity("slideUp");
+            messageElement.velocity("slideUp");
         }, 2000);
     };
 
-    var addNewPicToList = function(scope, clientPathToUpload) {
-        if (scope.authorPics.indexOf(clientPathToUpload) == -1) {
-            scope.authorPics.push(clientPathToUpload);
+    var addNewPicToList = function(imageList, clientPathToUpload) {
+        if (imageList.indexOf(clientPathToUpload) == -1) {
+            imageList.push(clientPathToUpload);
         }
-        scope.$apply();
     };
 
     // toggle display of list of author pics
-    var toggleAuthorPicOptions = function(hideOptionsCallback) {
-        if (angular.element(".author-pic-preview").is(":visible")) {
-            angular.element(".author-pic-preview").velocity("slideUp");
-            angular.element(".author-pic-option-display").velocity("slideDown");
+    var toggleImagePickerSelectionOptions = function(pickerBaseElementId, hideOptionsCallback) {
+        var preview = angular.element("#"+pickerBaseElementId).find(".image-picker-preview");
+        var optionsDisplay = angular.element("#"+pickerBaseElementId).find(".image-picker-selection-option-display");
+
+        if (preview.is(":visible")) {
+            preview.velocity("slideUp");
+            optionsDisplay.velocity("slideDown");
         } else {
             if (hideOptionsCallback) {
-                angular.element(".author-pic-option-display").velocity("slideUp", 400, hideOptionsCallback);
+                optionsDisplay.velocity("slideUp", 400, hideOptionsCallback);
             } else {
-                angular.element(".author-pic-option-display").velocity("slideUp");
+                optionsDisplay.velocity("slideUp");
             }
-            angular.element(".author-pic-preview").velocity("slideDown");
+            preview.velocity("slideDown");
         }
     };
 
     return {
-        toggleAuthorPicOptions: toggleAuthorPicOptions,
+        toggleImagePickerSelectionOptions: toggleImagePickerSelectionOptions,
         addNewPicToList: addNewPicToList,
-        updateAuthorPic: updateAuthorPic,
+        handleImagePickerSelectionUpdate: handleImagePickerSelectionUpdate,
         showUploadSuccessMessage: showUploadSuccessMessage,
         getContentToEdit: getContentToEdit,
         commitContentChanges: commitContentChanges
