@@ -156,13 +156,14 @@ angular.module("adminModule").directive('contentImagePicker', ['adminService', f
             selectedImage: '=',
             images: '=',
             updateFunction: '&',
-            selectionOptionsLabel: '='
+            selectionOptionsLabel: '=',
+            uploadUrl: '='
         },
         templateUrl: '/views/includes/partials/admin.content.image.picker.html',
         link: function(scope, element, attrs) {
             angular.element(document).ready(function () {
                 // set up dropzone file upload areas
-                var authorDropZone = new Dropzone(
+                var imageDropZone = new Dropzone(
                     '#' + element.attr("id"),
                     {
                         createImageThumbnails: false,
@@ -179,11 +180,11 @@ angular.module("adminModule").directive('contentImagePicker', ['adminService', f
                             '<div class="dz-error-message"><span data-dz-errormessage></span></div>'+
                             '</div>' +
                             '</div>',
-                        url: "/data/upload/authorPic"
+                        url: scope.uploadUrl
                     }
                 );
 
-                authorDropZone.on("success", function(file, clientPathToUpload) {
+                imageDropZone.on("success", function(file, clientPathToUpload) {
                     scope.updateFunction({pic: clientPathToUpload, pickerBaseElementId: element.attr("id")});
                     adminService.showUploadSuccessMessage(element.find(".upload-results"), file.name);
                 }).on("error", function(file, errorMessage) {

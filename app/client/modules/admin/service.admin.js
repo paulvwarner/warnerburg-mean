@@ -54,7 +54,7 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
     var showUploadSuccessMessage = function(messageElement, fileName) {
         // show an upload success message that disappears after 2 seconds.
         messageElement.css("display","block");
-        messageElement.text("Uploaded '"+fileName+"' successfully.");
+        messageElement.html("<div class=\"upload-results-message\">Uploaded '"+fileName+"' successfully.</div>");
         $timeout(function() {
             messageElement.velocity("slideUp");
         }, 2000);
