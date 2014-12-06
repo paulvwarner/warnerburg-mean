@@ -72,7 +72,7 @@ mongoose.connect('mongodb://localhost/warnerburgLocal', { keepAlive: 1 }, functi
     if (err) throw err;
 
     // if no error, db is now open and we can accept requests
-    log.info('db open - listening at 3001');
+    log.info('db open - listening at '+process.env.RUN_PORT);
 
-    app.listen(3001);
+    app.listen(process.env.RUN_PORT);
 });
