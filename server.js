@@ -26,6 +26,7 @@ app.use(function(req, res, next) {
 // require all model files
 require('./app/server/models/content.model.js');
 require('./app/server/models/comment.model.js');
+require('./app/server/models/section.model.js');
 
 // set view engine
 app.engine('html', swig.renderFile);

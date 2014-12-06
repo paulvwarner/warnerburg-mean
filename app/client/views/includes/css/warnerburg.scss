@@ -587,10 +587,14 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 
 .comic-archives-section-thumbnail {
     float: left;
+    width: 200px;
+    height: 200px;
 }
 
 .comic-archives-section-desc {
     float: left;
+    width: 596px;
+    height: 170px;
 }
 
 .comic-archives-section-row {
@@ -690,6 +694,10 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 
 }
 
+.new-option-entry-display {
+    display: none;
+}
+
 .image-picker-preview-image {
     padding-bottom: 5px;
     max-height: 124px;
@@ -706,5 +714,9 @@ a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 }
 
 .upload-results-message {
+    padding-top: 5px;
+}
+
+.text-picker-link-options {
     padding-top: 5px;
 }

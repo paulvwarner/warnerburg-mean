@@ -24,14 +24,14 @@ function processGetComicPage(req, res) {
 }
 
 function processGetComicArchives(req, res) {
-    contentDataService.getContentSequenceNumbersBySection('comic')
-        .then(function(contentSequenceNumbersBySection) {
-            log.debug("returned from service with ", contentSequenceNumbersBySection);
+    contentDataService.getSectionInformation('comic')
+        .then(function(sectionInfo) {
+            log.debug("returned from service with ", sectionInfo);
             var pageData = {
                 environment: process.env.NODE_ENV,
                 area: 'comic',
                 common: common,
-                contentSequenceNumbersBySection: contentSequenceNumbersBySection
+                sectionInfo: sectionInfo
             };
 
             res.render('comic.archives.html', pageData);

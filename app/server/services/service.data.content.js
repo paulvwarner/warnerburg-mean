@@ -59,29 +59,40 @@ var getContentDataBySequenceNumber = function(sequenceNumber, category) {
     return deferred.promise;
 };
 
-var getContentSequenceNumbersBySection = function(category) {
-    log.debug("getContentSequenceNumbersBySection getting content at "+category);
+var getSectionInformation = function(category) {
+    log.debug("getSectionInformation getting content at "+category);
 
     var deferred = Q.defer();
 
     var content;
-    var query = mongoose.model('content').find({category: category}).sort({ sequenceNumber: 1 });
+    var query = mongoose.model('content').find({category: category, publishDate: {$lt: new Date()}}).sort({ sequenceNumber: 1 });
+    var sectionInfo = {};
+    var sectionDataRetrievalTasks = [];
 
     query.lean().exec()
         .then(function (contents) {
 
-            var contentSequenceNumbersBySection = {};
             contents.forEach(function(item) {
-                if (typeof contentSequenceNumbersBySection[item.section] === 'undefined') {
-                    contentSequenceNumbersBySection[item.section] = [];
+                if (typeof sectionInfo[item.section] === 'undefined') {
+                    sectionInfo[item.section] = {
+                        sequenceNumbers: []
+                    };
+                    sectionDataRetrievalTasks.push(mongoose.model('section').find({sectionName: ''+item.section}).exec());
                 }
 
-                contentSequenceNumbersBySection[item.section].push(item.sequenceNumber);
+                sectionInfo[item.section].sequenceNumbers.push(item.sequenceNumber);
+            });
+
+            return Q.allSettled(sectionDataRetrievalTasks);
+
+        }).then(function (sections) {
+            sections.forEach(function (section) {
+                log.debug("result? ",section);
+                sectionInfo[section.value[0].sectionName].section = section.value[0];
             });
 
             // return content by resolving promise with it
-            deferred.resolve(contentSequenceNumbersBySection);
-
+            deferred.resolve(sectionInfo);
         }).onReject(function (err) {
             log.error("error getting content: " + err);
             deferred.reject(err);
@@ -261,7 +272,7 @@ var getContentSections = function(category) {
 
 module.exports = {
     getContentDataBySequenceNumber: getContentDataBySequenceNumber,
-    getContentSequenceNumbersBySection: getContentSequenceNumbersBySection,
+    getSectionInformation: getSectionInformation,
     getContentDataBySection: getContentDataBySection,
     updateContentData: updateContentData,
     reorderContentItems: reorderContentItems,

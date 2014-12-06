@@ -7,20 +7,20 @@
     <div>
         <img src="/images/archive/archives.png">
     </div>
-    {% for sequenceNumbers in contentSequenceNumbersBySection %}
+    {% for sectionData in sectionInfo %}
     <div class="comic-archives-section table-container">
         <div>
             <div class="comic-archives-section-row-{% if loop.index % 2 == 0 %}right{% else %}left{% endif %} comic-archives-section-row">
                 <div class="comic-archives-section-desc-container">
-                    <a href="[[common.comic.url]]/[[sequenceNumbers[0] ]]"><img class="comic-archives-section-desc" src="/images/archive/cht[[loop.key]].png"></a>
+                    <a href="[[common.comic.url]]/[[sectionData.sequenceNumbers[0] ]]"><img class="comic-archives-section-desc" src="[[sectionData.section.descriptionImageUrl]]"></a>
                     <div class="comic-archives-section-links">
-                    {% for sequenceNumber in sequenceNumbers %}
+                    {% for sequenceNumber in sectionData.sequenceNumbers %}
                         <a href="[[common.comic.url]]/[[sequenceNumber]]">[[sequenceNumber]]</a>{% if not loop.last %} -{% endif %}
                     {% endfor %}
                     </div>
                 </div>
                 <div class="comic-archives-section-thumbnail-container">
-                    <a href="[[common.comic.url]]/[[sequenceNumbers[0] ]]"><img class="comic-archives-section-thumbnail" src="/images/archive/ch[[loop.key]].png"></a>
+                    <a href="[[common.comic.url]]/[[sectionData.sequenceNumbers[0] ]]"><img class="comic-archives-section-thumbnail" src="[[sectionData.section.thumbnailImageUrl]]"></a>
                 </div>
             </div>
         </div>

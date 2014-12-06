@@ -74,12 +74,26 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         }
     };
 
+    var toggleTextPickerSelectionOptions = function(pickerBaseElementId) {
+        var selectorDisplay = angular.element("#"+pickerBaseElementId).find(".existing-options-selection-display");
+        var newOptionDisplay = angular.element("#"+pickerBaseElementId).find(".new-option-entry-display");
+
+        if (selectorDisplay.is(":visible")) {
+            selectorDisplay.velocity("slideUp");
+            newOptionDisplay.velocity("slideDown");
+        } else {
+            newOptionDisplay.velocity("slideUp");
+            selectorDisplay.velocity("slideDown");
+        }
+    };
+
     return {
         toggleImagePickerSelectionOptions: toggleImagePickerSelectionOptions,
         addNewPicToList: addNewPicToList,
         handleImagePickerSelectionUpdate: handleImagePickerSelectionUpdate,
         showUploadSuccessMessage: showUploadSuccessMessage,
         getContentToEdit: getContentToEdit,
-        commitContentChanges: commitContentChanges
+        commitContentChanges: commitContentChanges,
+        toggleTextPickerSelectionOptions: toggleTextPickerSelectionOptions
     };
 }]);

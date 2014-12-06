@@ -150,6 +150,41 @@ angular.module("adminModule").directive('ckEditor', function() {
     };
 });
 
+angular.module("adminModule").directive('toggleTextEntryDisplay', ['adminService', function(adminService) {
+    return {
+        link: function(scope, element, attrs) {
+            element.on("click", function(event) {
+                event.preventDefault();
+                log.debug("toggle text entry");
+                adminService.toggleTextPickerSelectionOptions(''+element.closest(".content-text-picker").attr("id"));
+            });
+        }
+    };
+}]);
+
+angular.module("adminModule").directive('addNewTextOption', ['adminService', function(adminService) {
+    return {
+        scope: {
+            addFunction: '&'
+        },
+        link: function(scope, element, attrs) {
+            element.find(".submit-new-text-option").on("click", function(event) {
+                event.preventDefault();
+                scope.addFunction({section: ''+element.closest(".content-text-picker").find(".new-text-option").val()});
+                adminService.toggleTextPickerSelectionOptions(''+element.closest(".content-text-picker").attr("id"));
+            });
+            element.find(".new-text-option").on("keydown keypress", function(event) {
+                var code = event.keyCode || event.which;
+                if (code == 13) {
+                    event.preventDefault();
+                    scope.addFunction({section: '' + element.closest(".content-text-picker").find(".new-text-option").val()});
+                    adminService.toggleTextPickerSelectionOptions('' + element.closest(".content-text-picker").attr("id"));
+                }
+            });
+        }
+    };
+}]);
+
 angular.module("adminModule").directive('contentImagePicker', ['adminService', function(adminService) {
     return {
         scope: {

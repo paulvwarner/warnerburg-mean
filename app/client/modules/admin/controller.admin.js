@@ -136,4 +136,14 @@ angular.module("adminModule").controller("contentAdminController",
         $scope.content.image = image;
         $scope.$apply();
     };
+
+    $scope.addNewSection = function(section) {
+        if ($scope.sections.indexOf(section) == -1) {
+            $scope.sections.push(section);
+        }
+
+        $scope.content.section = section;
+
+        $scope.$apply();
+    };
 }]);

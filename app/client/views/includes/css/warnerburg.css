@@ -515,10 +515,14 @@ a.unobtrusive-link:active {
   padding-bottom: 30px; }
 
 .comic-archives-section-thumbnail {
-  float: left; }
+  float: left;
+  width: 200px;
+  height: 200px; }
 
 .comic-archives-section-desc {
-  float: left; }
+  float: left;
+  width: 596px;
+  height: 170px; }
 
 .comic-archives-section-row {
   display: table-row;
@@ -597,6 +601,9 @@ a.unobtrusive-link:active {
   clear: both;
   width: 100%; }
 
+.new-option-entry-display {
+  display: none; }
+
 .image-picker-preview-image {
   padding-bottom: 5px;
   max-height: 124px;
@@ -607,6 +614,9 @@ a.unobtrusive-link:active {
   color: white; }
 
 .upload-results-message {
+  padding-top: 5px; }
+
+.text-picker-link-options {
   padding-top: 5px; }
 
 /*# sourceMappingURL=warnerburg.css.map */

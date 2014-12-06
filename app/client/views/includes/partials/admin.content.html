@@ -68,8 +68,24 @@
                 </div>
                 <div class="admin-page-content-field-row">
                     <div class="admin-page-content-field-label">Section</div>
-                    <div class="admin-page-content-field">
-                        <select ng-model="content.section" value="content.section" ng-options="section for section in sections"/>
+                    <div class="admin-page-content-field content-text-picker" id="section-text-picker">
+                        <div class="existing-options-selection-display">
+                            <div>
+                                <select ng-model="content.section" value="content.section" ng-options="section for section in sections"/>
+                            </div>
+                            <div class="text-picker-link-options">
+                                <a href="#" data-toggle-text-entry-display="">add new</a>
+                            </div>
+                        </div>
+                        <div class="new-option-entry-display">
+                            <div data-add-new-text-option="" data-add-function="addNewSection(section)">
+                                <input type="text" class="new-text-option" />
+                                <input type="button" value="add" class="submit-new-text-option"/>
+                            </div>
+                            <div class="text-picker-link-options">
+                                <a href="#" data-toggle-text-entry-display="">back</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
