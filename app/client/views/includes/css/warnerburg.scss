@@ -22,6 +22,10 @@ a.unobtrusive-link:visited {color: #AAAAAA;text-decoration: none;font-size: 9pt;
 a.unobtrusive-link:hover {color: #AAAAAA;text-decoration: underline;font-size: 9pt;}
 a.unobtrusive-link:active {color: #AAAAAA;text-decoration: none;font-size: 9pt;}
 
+a {
+    outline: 0;
+}
+
 .warnerburg-link-image:hover {
     opacity: 0.25;
 }

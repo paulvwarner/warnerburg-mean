@@ -37,6 +37,9 @@ a.unobtrusive-link:active {
   text-decoration: none;
   font-size: 9pt; }
 
+a {
+  outline: 0; }
+
 .warnerburg-link-image:hover {
   opacity: 0.25; }
 
