@@ -404,7 +404,7 @@ a {
 }
 
 .new-item-placeholder {
-    float: right; 
+
 }
 
 .content-thumbnail-image-overlay {
@@ -463,11 +463,14 @@ a {
 
 .content-thumbnail-image-container {
     text-align: center;
-    width: $content-grid-item-dimension - 10;
+    width: $content-grid-item-dimension - 9;
     height: $content-grid-item-dimension - 10;
     position: relative;
     z-index: 1;
-    margin: 5px;
+    margin-top: 5px;
+    margin-right: 2px;
+    margin-left: 2px;
+    margin-bottom: 2px;
 }
 
 .image-container-aligner {
@@ -482,6 +485,15 @@ a {
     margin: auto;
     position: relative;
     vertical-align: middle;
+}
+
+.content-thumbnail-image-placeholder {
+    height: $content-grid-item-dimension - 20;
+    width: $content-grid-item-dimension - 20;
+    margin: auto;
+    position: relative;
+    vertical-align: middle;
+    visiblity: hidden;
 }
 
 .admin-header-options {

@@ -77,6 +77,27 @@ angular.module("adminModule").directive("editSectionOnDoubleClick", ['$state', f
     };
 }]);
 
+angular.module("adminModule").directive('addNewContentItemOnDoubleClick', ['adminService', function(adminService) {
+    return {
+        link: function(scope, element, attrs) {
+            angular.element(document).ready(function () {
+                log.debug("sibs:"+element.siblings("li").size());
+
+                if (element.siblings("li").size() == 0) {
+                    element.css("float", "right");
+                }
+
+                element.on("dblclick", function(event) {
+                    event.preventDefault();
+
+                    log.debug("add content");
+
+                });
+            });
+        }
+    };
+}]);
+
 angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout', '$state', function($timeout, $state) {
     return {
         link: function (scope, element, attrs) {
@@ -129,6 +150,18 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
                                 currentListElement.find(".content-thumbnail-image-overlay-sequence-number-text").text(rearrangeSequenceNumber);
                                 currentListElement.find(".content-thumbnail-image-change-indicator-overlay").addClass('content-thumbnail-image-overlay-changed');
                                 angular.element(".admin-reorder-button").removeAttr("disabled");
+                            }
+
+                            var newItemPlaceholder = angular.element(".new-item-placeholder");
+                            if (newItemPlaceholder.siblings("li").size() == 0) {
+                                newItemPlaceholder.css("float", "right");
+                            } else {
+                                if (newItemPlaceholder.prev("li").size() == 0) {
+                                    var sortableList = newItemPlaceholder.parent();
+                                    newItemPlaceholder = angular.element(".new-item-placeholder").detach();
+                                    sortableList.append(newItemPlaceholder);
+                                    newItemPlaceholder.css("float", "left");
+                                }
                             }
                         });
                     }
@@ -253,23 +286,4 @@ angular.module("adminModule").directive('contentImagePicker', ['adminService', f
     };
 }]);
 
-angular.module("adminModule").directive('editSectionOnDoubleClick', ['adminService', function(adminService) {
-    return {
-        link: function(scope, element, attrs) {
 
-            element.find(".submit-new-text-option").on("click", function(event) {
-                event.preventDefault();
-                scope.addFunction({section: ''+element.closest(".content-text-picker").find(".new-text-option").val()});
-                adminService.toggleTextPickerSelectionOptions(''+element.closest(".content-text-picker").attr("id"));
-            });
-            element.find(".new-text-option").on("keydown keypress", function(event) {
-                var code = event.keyCode || event.which;
-                if (code == 13) {
-                    event.preventDefault();
-                    scope.addFunction({section: '' + element.closest(".content-text-picker").find(".new-text-option").val()});
-                    adminService.toggleTextPickerSelectionOptions('' + element.closest(".content-text-picker").attr("id"));
-                }
-            });
-        }
-    };
-}]);

@@ -356,9 +356,6 @@ a {
   float: left;
   cursor: pointer; }
 
-.new-item-placeholder {
-  float: right; }
-
 .content-thumbnail-image-overlay {
   position: absolute;
   margin: 5px;
@@ -405,11 +402,14 @@ a {
 
 .content-thumbnail-image-container {
   text-align: center;
-  width: 160px;
+  width: 161px;
   height: 160px;
   position: relative;
   z-index: 1;
-  margin: 5px; }
+  margin-top: 5px;
+  margin-right: 2px;
+  margin-left: 2px;
+  margin-bottom: 2px; }
 
 .image-container-aligner {
   display: inline-block;
@@ -422,6 +422,14 @@ a {
   margin: auto;
   position: relative;
   vertical-align: middle; }
+
+.content-thumbnail-image-placeholder {
+  height: 150px;
+  width: 150px;
+  margin: auto;
+  position: relative;
+  vertical-align: middle;
+  visiblity: hidden; }
 
 .admin-header-options {
   width: 100%;

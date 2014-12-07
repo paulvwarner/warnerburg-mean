@@ -71,10 +71,6 @@ angular.module("adminModule").controller("categoryAdminController",
         log.debug("opening content page for "+category +" #"+ sequenceNumber);
         $state.go("content", {categoryId: category, sequenceNumber: sequenceNumber});
     };
-
-    $scope.addNewContentItem = function(category) {
-        log.debug("new?");
-    };
 }]);
 
 angular.module("adminModule").controller("contentAdminController",

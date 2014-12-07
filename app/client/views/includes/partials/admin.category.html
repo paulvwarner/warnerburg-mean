@@ -48,7 +48,7 @@
                     <input class="content-admin-field content-previous-section-field" type="text" ng-model="content.previousSection" value="{{content.previousSection}}"/>
                     <input class="content-admin-field content-original-section-field" type="text" ng-model="content.originalSection" value="{{content.originalSection}}"/>
                 </li>
-                <li class="content-grid-item new-item-placeholder" ng-dblclick="addNewContentItem(category)" ng-if="$last">
+                <li class="content-grid-item new-item-placeholder" data-add-new-content-item-on-double-click="" ng-if="$last">
                     <div class="content-thumbnail-image-overlay">
                         <div class="content-thumbnail-image-change-indicator-overlay">
                             <span class="image-container-aligner"></span>
@@ -56,8 +56,15 @@
                                 <div class="add-new-content-message">
                                     add<br>new
                                 </div>
+                                <div class="content-thumbnail-image-overlay-date-text">
+                                    &nbsp;
+                                </div>
                             </div>
                         </div>
+                    </div>
+                    <div class="content-thumbnail-image-container">
+                        <span class="image-container-aligner"></span>
+                        <img ng-src="" class="content-thumbnail-image-placeholder"/>
                     </div>
                 </li>
             </ul>
