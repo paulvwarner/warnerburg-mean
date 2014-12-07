@@ -319,7 +319,7 @@ var reorderContentItems = function(sections) {
     for (var section in sections) {
         log.debug("reorder ",section);
 
-        sections[section].forEach(function (content) {
+        sections[section].contents.forEach(function (content) {
             log.debug("id:" + content._id + " oldseq:" + content.originalSequenceNumber + " newseq:"+content.sequenceNumber
                 + " oldsec:" + content.originalSection+ " newsec:" + content.section);
             var query = {"_id":content._id};

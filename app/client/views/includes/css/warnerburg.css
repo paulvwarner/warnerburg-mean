@@ -356,6 +356,9 @@ a {
   float: left;
   cursor: pointer; }
 
+.new-item-placeholder {
+  float: right; }
+
 .content-thumbnail-image-overlay {
   position: absolute;
   margin: 5px;
