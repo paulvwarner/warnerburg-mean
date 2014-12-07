@@ -87,9 +87,21 @@ function processPutContentDataBySequenceNumber(req, res) {
         });
 }
 
+function processGetSectionData(req, res) {
+    contentDataService.getSectionData(req.params.category, req.params.sectionName)
+        .then(function(sectionData) {
+            res.send(sectionData);
+        })
+        .catch(function(err) {
+            log.error("error getting section data:", err);
+            res.send(err);
+        });
+}
+
 module.exports = function (app) {
     app.use(busboy());
     app.get('/data/admin/content/:category/:sequenceNumber', processGetContentDataBySequenceNumber);
+    app.get('/data/admin/section/:category/:sectionName', processGetSectionData);
     app.post('/data/upload/:uploadCategory', processPostImageUploadRequest);
     app.put('/data/admin/content/:category/:sequenceNumber', processPutContentDataBySequenceNumber);
 };

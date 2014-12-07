@@ -73,6 +73,7 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
                 angular.element(".admin-content-grid").sortable({
                     delay: 100,
                     placeholder: "content-grid-item",
+                    items: ".content-grid-item:not(.new-item-placeholder)",
                     distance: 10,
                     revert: false,
                     tolerance: "pointer",
@@ -85,7 +86,7 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
                     },
                     stop: function(e, ui) {
                         // update form for items that had a sequence number change
-                        angular.forEach(angular.element(".content-grid-item"), function(value, key) {
+                        angular.forEach(angular.element(".content-grid-item:not(.new-item-placeholder)"), function(value, key) {
                             var currentListElement = angular.element(value);
                             var rearrangeSequenceNumber = ""+$.trim("" + (key + 1));
                             var previousSequenceNumber = ""+$.trim(currentListElement.find(".content-previous-sequence-number-field").val());
@@ -235,4 +236,23 @@ angular.module("adminModule").directive('contentImagePicker', ['adminService', f
     };
 }]);
 
+angular.module("adminModule").directive('editSectionOnDoubleClick', ['adminService', function(adminService) {
+    return {
+        link: function(scope, element, attrs) {
 
+            element.find(".submit-new-text-option").on("click", function(event) {
+                event.preventDefault();
+                scope.addFunction({section: ''+element.closest(".content-text-picker").find(".new-text-option").val()});
+                adminService.toggleTextPickerSelectionOptions(''+element.closest(".content-text-picker").attr("id"));
+            });
+            element.find(".new-text-option").on("keydown keypress", function(event) {
+                var code = event.keyCode || event.which;
+                if (code == 13) {
+                    event.preventDefault();
+                    scope.addFunction({section: '' + element.closest(".content-text-picker").find(".new-text-option").val()});
+                    adminService.toggleTextPickerSelectionOptions('' + element.closest(".content-text-picker").attr("id"));
+                }
+            });
+        }
+    };
+}]);

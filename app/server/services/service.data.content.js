@@ -59,8 +59,31 @@ var getContentDataBySequenceNumber = function(sequenceNumber, category) {
     return deferred.promise;
 };
 
-var getSectionInformation = function(category) {
-    log.debug("getSectionInformation getting content at "+category);
+var getSectionData = function(category, sectionName) {
+    log.debug("getSectionData getting section at "+category+", "+sectionName);
+
+    var deferred = Q.defer();
+
+    var content;
+    var query = mongoose.model('section').find({category: category, sectionName: sectionName});
+
+    query.lean().exec()
+        .then(function (section) {
+            log.debug(section);
+
+            // return content by resolving promise with it
+            deferred.resolve(section[0]);
+
+        }).onReject(function (err) {
+            log.error("error getting section: " + err);
+            deferred.reject(err);
+        });
+
+    return deferred.promise;
+};
+
+var getSectionDataAndContent = function(category) {
+    log.debug("getSectionDataAndContent getting content at "+category);
 
     var deferred = Q.defer();
 
@@ -272,10 +295,11 @@ var getContentSections = function(category) {
 
 module.exports = {
     getContentDataBySequenceNumber: getContentDataBySequenceNumber,
-    getSectionInformation: getSectionInformation,
+    getSectionDataAndContent: getSectionDataAndContent,
     getContentDataBySection: getContentDataBySection,
     updateContentData: updateContentData,
     reorderContentItems: reorderContentItems,
     getContentCategories: getContentCategories,
-    getContentSections: getContentSections
+    getContentSections: getContentSections,
+    getSectionData: getSectionData
 };

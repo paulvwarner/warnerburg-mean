@@ -3,7 +3,6 @@ $content-grid-item-sequence-number-line-height: 60px;
 $content-grid-item-date-font-size: 10pt;
 $content-grid-item-dimension: 170px;
 $admin-option-bar-height: 50px;
-/*background-color: #BA3A3A;*/
 
 body {
     margin: 0;
@@ -337,6 +336,7 @@ a {
 }
 
 .section-label {
+    cursor: pointer;
     padding: 0 0 0 12px;
     margin: 0;
     font-size: 14pt;
@@ -439,6 +439,10 @@ a {
 
 .content-thumbnail-image-overlay-sequence-number-text {
     font-size: $content-grid-item-sequence-number-font-size;
+}
+
+.add-new-content-message {
+    font-size: 15pt;
 }
 
 .content-thumbnail-image-overlay-date-text {

@@ -1,4 +1,3 @@
-/*background-color: #BA3A3A;*/
 body {
   margin: 0;
   padding: 0;
@@ -300,6 +299,7 @@ a {
   float: left; }
 
 .section-label {
+  cursor: pointer;
   padding: 0 0 0 12px;
   margin: 0;
   font-size: 14pt;
@@ -386,6 +386,9 @@ a {
 
 .content-thumbnail-image-overlay-sequence-number-text {
   font-size: 40pt; }
+
+.add-new-content-message {
+  font-size: 15pt; }
 
 .content-thumbnail-image-overlay-date-text {
   font-size: 10pt;

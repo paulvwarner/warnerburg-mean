@@ -24,7 +24,7 @@ function processGetComicPage(req, res) {
 }
 
 function processGetComicArchives(req, res) {
-    contentDataService.getSectionInformation('comic')
+    contentDataService.getSectionDataAndContent('comic')
         .then(function(sectionInfo) {
             log.debug("returned from service with ", sectionInfo);
             var pageData = {

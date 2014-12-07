@@ -59,9 +59,18 @@ angular.module("adminModule").controller("categoryAdminController",
     };
 
     // expose function to route to edit page for a piece of content
-    $scope.openContentPage = function(category, sequenceNumber) {
+    $scope.editContentItem = function(category, sequenceNumber) {
         log.debug("opening content page for "+category +" #"+ sequenceNumber);
         $state.go("content", {categoryId: category, sequenceNumber: sequenceNumber});
+    };
+
+    $scope.editSection = function(category, section) {
+        log.debug("edit section");
+        $state.go("section", {categoryId: category, sectionName: section});
+    };
+
+    $scope.addNewContentItem = function(category) {
+        log.debug("new?");
     };
 }]);
 
@@ -146,4 +155,46 @@ angular.module("adminModule").controller("contentAdminController",
 
         $scope.$apply();
     };
+}]);
+
+angular.module("adminModule").controller("sectionAdminController",
+['$stateParams', '$state', '$scope', 'adminService', 'commonService',
+function ($stateParams, $state, $scope, adminService, commonService) {
+
+    $scope.category = $stateParams.categoryId;
+    $scope.sectionName = $stateParams.sectionName;
+    $scope.adminHeaderLabel = 'Managing section '+$scope.sectionName+' in '+$scope.category;
+    $scope.common = commonService.getCommonData();
+
+    // populate scope from service on controller construction
+    adminService.getSectionToEdit($scope.category, $scope.sectionName)
+        .then(function(sectionData) {
+            $scope.thumbnailImageUrl = sectionData.thumbnailImageUrl;
+            $scope.descriptionImageUrl = sectionData.descriptionImageUrl;
+        })
+        .catch(function(err) {
+            log.error("error getting section data for "+$scope.category+", "+$scope.section+": ", err);
+        });
+
+    $scope.commitSectionChanges = function() {
+        log.debug("commit section changes");
+        /*
+        adminService.commitContentChanges($scope.content)
+            .then(function(updatedContent) {
+                $scope.content = updatedContent;
+                updateContentForDisplay();
+
+                var saveMessage = angular.element(".content-save-message");
+                saveMessage.text("saved successfully");
+                saveMessage.velocity("fadeIn");
+                $timeout(function() {
+                    saveMessage.velocity("fadeOut");
+                }, 2000);
+            })
+            .catch(function(err) {
+                log.error("error saving content data for "+$scope.content.category+": ", err);
+            });
+        */
+    };
+
 }]);

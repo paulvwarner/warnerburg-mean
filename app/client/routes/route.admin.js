@@ -19,6 +19,11 @@ angular.module("adminModule")
                 templateUrl: '/views/includes/partials/admin.content.html',
                 controller: 'contentAdminController'
             })
+            .state('section', {
+                url: '/admin/{categoryId}/section/{sectionName}',
+                templateUrl: '/views/includes/partials/admin.section.html',
+                controller: 'sectionAdminController'
+            })
         ;
 
         $locationProvider.html5Mode(true);

@@ -17,6 +17,20 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         return deferred.promise;
     };
 
+    var getSectionToEdit = function(category, sectionName) {
+        var deferred = $q.defer();
+        $http.get('/data/admin/section/' + category + '/' + sectionName)
+            .success(function (sectionData) {
+                deferred.resolve(sectionData);
+            })
+            .error(function (data) {
+                log.error('error: ' + data);
+                deferred.reject(data);
+            })
+        ;
+        return deferred.promise;
+    };
+
     var commitContentChanges = function(content) {
         var deferred = $q.defer();
         log.debug("committing content changes: ",content);
@@ -94,6 +108,7 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         showUploadSuccessMessage: showUploadSuccessMessage,
         getContentToEdit: getContentToEdit,
         commitContentChanges: commitContentChanges,
-        toggleTextPickerSelectionOptions: toggleTextPickerSelectionOptions
+        toggleTextPickerSelectionOptions: toggleTextPickerSelectionOptions,
+        getSectionToEdit: getSectionToEdit
     };
 }]);
