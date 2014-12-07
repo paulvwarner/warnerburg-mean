@@ -17,9 +17,9 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         return deferred.promise;
     };
 
-    var getSectionToEdit = function(category, sectionName) {
+    var getSectionToEdit = function(category, sequenceNumber) {
         var deferred = $q.defer();
-        $http.get('/data/admin/section/' + category + '/' + sectionName)
+        $http.get('/data/admin/section/' + category + '/' + sequenceNumber)
             .success(function (sectionData) {
                 deferred.resolve(sectionData);
             })
@@ -37,6 +37,19 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         $http.put('/data/admin/content/'+content.category+'/'+content.sequenceNumber, {content: content})
             .success(function(updatedContent) {
                 deferred.resolve(updatedContent);
+            }).error(function(data) {
+                log.error('error: ' + data);
+                deferred.reject(data);
+            });
+        return deferred.promise;
+    };
+
+    var commitSectionChanges = function(section) {
+        var deferred = $q.defer();
+        log.debug("committing section changes: ",section);
+        $http.put('/data/admin/section/'+section.category+'/'+section.sequenceNumber, {section: section})
+            .success(function(updatedSection) {
+                deferred.resolve(updatedSection);
             }).error(function(data) {
                 log.error('error: ' + data);
                 deferred.reject(data);
@@ -109,6 +122,7 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         getContentToEdit: getContentToEdit,
         commitContentChanges: commitContentChanges,
         toggleTextPickerSelectionOptions: toggleTextPickerSelectionOptions,
-        getSectionToEdit: getSectionToEdit
+        getSectionToEdit: getSectionToEdit,
+        commitSectionChanges: commitSectionChanges
     };
 }]);

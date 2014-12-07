@@ -76,8 +76,7 @@ function processGetContentDataBySequenceNumber(req, res) {
 }
 
 function processPutContentDataBySequenceNumber(req, res) {
-
-    contentDataService.updateContentData(req.body.content)
+    contentDataService.updateContentData(req.params.category, req.params.sequenceNumber, req.body.content)
         .then(function(content) {
             res.send(content);
         })
@@ -87,8 +86,21 @@ function processPutContentDataBySequenceNumber(req, res) {
         });
 }
 
+
+function processPutSectionData(req, res) {
+    contentDataService.updateSectionData(req.params.category, req.params.sequenceNumber, req.body.section)
+        .then(function(section) {
+            log.debug("saved - ppsd");
+            res.send(section);
+        })
+        .catch(function(err) {
+            log.error("error updating:", err);
+            res.send(err);
+        });
+}
+
 function processGetSectionData(req, res) {
-    contentDataService.getSectionData(req.params.category, req.params.sectionName)
+    contentDataService.getSectionData(req.params.category, req.params.sequenceNumber)
         .then(function(sectionData) {
 
             // get possible author pics (urls)
@@ -121,10 +133,25 @@ function processGetSectionData(req, res) {
         });
 }
 
+function processGetContentInCategory(req, res) {
+    var category = req.params.category;
+
+    contentDataService.getContentDataBySection(category)
+        .then(function(contentItemsBySection) {
+            log.debug("returned from service with ",contentItemsBySection);
+            res.send(contentItemsBySection);
+        })
+        .catch(function(err) {
+            log.error("error displaying comic: ", err);
+        });
+}
+
 module.exports = function (app) {
     app.use(busboy());
+    app.get('/data/admin/content/:category/all', processGetContentInCategory);
     app.get('/data/admin/content/:category/:sequenceNumber', processGetContentDataBySequenceNumber);
-    app.get('/data/admin/section/:category/:sectionName', processGetSectionData);
+    app.get('/data/admin/section/:category/:sequenceNumber', processGetSectionData);
     app.post('/data/upload/:uploadCategory', processPostImageUploadRequest);
     app.put('/data/admin/content/:category/:sequenceNumber', processPutContentDataBySequenceNumber);
+    app.put('/data/admin/section/:category/:sequenceNumber', processPutSectionData);
 };

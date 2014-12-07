@@ -5,7 +5,8 @@ var contentSchema = mongoose.Schema({
         thumbnailImageUrl: String,
         descriptionImageUrl: String,
         category: String,
-        sectionName: String
+        sectionName: String,
+        sequenceNumber: Number
     },
     {collection:'section'});
 

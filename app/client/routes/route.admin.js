@@ -20,7 +20,7 @@ angular.module("adminModule")
                 controller: 'contentAdminController'
             })
             .state('section', {
-                url: '/admin/{categoryId}/section/{sectionName}',
+                url: '/admin/{categoryId}/section/{sequenceNumber}',
                 templateUrl: '/views/includes/partials/admin.section.html',
                 controller: 'sectionAdminController'
             })

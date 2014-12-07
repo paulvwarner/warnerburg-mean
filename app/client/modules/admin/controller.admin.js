@@ -1,31 +1,39 @@
 angular.module("adminModule", ['ngSanitize','ngResource','ui.router','commonModule']);
 
-angular.module("adminModule").controller("mainAdminController", function ($scope, $http, $resource) {
+angular.module("adminModule").controller("mainAdminController", ['$scope', '$http', '$resource', 'commonService', function ($scope, $http, $resource, commonService) {
+    $scope.common = commonService.getCommonData();
     $scope.adminHeaderLabel = "Category List";
 
     // get all categories
     $http.get('/data/content/categories')
         .success(function (categories) {
-            $scope.categories = categories;
+            $scope.categories = [];
+            angular.forEach(categories, function(value, key) {
+                $scope.categories.push({
+                    categoryName: value,
+                    categoryDisplayText : $scope.common[value].displayText+'s'
+                });
+            });
         })
         .error(function (data) {
             log.error('error getting categories: ' + data);
         });
-});
+}]);
 
 angular.module("adminModule").controller("categoryAdminController",
-['$stateParams', '$state', '$scope', '$http', '$resource', function ($stateParams, $state, $scope, $http, $resource) {
+['$stateParams', '$state', '$scope', '$http', '$resource', 'commonService', function ($stateParams, $state, $scope, $http, $resource, commonService) {
 
+    $scope.common = commonService.getCommonData();
     $scope.category = $stateParams.categoryId;
-    $scope.adminHeaderLabel = 'Managing category "'+$scope.category+'"';
+    $scope.adminHeaderLabel = 'Managing '+$scope.common[$scope.category].displayText+'s';
 
     // get all content of the given category
-    $http.get('/data/content/'+$scope.category+'/all')
+    $http.get('/data/admin/content/'+$scope.category+'/all')
         .success(function (sections) {
             $scope.sections = sections;
 
             angular.forEach($scope.sections, function(value, key) {
-                value.forEach(function(content) {
+                value.contents.forEach(function(content) {
                     content.originalSequenceNumber = content.sequenceNumber;
                     content.previousSequenceNumber = content.sequenceNumber;
                     content.originalSection = content.section;
@@ -75,8 +83,8 @@ angular.module("adminModule").controller("contentAdminController",
 
     $scope.category = $stateParams.categoryId;
     $scope.sequenceNumber = $stateParams.sequenceNumber;
-    $scope.adminHeaderLabel = 'Managing '+$scope.category +' #'+$scope.sequenceNumber;
     $scope.common = commonService.getCommonData();
+    $scope.adminHeaderLabel = 'Managing '+$scope.common[$scope.category].displayText +' #'+$scope.sequenceNumber;
 
     var updateContentForDisplay = function() {
         $scope.content.publishDate = new Date($scope.content.publishDate);
@@ -151,23 +159,25 @@ angular.module("adminModule").controller("contentAdminController",
 }]);
 
 angular.module("adminModule").controller("sectionAdminController",
-['$stateParams', '$state', '$scope', 'adminService', 'commonService',
-function ($stateParams, $state, $scope, adminService, commonService) {
+['$stateParams', '$state', '$scope', 'adminService', 'commonService', '$timeout',
+function ($stateParams, $state, $scope, adminService, commonService, $timeout) {
 
     $scope.category = $stateParams.categoryId;
-    $scope.sectionName = $stateParams.sectionName;
-    $scope.adminHeaderLabel = 'Managing section '+$scope.sectionName+' in '+$scope.category;
+    $scope.sequenceNumber = $stateParams.sequenceNumber;
     $scope.common = commonService.getCommonData();
 
     // populate scope from service on controller construction
-    adminService.getSectionToEdit($scope.category, $scope.sectionName)
+    adminService.getSectionToEdit($scope.category, $scope.sequenceNumber)
         .then(function(sectionData) {
             $scope.thumbnailImageUrl = sectionData.thumbnailImageUrl;
             $scope.descriptionImageUrl = sectionData.descriptionImageUrl;
             $scope.thumbnails = sectionData.thumbnails;
             $scope.descriptionImages = sectionData.descriptionImages;
+            $scope.sectionName = sectionData.sectionName;
             $scope.thumbnailUploadUrl = '/data/upload/archives-thumbnail';
             $scope.descriptionImageUploadUrl = '/data/upload/archives-description-image';
+
+            $scope.adminHeaderLabel = 'Managing '+$scope.common[$scope.category].displayText+' section "'+$scope.sectionName+'"';
         })
         .catch(function(err) {
             log.error("error getting section data for "+$scope.category+", "+$scope.section+": ", err);
@@ -175,23 +185,33 @@ function ($stateParams, $state, $scope, adminService, commonService) {
 
     $scope.commitSectionChanges = function() {
         log.debug("commit section changes");
-        /*
-        adminService.commitContentChanges($scope.content)
-            .then(function(updatedContent) {
-                $scope.content = updatedContent;
-                updateContentForDisplay();
 
-                var saveMessage = angular.element(".content-save-message");
-                saveMessage.text("saved successfully");
-                saveMessage.velocity("fadeIn");
-                $timeout(function() {
-                    saveMessage.velocity("fadeOut");
-                }, 2000);
-            })
-            .catch(function(err) {
-                log.error("error saving content data for "+$scope.content.category+": ", err);
-            });
-        */
+        adminService.commitSectionChanges({
+            sequenceNumber: $scope.sequenceNumber,
+            sectionName: $scope.sectionName,
+            thumbnailImageUrl: $scope.thumbnailImageUrl,
+            descriptionImageUrl : $scope.descriptionImageUrl,
+            category: $scope.category
+        })
+        .then(function(sectionData) {
+            log.debug("saved: ",sectionData);
+            $scope.thumbnailImageUrl = sectionData.thumbnailImageUrl;
+            $scope.descriptionImageUrl = sectionData.descriptionImageUrl;
+            $scope.category = sectionData.category;
+            $scope.sectionName = sectionData.sectionName;
+            $scope.adminHeaderLabel = 'Managing section '+$scope.sectionName+' in '+$scope.category;
+
+            var saveMessage = angular.element(".content-save-message");
+            saveMessage.text("saved successfully");
+            saveMessage.velocity("fadeIn");
+            $timeout(function() {
+                saveMessage.velocity("fadeOut");
+            }, 2000);
+        })
+        .catch(function(err) {
+            log.error("error saving section data for "+$scope.sectionName+": ", err);
+        });
+
     };
 
     $scope.updateThumbnailImage = function(image, pickerBaseElementId) {
@@ -202,6 +222,17 @@ function ($stateParams, $state, $scope, adminService, commonService) {
 
         // update author image stored in scope
         $scope.thumbnailImageUrl = image;
+        $scope.$apply();
+    };
+
+    $scope.updateDescriptionImage = function(image, pickerBaseElementId) {
+        log.debug("using: "+image+" at "+pickerBaseElementId);
+
+        // show selected image, add image to list of available pics if it isn't there already
+        adminService.handleImagePickerSelectionUpdate($scope.descriptionImages, image, pickerBaseElementId);
+
+        // update author image stored in scope
+        $scope.descriptionImageUrl = image;
         $scope.$apply();
     };
 

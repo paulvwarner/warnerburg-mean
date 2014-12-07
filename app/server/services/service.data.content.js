@@ -59,17 +59,16 @@ var getContentDataBySequenceNumber = function(sequenceNumber, category) {
     return deferred.promise;
 };
 
-var getSectionData = function(category, sectionName) {
-    log.debug("getSectionData getting section at "+category+", "+sectionName);
+var getSectionData = function(category, sequenceNumber) {
+    log.debug("getSectionData getting section at "+category+", "+sequenceNumber);
 
     var deferred = Q.defer();
 
-    var content;
-    var query = mongoose.model('section').find({category: category, sectionName: sectionName});
+    var query = mongoose.model('section').find({category: category, sequenceNumber: sequenceNumber});
 
     query.lean().exec()
         .then(function (section) {
-            log.debug(section);
+            log.debug("found section:",section);
 
             // return content by resolving promise with it
             deferred.resolve(section[0]);
@@ -130,27 +129,46 @@ var getContentDataBySection = function(category) {
     var deferred = Q.defer();
 
     var content;
-    var query = mongoose.model('content').find({category: category}).sort({ sequenceNumber: 1 });
+    var contentQuery = mongoose.model('content').find({category: category}).sort({ sequenceNumber: 1 });
+    var sectionQuery = mongoose.model('section').find({category: category});
 
-    query.lean().exec()
+    var contentItemsBySection = {};
+    var sectionDataRetrievalTasks = [];
+
+
+    sectionQuery.exec()
+        .then(function(sections) {
+            sections.forEach(function (section) {
+                log.debug("result? ", section);
+                if (typeof contentItemsBySection[section.sectionName] === 'undefined') {
+                    contentItemsBySection[section.sectionName] = {
+                        contents: [],
+                        section: section
+                    };
+                }
+            });
+
+            return contentQuery.lean().exec();
+        })
         .then(function (contents) {
 
-            var contentItemsBySection = {};
-            contents.forEach(function(item) {
-                if (''+item.section == 'undefined') {
+            contents.forEach(function (item) {
+                if ('' + item.section == 'undefined') {
                     item.section = 'default';
                 }
                 if (typeof contentItemsBySection[item.section] === 'undefined') {
-                    contentItemsBySection[item.section] = [];
+                    contentItemsBySection[item.section] = {
+                        contents: [],
+                        section: {sectionName: item.section}
+                    };
                 }
 
-                contentItemsBySection[item.section].push(item);
+                contentItemsBySection[item.section].contents.push(item);
             });
 
-            // return content by resolving promise with it
             deferred.resolve(contentItemsBySection);
-
-        }).onReject(function (err) {
+        })
+        .onReject(function (err) {
             log.error("error getting content: " + err);
             deferred.reject(err);
         });
@@ -158,11 +176,73 @@ var getContentDataBySection = function(category) {
     return deferred.promise;
 };
 
-var updateContentData = function(updatedContent) {
-    log.debug("updating content at "+updatedContent.category+"/"+updatedContent.sequenceNumber);
+var updateSectionData = function(category, sequenceNumber, updatedSection) {
+    log.debug("updating section at "+category+"/"+sequenceNumber);
 
     var deferred = Q.defer();
-    var query = mongoose.model('content').findOne({sequenceNumber: updatedContent.sequenceNumber, category: updatedContent.category});
+    var query = mongoose.model('section').findOne({sequenceNumber: sequenceNumber, category: category});
+    var previousSectionName = '';
+
+    query.exec()
+        .then(function (section) {
+            log.debug("pre-update:", section);
+
+            previousSectionName = section.sectionName;
+
+            section.sectionName = updatedSection.sectionName;
+            section.thumbnailImageUrl = updatedSection.thumbnailImageUrl;
+            section.descriptionImageUrl = updatedSection.descriptionImageUrl;
+
+            var deferredSectionUpdate = Q.defer();
+
+            section.save(function (err, savedSection, numberAffected) {
+                if (err) {
+                    log.error("error updating section: ", err);
+                    deferredSectionUpdate.reject(err);
+                } else {
+                    log.debug("post-update:", savedSection);
+                    deferredSectionUpdate.resolve(savedSection);
+                }
+            });
+
+            return deferredSectionUpdate.promise;
+        }).then(function (savedSection) {
+            log.debug("saved ",savedSection);
+            var deferredContentUpdate = Q.defer();
+
+            // if section name changed, update all content items in the updated section to use the updated section name
+            if (previousSectionName != updatedSection.sectionName) {
+                log.debug("changing from section prev "+previousSectionName);
+                mongoose.model('content').update({ category: category, section: previousSectionName },
+                    { $set: { section: updatedSection.sectionName }}, { multi: true },
+                    function (err, numberAffected) {
+                        if (err) {
+                            deferredContentUpdate.reject(err);
+                        } else {
+                            log.debug("updated "+numberAffected+" content items");
+                            deferredContentUpdate.resolve(savedSection);
+                        }
+                    });
+            } else {
+                deferredContentUpdate.resolve(savedSection);
+            }
+
+            return deferredContentUpdate.promise;
+        }).then(function (savedSection) {
+            deferred.resolve(savedSection);
+        }).onReject(function (err) {
+            log.error("error getting section for update: " + err);
+            deferred.reject(err);
+        });
+
+    return deferred.promise;
+};
+
+var updateContentData = function(category, sequenceNumber, updatedContent) {
+    log.debug("updating content at "+category+"/"+sequenceNumber);
+
+    var deferred = Q.defer();
+    var query = mongoose.model('content').findOne({sequenceNumber: sequenceNumber, category: category});
 
     query.exec()
         .then(function (content) {
@@ -301,5 +381,6 @@ module.exports = {
     reorderContentItems: reorderContentItems,
     getContentCategories: getContentCategories,
     getContentSections: getContentSections,
-    getSectionData: getSectionData
+    getSectionData: getSectionData,
+    updateSectionData: updateSectionData
 };

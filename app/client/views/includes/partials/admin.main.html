@@ -12,6 +12,6 @@
 </div>
 <div class="admin-page-content admin-category-list">
     <div class="admin-category" ng-repeat="category in categories">
-        <a data-category-dynamic-state-href="" href="#">{{category}}</a>
+        <a data-category-dynamic-state-href="" data-category="{{category.categoryName}}" href="#">{{category.categoryDisplayText}}</a>
     </div>
 </div>

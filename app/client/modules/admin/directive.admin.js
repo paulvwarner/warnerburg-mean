@@ -25,11 +25,11 @@ angular.module("adminModule").directive("useAsImageOnClick", ['adminService', fu
 angular.module("adminModule").directive("categoryDynamicStateHref", ['$state', function($state) {
     return {
         link: function (scope, element, attrs) {
-            log.debug("post ", scope.category);
+            log.debug("post ", attrs.category);
 
             element.on("click", function(event) {
                 event.preventDefault();
-                $state.go("category", {categoryId: scope.category});
+                $state.go("category", {categoryId: attrs.category});
             });
         }
     };
@@ -69,8 +69,8 @@ angular.module("adminModule").directive("editSectionOnDoubleClick", ['$state', f
                 element.on("dblclick", function(event) {
                     event.preventDefault();
 
-                    log.debug("edit section");
-                    $state.go("section", {categoryId: scope.category, sectionName: scope.section});
+                    log.debug("edit section: at "+scope.category+"/"+scope.section.section.sequenceNumber);
+                    $state.go("section", {categoryId: scope.category, sequenceNumber: scope.section.section.sequenceNumber});
                 });
             });
         }

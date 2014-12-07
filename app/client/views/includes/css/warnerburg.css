@@ -353,7 +353,8 @@ a {
   background-color: #eeeeee;
   text-align: left;
   overflow: hidden;
-  float: left; }
+  float: left;
+  cursor: pointer; }
 
 .content-thumbnail-image-overlay {
   position: absolute;
@@ -472,10 +473,11 @@ a {
   margin: 0; }
 
 .admin-header-label {
-  font-size: 14pt;
+  font-size: 17pt;
   color: white;
   padding: 0;
-  margin: 0; }
+  margin: 0;
+  text-transform: capitalize; }
 
 .admin-text-link {
   color: #FFFFFF !important; }

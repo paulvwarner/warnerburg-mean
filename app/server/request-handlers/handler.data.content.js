@@ -4,19 +4,6 @@ var contentDataService = require("../services/service.data.content.js");
 var commentsDataService = require("../services/service.data.comments.js");
 var Q = require('q');
 
-function processGetContentInCategory(req, res) {
-    var category = req.params.category;
-
-    contentDataService.getContentDataBySection(category)
-        .then(function(contentItemsBySection) {
-            log.debug("returned from service with ",contentItemsBySection);
-            res.send(contentItemsBySection);
-        })
-        .catch(function(err) {
-            log.error("error displaying comic: ", err);
-        });
-}
-
 function processContentReorder(req, res) {
     contentDataService.reorderContentItems(req.body.sections).then(function() {
         log.debug("reorder complete");
@@ -72,7 +59,6 @@ function processGetContentSections(req, res) {
 module.exports = function (app) {
     app.get('/data/content/categories', processGetContentCategories);
     app.get('/data/content/:category/sections', processGetContentSections);
-    app.get('/data/content/:category/all', processGetContentInCategory);
     // defining /data/content/:category/ and /data/content/:category/:sequenceNumber to to the same thing
     // so that calls with no sequence number go to the last item of content in that category
     app.get('/data/content/:category/', processGetContentDataBySequenceNumber);
