@@ -25,25 +25,32 @@
                 <div class="admin-page-content-field-row">
                     <div class="admin-page-content-field-label">Section Name</div>
                     <div class="admin-page-content-field">
-
+                        <input ng-model="sectionName" type="text" />
                     </div>
                 </div>
                 <div class="admin-page-content-field-row">
                     <div class="admin-page-content-field-label">Thumbnail Image</div>
-                    <div class="admin-page-content-field">
-
+                    <div class="admin-page-content-field content-image-picker"
+                         id="thumbnail-drop-zone"
+                         data-content-image-picker=""
+                         data-images="thumbnails"
+                         data-selected-image="thumbnailImageUrl"
+                         data-update-function="updateThumbnailImage(image, pickerBaseElementId)"
+                         data-selection-options-label="'select thumbnail image:'"
+                         data-upload-url="thumbnailUploadUrl">
                     </div>
                 </div>
                 <div class="admin-page-content-field-row">
                     <div class="admin-page-content-field-label">Description Image</div>
-                    <div class="admin-page-content-field">
-
-                    </div>
-                </div>
-                <div class="admin-page-content-field-row">
-                    <div class="admin-page-content-field-label">Appearance on Archives Page</div>
-                    <div class="admin-page-content-field">
-
+                    <div class="admin-page-content-field content-image-picker"
+                         id="description-image-drop-zone"
+                         data-content-image-picker=""
+                         data-images="descriptionImages"
+                         data-selected-image="descriptionImageUrl"
+                         data-update-function="updateDescriptionImage(image, pickerBaseElementId)"
+                         data-selection-options-label="'select description image:'"
+                         data-upload-url="descriptionImageUploadUrl"
+                         data-image-class="'image-picker-image-archives'">
                     </div>
                 </div>
 

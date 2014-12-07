@@ -20,7 +20,7 @@
     </div>
     <div class="category-admin-page-content">
         <div ng-repeat="(section, contents) in sections" class="content-grid-container" data-connected-sortable-repeater="">
-            <h2 class="section-label" ng-dblclick="editSection(category, section)">Section {{section}}</h2>
+            <h2 class="section-label" data-edit-section-on-double-click="" >Section {{section}}</h2>
             <ul class="admin-content-grid" data-section="{{section}}">
                 <li class="content-grid-item" ng-repeat="content in contents" ng-dblclick="editContentItem(category, content.sequenceNumber)">
                     <div class="content-thumbnail-image-overlay">

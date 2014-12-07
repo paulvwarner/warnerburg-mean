@@ -1,16 +1,16 @@
 <div class="image-picker-preview">
-    <a href="#" data-toggle-image-picker-selection-options=""><img class="image-picker-preview-image" ng-src="{{selectedImage}}" /></a>
+    <a href="#" data-toggle-image-picker-selection-options=""><img ng-class="'image-picker-preview-image '+ (imageClass ? imageClass : 'image-picker-image-default-dims')" ng-src="{{selectedImage}}" /></a>
     <div class="image-picker-dropzone-template"></div>
     <div><a href="#" data-toggle-image-picker-selection-options="">change</a> - <a href="#" class="image-picker-upload-link">add new</a></div>
     <div class="upload-results"></div>
 </div>
 <div class="image-picker-selection-option-display">
     <div class="image-picker-selection-option-display-header" ng-bind="selectionOptionsLabel"></div>
-    <div class="image-picker-selection-option" ng-repeat="image in images">
+    <div ng-class="'image-picker-selection-option '+(imageClass ? imageClass : 'image-picker-container-default-dims')" ng-repeat="image in images">
         <a href="#"
            data-use-as-image-on-click=""
            data-update-function="updateFunction"
-           data-image-to-use="{{image}}"><img class="image-picker-selection-option-image" ng-src="{{image}}"></a>
+           data-image-to-use="{{image}}"><img ng-class="(imageClass ? imageClass : 'image-picker-image-default-dims')" ng-src="{{image}}"></a>
     </div>
     <div class="image-picker-selection-option-display-footer">
         <a href="#" data-toggle-image-picker-selection-options="" >back</a> - <a href="#" class="image-picker-upload-link">add new</a>

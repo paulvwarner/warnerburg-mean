@@ -61,6 +61,22 @@ angular.module("adminModule").directive("adminDatePicker", ['$filter', function(
     };
 }]);
 
+angular.module("adminModule").directive("editSectionOnDoubleClick", ['$state', function($state) {
+    return {
+        link: function (scope, element, attrs) {
+            angular.element(document).ready(function () {
+                element.disableSelection();
+                element.on("dblclick", function(event) {
+                    event.preventDefault();
+
+                    log.debug("edit section");
+                    $state.go("section", {categoryId: scope.category, sectionName: scope.section});
+                });
+            });
+        }
+    };
+}]);
+
 angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout', '$state', function($timeout, $state) {
     return {
         link: function (scope, element, attrs) {
@@ -193,7 +209,8 @@ angular.module("adminModule").directive('contentImagePicker', ['adminService', f
             images: '=',
             updateFunction: '&',
             selectionOptionsLabel: '=',
-            uploadUrl: '='
+            uploadUrl: '=',
+            imageClass: '='
         },
         templateUrl: '/views/includes/partials/admin.content.image.picker.html',
         link: function(scope, element, attrs) {

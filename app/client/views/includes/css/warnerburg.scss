@@ -360,6 +360,11 @@ a {
     -o-transform:      rotate(90deg);
 }
 
+.section-label:hover {
+    transition: background-color 0.3s ease;
+    background-color: rgba(200,0,0,0.5);
+}
+
 .admin-content-grid {
     display: block;
     padding: 0;
@@ -678,14 +683,12 @@ a {
     padding-right: 15px;
     padding-bottom: 10px;
     padding-top: 10px;
-    height: 124px;
-    width: 124px;
     text-align: center;
 }
 
-.image-picker-selection-option-image {
-    max-height: 124px;
-    max-width: 124px;
+.image-picker-container-default-dims {
+    width: 124px;
+    height: 124px;
 }
 
 .image-picker-selection-option-display-header {
@@ -708,8 +711,16 @@ a {
 
 .image-picker-preview-image {
     padding-bottom: 5px;
+}
+
+.image-picker-image-default-dims {
     max-height: 124px;
     max-width: 124px;
+}
+
+.image-picker-image-archives-dims {
+    max-height: 596px;
+    max-width: 596px;
 }
 
 .content-save-message {

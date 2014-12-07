@@ -64,11 +64,6 @@ angular.module("adminModule").controller("categoryAdminController",
         $state.go("content", {categoryId: category, sequenceNumber: sequenceNumber});
     };
 
-    $scope.editSection = function(category, section) {
-        log.debug("edit section");
-        $state.go("section", {categoryId: category, sectionName: section});
-    };
-
     $scope.addNewContentItem = function(category) {
         log.debug("new?");
     };
@@ -126,8 +121,7 @@ angular.module("adminModule").controller("contentAdminController",
         log.debug("using: "+image+" at "+pickerBaseElementId);
 
         // show selected image, add image to list of available pics if it isn't there already
-        imageUpdateElements = adminService.handleImagePickerSelectionUpdate(
-            $scope.authorPics, image, pickerBaseElementId);
+        adminService.handleImagePickerSelectionUpdate($scope.authorPics, image, pickerBaseElementId);
 
         // update author image stored in scope
         $scope.content.authorPicture = image;
@@ -138,8 +132,7 @@ angular.module("adminModule").controller("contentAdminController",
         log.debug("using: "+image+" at "+pickerBaseElementId);
 
         // show selected image, add image to list of available pics if it isn't there already
-        imageUpdateElements = adminService.handleImagePickerSelectionUpdate(
-            $scope.images, image, pickerBaseElementId);
+        adminService.handleImagePickerSelectionUpdate($scope.images, image, pickerBaseElementId);
 
         // update author image stored in scope
         $scope.content.image = image;
@@ -171,6 +164,10 @@ function ($stateParams, $state, $scope, adminService, commonService) {
         .then(function(sectionData) {
             $scope.thumbnailImageUrl = sectionData.thumbnailImageUrl;
             $scope.descriptionImageUrl = sectionData.descriptionImageUrl;
+            $scope.thumbnails = sectionData.thumbnails;
+            $scope.descriptionImages = sectionData.descriptionImages;
+            $scope.thumbnailUploadUrl = '/data/upload/archives-thumbnail';
+            $scope.descriptionImageUploadUrl = '/data/upload/archives-description-image';
         })
         .catch(function(err) {
             log.error("error getting section data for "+$scope.category+", "+$scope.section+": ", err);
@@ -195,6 +192,17 @@ function ($stateParams, $state, $scope, adminService, commonService) {
                 log.error("error saving content data for "+$scope.content.category+": ", err);
             });
         */
+    };
+
+    $scope.updateThumbnailImage = function(image, pickerBaseElementId) {
+        log.debug("using: "+image+" at "+pickerBaseElementId);
+
+        // show selected image, add image to list of available pics if it isn't there already
+        adminService.handleImagePickerSelectionUpdate($scope.thumbnails, image, pickerBaseElementId);
+
+        // update author image stored in scope
+        $scope.thumbnailImageUrl = image;
+        $scope.$apply();
     };
 
 }]);
