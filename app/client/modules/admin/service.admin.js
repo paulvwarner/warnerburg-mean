@@ -17,7 +17,21 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         return deferred.promise;
     };
 
-    var getSectionToEdit = function(category, sequenceNumber) {
+    var getSectionData = function(category, sequenceNumber) {
+        var deferred = $q.defer();
+        $http.get('/data/admin/section/' + category + '/' + sequenceNumber)
+            .success(function (sectionData) {
+                deferred.resolve(sectionData);
+            })
+            .error(function (data) {
+                log.error('error: ' + data);
+                deferred.reject(data);
+            })
+        ;
+        return deferred.promise;
+    };
+        
+    var getDataForSectionAdd = function(category) {
         var deferred = $q.defer();
         $http.get('/data/admin/section/' + category + '/' + sequenceNumber)
             .success(function (sectionData) {
@@ -122,7 +136,7 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         getContentToEdit: getContentToEdit,
         commitContentChanges: commitContentChanges,
         toggleTextPickerSelectionOptions: toggleTextPickerSelectionOptions,
-        getSectionToEdit: getSectionToEdit,
+        getSectionData: getSectionData,
         commitSectionChanges: commitSectionChanges
     };
 }]);

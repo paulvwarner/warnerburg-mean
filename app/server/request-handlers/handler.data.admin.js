@@ -99,31 +99,38 @@ function processPutSectionData(req, res) {
         });
 }
 
+// get possible section thumbnails (urls)
+function getSectionThumbnailFileList() {
+    var thumbnailFolderFiles = fs.readdirSync(path.dirname(require.main.filename) + common['archives-thumbnail'].serverFolder);
+    var thumbnails = [];
+    thumbnailFolderFiles.forEach(function(pic) {
+        log.debug("looking for '"+path.extname(pic)+"'");
+        if (common.allowedImageExtensions.indexOf(path.extname(pic)) >= 0) {
+            thumbnails.push(common['archives-thumbnail'].clientFolder + pic);
+        }
+    });
+
+    return thumbnails;
+}
+
+// get possible section description images (urls)
+function getSectionDescriptionImageFileList() {
+    var descriptionImageFolderFiles = fs.readdirSync(path.dirname(require.main.filename) + common['archives-description-image'].serverFolder);
+    var descriptionImages = [];
+    descriptionImageFolderFiles.forEach(function(pic) {
+        if (common.allowedImageExtensions.indexOf(path.extname(pic)) >= 0) {
+            descriptionImages.push(common['archives-description-image'].clientFolder + pic);
+        }
+    });
+
+    return descriptionImages;
+}
+
 function processGetSectionData(req, res) {
     contentDataService.getSectionData(req.params.category, req.params.sequenceNumber)
         .then(function(sectionData) {
-
-            // get possible author pics (urls)
-            var thumbnailFolderFiles = fs.readdirSync(path.dirname(require.main.filename) + common['archives-thumbnail'].serverFolder);
-            var thumbnails = [];
-            thumbnailFolderFiles.forEach(function(pic) {
-                log.debug("looking for '"+path.extname(pic)+"'");
-                if (common.allowedImageExtensions.indexOf(path.extname(pic)) >= 0) {
-                    thumbnails.push(common['archives-thumbnail'].clientFolder + pic);
-                }
-            });
-
-            // get possible content images (urls)
-            var descriptionImageFolderFiles = fs.readdirSync(path.dirname(require.main.filename) + common['archives-description-image'].serverFolder);
-            var descriptionImages = [];
-            descriptionImageFolderFiles.forEach(function(pic) {
-                if (common.allowedImageExtensions.indexOf(path.extname(pic)) >= 0) {
-                    descriptionImages.push(common['archives-description-image'].clientFolder + pic);
-                }
-            });
-
-            sectionData.thumbnails = thumbnails;
-            sectionData.descriptionImages = descriptionImages;
+            sectionData.thumbnails = getSectionThumbnailFileList();
+            sectionData.descriptionImages = getSectionDescriptionImageFileList();
 
             res.send(sectionData);
         })

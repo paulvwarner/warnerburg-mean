@@ -77,6 +77,31 @@ angular.module("adminModule").directive("editSectionOnDoubleClick", ['$state', f
     };
 }]);
 
+angular.module("adminModule").directive("addSectionOnDoubleClick", ['$state', function($state) {
+    return {
+        link: function (scope, element, attrs) {
+            var dataLoadedInitialValue = scope.dataLoaded;
+            var alreadySetUp = false;
+
+            // once data is loaded (initial rest call to get page data returns data), execute this logic only once
+            scope.$watch('dataLoaded', function (newValue, oldValue) {
+                if (((dataLoadedInitialValue == undefined && newValue != undefined) || dataLoadedInitialValue != undefined) && !alreadySetUp) {
+                    alreadySetUp = true;
+                    element.removeClass("add-section-label");
+
+                    element.disableSelection();
+                    element.on("dblclick", function (event) {
+                        event.preventDefault();
+
+                        log.debug("add section to " + scope.category);
+                        $state.go("section", {categoryId: scope.category, sequenceNumber: 'new'});
+                    });
+                }
+            });
+        }
+    };
+}]);
+
 angular.module("adminModule").directive('addNewContentItemOnDoubleClick', ['adminService', function(adminService) {
     return {
         link: function(scope, element, attrs) {
@@ -247,15 +272,20 @@ angular.module("adminModule").directive('contentImagePicker', ['adminService', f
         },
         templateUrl: '/views/includes/partials/admin.content.image.picker.html',
         link: function(scope, element, attrs) {
+            var uploadUrlInitialValue = scope.uploadUrl;
+            var alreadySetUp = false;
+
+            // once uploadUrl is available on scope, execute this logic only once
             scope.$watch('uploadUrl', function (newValue, oldValue) {
-                if (oldValue == undefined && newValue != undefined) {
+                if (((uploadUrlInitialValue == undefined && newValue != undefined) || uploadUrlInitialValue != undefined) && !alreadySetUp) {
+                    alreadySetUp = true;
                     log.debug("scope url " + scope.uploadUrl);
                     // set up dropzone file upload areas
                     var imageDropZone = new Dropzone(
                             '#' + element.attr("id"),
                         {
                             createImageThumbnails: false,
-                            clickable: element.find('.image-picker-upload-link')[0],
+                            clickable: element.find('.image-picker-upload-link').get(),
                             previewsContainer: element.find('.image-picker-dropzone-template')[0],
                             previewTemplate: '<div class="dropzone-preview dz-message">' +
                                 '<div class="dz-preview dz-file-preview">' +

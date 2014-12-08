@@ -280,12 +280,24 @@ a {
   display: table-row;
   background-color: #eee; }
 
+.image-picker-preview-image-link:link,
+.image-picker-preview-image-link:visited,
+.image-picker-preview-image-link:hover,
+.image-picker-preview-image-link:active {
+  font-style: italic;
+  color: #888;
+  font-size: 14pt;
+  text-decoration: none; }
+
+.image-picker-preview-image-link:hover {
+  color: #AAA; }
+
 .admin-page-content-field-label {
   display: table-cell;
   padding: 10px;
   vertical-align: top;
   font-weight: bold;
-  width: 120px; }
+  width: 140px; }
 
 .admin-page-content-field {
   display: table-cell;
@@ -331,6 +343,20 @@ a {
   margin-left: 10px;
   margin-bottom: 2px;
   float: left; }
+
+.add-section-shim {
+  height: 180px;
+  padding-bottom: 20px; }
+
+.add-section-label {
+  background-color: white; }
+
+.add-section-container {
+  text-align: left;
+  overflow: hidden;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  padding-left: 50px; }
 
 .admin-category-list {
   text-align: left;
@@ -462,7 +488,7 @@ a {
 .admin-header-left {
   display: inline-block;
   vertical-align: middle;
-  width: 32%;
+  width: 20%;
   text-align: left;
   padding: 0;
   margin: 0; }
@@ -470,7 +496,7 @@ a {
 .admin-header-center {
   display: inline-block;
   vertical-align: middle;
-  width: 33%;
+  width: 58%;
   text-align: center;
   padding: 0;
   margin: 0; }
@@ -478,7 +504,7 @@ a {
 .admin-header-right {
   display: inline-block;
   vertical-align: middle;
-  width: 33%;
+  width: 20%;
   text-align: right;
   padding: 0;
   margin: 0; }
@@ -606,13 +632,13 @@ a {
 .image-picker-selection-option {
   float: left;
   padding-right: 15px;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   padding-top: 10px;
   text-align: center; }
 
 .image-picker-container-default-dims {
-  width: 124px;
-  height: 124px; }
+  max-width: 124px;
+  max-height: 124px; }
 
 .image-picker-selection-option-display-header {
   width: 100%;
@@ -620,13 +646,13 @@ a {
 
 .image-picker-selection-option-display-footer {
   clear: both;
-  width: 100%; }
+  width: 100%;
+  padding-top: 3px;
+  padding-bottom: 1px;
+  margin: 0; }
 
 .new-option-entry-display {
   display: none; }
-
-.image-picker-preview-image {
-  padding-bottom: 5px; }
 
 .image-picker-image-default-dims {
   max-height: 124px;

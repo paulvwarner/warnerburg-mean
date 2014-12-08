@@ -1,7 +1,7 @@
 <div class="image-picker-preview">
-    <a href="#" data-toggle-image-picker-selection-options=""><img ng-class="'image-picker-preview-image '+ (imageClass ? imageClass : 'image-picker-image-default-dims')" ng-src="{{selectedImage}}" /></a>
+    <a class="image-picker-preview-image-link" href="#" data-toggle-image-picker-selection-options="" ><img ng-class="'image-picker-preview-image '+ (imageClass ? imageClass : 'image-picker-image-default-dims')" ng-src="{{selectedImage}}" />{{selectedImage ? '' : 'no image selected'}}</a>
     <div class="image-picker-dropzone-template"></div>
-    <div><a href="#" data-toggle-image-picker-selection-options="">change</a> - <a href="#" class="image-picker-upload-link">add new</a></div>
+    <div class="image-picker-selection-option-display-footer"><a href="#" data-toggle-image-picker-selection-options="">{{selectedImage ? 'change' : 'select'}}</a> - <a href="#" class="image-picker-upload-link">add new</a></div>
     <div class="upload-results"></div>
 </div>
 <div class="image-picker-selection-option-display">

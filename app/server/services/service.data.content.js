@@ -64,20 +64,23 @@ var getSectionData = function(category, sequenceNumber) {
 
     var deferred = Q.defer();
 
-    var query = mongoose.model('section').find({category: category, sequenceNumber: sequenceNumber});
+    if (sequenceNumber == 'new') {
+        deferred.resolve({});
+    } else {
+        var query = mongoose.model('section').find({category: category, sequenceNumber: sequenceNumber});
 
-    query.lean().exec()
-        .then(function (section) {
-            log.debug("found section:",section);
+        query.lean().exec()
+            .then(function (section) {
+                log.debug("found section:",section);
 
-            // return content by resolving promise with it
-            deferred.resolve(section[0]);
+                // return content by resolving promise with it
+                deferred.resolve(section[0]);
 
-        }).onReject(function (err) {
-            log.error("error getting section: " + err);
-            deferred.reject(err);
-        });
-
+            }).onReject(function (err) {
+                log.error("error getting section: " + err);
+                deferred.reject(err);
+            });
+    }
     return deferred.promise;
 };
 

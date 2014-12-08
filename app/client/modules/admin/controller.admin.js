@@ -40,6 +40,7 @@ angular.module("adminModule").controller("categoryAdminController",
                     content.previousSection = content.section;
                 });
             });
+            $scope.dataLoaded = true;
         })
         .error(function (data) {
             log.error('error: ' + data);
@@ -161,19 +162,24 @@ function ($stateParams, $state, $scope, adminService, commonService, $timeout) {
     $scope.category = $stateParams.categoryId;
     $scope.sequenceNumber = $stateParams.sequenceNumber;
     $scope.common = commonService.getCommonData();
+    $scope.thumbnailUploadUrl = '/data/upload/archives-thumbnail';
+    $scope.descriptionImageUploadUrl = '/data/upload/archives-description-image';
 
-    // populate scope from service on controller construction
-    adminService.getSectionToEdit($scope.category, $scope.sequenceNumber)
+    adminService.getSectionData($scope.category, $scope.sequenceNumber)
         .then(function(sectionData) {
             $scope.thumbnailImageUrl = sectionData.thumbnailImageUrl;
             $scope.descriptionImageUrl = sectionData.descriptionImageUrl;
             $scope.thumbnails = sectionData.thumbnails;
             $scope.descriptionImages = sectionData.descriptionImages;
             $scope.sectionName = sectionData.sectionName;
-            $scope.thumbnailUploadUrl = '/data/upload/archives-thumbnail';
-            $scope.descriptionImageUploadUrl = '/data/upload/archives-description-image';
 
-            $scope.adminHeaderLabel = 'Managing '+$scope.common[$scope.category].displayText+' section "'+$scope.sectionName+'"';
+            if ($scope.sequenceNumber == 'new') {
+                $scope.adminHeaderLabel = "Adding New "+$scope.common[$scope.category].displayText+"s Section";
+                $scope.submitButtonText = 'Add';
+            } else {
+                $scope.adminHeaderLabel = 'Managing '+$scope.common[$scope.category].displayText+' section "'+$scope.sectionName+'"';
+                $scope.submitButtonText = 'Save';
+            }
         })
         .catch(function(err) {
             log.error("error getting section data for "+$scope.category+", "+$scope.section+": ", err);
