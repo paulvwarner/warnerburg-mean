@@ -87,14 +87,15 @@ angular.module("adminModule").directive("addSectionOnDoubleClick", ['$state', fu
             scope.$watch('dataLoaded', function (newValue, oldValue) {
                 if (((dataLoadedInitialValue == undefined && newValue != undefined) || dataLoadedInitialValue != undefined) && !alreadySetUp) {
                     alreadySetUp = true;
-                    element.removeClass("add-section-label");
+                    element.removeClass("add-section-label-hidden");
+                    element.addClass("add-section-label");
 
                     element.disableSelection();
                     element.on("dblclick", function (event) {
                         event.preventDefault();
 
                         log.debug("add section to " + scope.category);
-                        $state.go("section", {categoryId: scope.category, sequenceNumber: 'new'});
+                        scope.addNewSection();
                     });
                 }
             });
@@ -116,7 +117,7 @@ angular.module("adminModule").directive('addNewContentItemOnDoubleClick', ['admi
                     event.preventDefault();
 
                     log.debug("add content");
-
+                    scope.addNewContentItem();
                 });
             });
         }

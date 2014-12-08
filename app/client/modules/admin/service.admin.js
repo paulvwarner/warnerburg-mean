@@ -128,6 +128,15 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         }
     };
 
+    var showSaveSuccessMessage = function() {
+        var saveMessage = angular.element(".content-save-message");
+        saveMessage.text("saved successfully");
+        saveMessage.velocity("fadeIn");
+        $timeout(function() {
+            saveMessage.velocity("fadeOut");
+        }, 2000);
+    };
+
     return {
         toggleImagePickerSelectionOptions: toggleImagePickerSelectionOptions,
         addNewPicToList: addNewPicToList,
@@ -137,6 +146,7 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         commitContentChanges: commitContentChanges,
         toggleTextPickerSelectionOptions: toggleTextPickerSelectionOptions,
         getSectionData: getSectionData,
-        commitSectionChanges: commitSectionChanges
+        commitSectionChanges: commitSectionChanges,
+        showSaveSuccessMessage: showSaveSuccessMessage
     };
 }]);

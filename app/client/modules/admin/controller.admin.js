@@ -21,7 +21,8 @@ angular.module("adminModule").controller("mainAdminController", ['$scope', '$htt
 }]);
 
 angular.module("adminModule").controller("categoryAdminController",
-['$stateParams', '$state', '$scope', '$http', '$resource', 'commonService', function ($stateParams, $state, $scope, $http, $resource, commonService) {
+['$stateParams', '$state', '$scope', '$http', '$resource', 'commonService', 'adminService',
+function ($stateParams, $state, $scope, $http, $resource, commonService, adminService) {
 
     $scope.common = commonService.getCommonData();
     $scope.category = $stateParams.categoryId;
@@ -62,6 +63,8 @@ angular.module("adminModule").controller("categoryAdminController",
                 log.debug("updated content order");
                 angular.element(".content-thumbnail-image-change-indicator-overlay").removeClass('content-thumbnail-image-overlay-changed');
                 angular.element(".admin-reorder-button").attr("disabled","disabled");
+
+                adminService.showSaveSuccessMessage();
             }).error(function(data) {
                 log.error('error: ' + data);
             });
@@ -72,6 +75,15 @@ angular.module("adminModule").controller("categoryAdminController",
         log.debug("opening content page for "+category +" #"+ sequenceNumber);
         $state.go("content", {categoryId: category, sequenceNumber: sequenceNumber});
     };
+
+    $scope.addNewSection = function() {
+        $state.go("section", {categoryId: $scope.category, sequenceNumber: 'new'});
+    };
+
+    $scope.addNewContentItem = function() {
+        $state.go("content", {categoryId: $scope.category, sequenceNumber: 'new'});
+    };
+
 }]);
 
 angular.module("adminModule").controller("contentAdminController",
@@ -81,7 +93,12 @@ angular.module("adminModule").controller("contentAdminController",
     $scope.category = $stateParams.categoryId;
     $scope.sequenceNumber = $stateParams.sequenceNumber;
     $scope.common = commonService.getCommonData();
-    $scope.adminHeaderLabel = 'Managing '+$scope.common[$scope.category].displayText +' #'+$scope.sequenceNumber;
+
+    if ($scope.sequenceNumber == 'new') {
+        $scope.adminHeaderLabel = 'Adding New ' + $scope.common[$scope.category].displayText;
+    } else {
+        $scope.adminHeaderLabel = 'Managing ' + $scope.common[$scope.category].displayText + ' #' + $scope.sequenceNumber;
+    }
 
     var updateContentForDisplay = function() {
         $scope.content.publishDate = new Date($scope.content.publishDate);
@@ -93,6 +110,11 @@ angular.module("adminModule").controller("contentAdminController",
         .then(function(contentAdminData) {
             $scope.content = contentAdminData.content;
             $scope.content.text = $sce.trustAsHtml(contentAdminData.content.text);
+
+            if ($scope.content.publishDate == undefined) {
+                $scope.content.publishDate = new Date();
+            }
+
             updateContentForDisplay();
             $scope.authorPics = contentAdminData.authorPics;
             $scope.images = contentAdminData.images;
@@ -110,12 +132,7 @@ angular.module("adminModule").controller("contentAdminController",
                 $scope.content = updatedContent;
                 updateContentForDisplay();
 
-                var saveMessage = angular.element(".content-save-message");
-                saveMessage.text("saved successfully");
-                saveMessage.velocity("fadeIn");
-                $timeout(function() {
-                    saveMessage.velocity("fadeOut");
-                }, 2000);
+                adminService.showSaveSuccessMessage();
             })
             .catch(function(err) {
                 log.error("error saving content data for "+$scope.content.category+": ", err);
@@ -203,12 +220,7 @@ function ($stateParams, $state, $scope, adminService, commonService, $timeout) {
             $scope.sectionName = sectionData.sectionName;
             $scope.adminHeaderLabel = 'Managing section '+$scope.sectionName+' in '+$scope.category;
 
-            var saveMessage = angular.element(".content-save-message");
-            saveMessage.text("saved successfully");
-            saveMessage.velocity("fadeIn");
-            $timeout(function() {
-                saveMessage.velocity("fadeOut");
-            }, 2000);
+            adminService.showSaveSuccessMessage();
         })
         .catch(function(err) {
             log.error("error saving section data for "+$scope.sectionName+": ", err);

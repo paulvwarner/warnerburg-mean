@@ -348,8 +348,14 @@ a {
   height: 180px;
   padding-bottom: 20px; }
 
-.add-section-label {
+.add-section-label-hidden {
   background-color: white; }
+
+.add-section-label {
+  background-color: #cecece; }
+
+.admin-add-button {
+  text-transform: capitalize; }
 
 .add-section-container {
   text-align: left;
@@ -419,7 +425,7 @@ a {
   font-size: 40pt; }
 
 .add-new-content-message {
-  font-size: 15pt; }
+  font-size: 12pt; }
 
 .content-thumbnail-image-overlay-date-text {
   font-size: 10pt;
@@ -664,7 +670,9 @@ a {
 
 .content-save-message {
   display: none;
-  color: white; }
+  color: white;
+  position: absolute;
+  right: 280px; }
 
 .upload-results-message {
   padding-top: 5px; }

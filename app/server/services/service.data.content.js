@@ -7,54 +7,58 @@ var getContentDataBySequenceNumber = function(sequenceNumber, category) {
 
     var deferred = Q.defer();
 
-    var content;
-    var query;
-
-    if (sequenceNumber) {
-        query = mongoose.model('content').find({sequenceNumber: sequenceNumber, category: category});
+    if (sequenceNumber == 'new') {
+        deferred.resolve({});
     } else {
-        log.debug("getting latest");
-        query = mongoose.model('content').find({category: category, publishDate: {$lt: new Date()}}).sort({ sequenceNumber: -1 }).limit(1);
+        var content;
+        var query;
+
+        if (sequenceNumber) {
+            query = mongoose.model('content').find({sequenceNumber: sequenceNumber, category: category});
+        } else {
+            log.debug("getting latest");
+            query = mongoose.model('content').find({category: category, publishDate: {$lt: new Date()}}).sort({ sequenceNumber: -1 }).limit(1);
+        }
+
+        // get content using "lean" in order to attach comments to it afterwards (not allowed for
+        // the true mongoose document object, since "comments" aren't part of the "content" schema)
+        query.lean().exec()
+            .then(function (contents) {
+                log.debug(contents);
+                content = contents[0];
+
+                return mongoose.model('content').find({category: category, publishDate: {$lt: new Date()}}).count().exec();
+            }).then(function(contentCount) {
+                log.debug("count: "+contentCount);
+
+                content.isLast = false;
+                content.isFirst = false;
+
+                if (content.sequenceNumber == contentCount) {
+                    log.debug("is last = true");
+                    content.isLast = true;
+                } else if (content.sequenceNumber == '1') {
+                    log.debug("is first = true");
+                    content.isFirst = true;
+                }
+
+                log.debug("finding comments for " + content._id);
+                return mongoose.model('comment').find({contentId: content._id}).sort({commentDate:'asc'}).exec();
+            }).then(function(comments) {
+                log.debug("cm l "+comments.length);
+
+                // attach comment data
+                content.comments = comments;
+
+                // return content by resolving promise with it
+                log.debug("returning content from service");
+                deferred.resolve(content);
+
+            }).onReject(function (err) {
+                log.error("error getting content: " + err);
+                deferred.reject(err);
+            });
     }
-
-    // get content using "lean" in order to attach comments to it afterwards (not allowed for
-    // the true mongoose document object, since "comments" aren't part of the "content" schema)
-    query.lean().exec()
-        .then(function (contents) {
-            log.debug(contents);
-            content = contents[0];
-
-            return mongoose.model('content').find({category: category, publishDate: {$lt: new Date()}}).count().exec();
-        }).then(function(contentCount) {
-            log.debug("count: "+contentCount);
-
-            content.isLast = false;
-            content.isFirst = false;
-
-            if (content.sequenceNumber == contentCount) {
-                log.debug("is last = true");
-                content.isLast = true;
-            } else if (content.sequenceNumber == '1') {
-                log.debug("is first = true");
-                content.isFirst = true;
-            }
-
-            log.debug("finding comments for " + content._id);
-            return mongoose.model('comment').find({contentId: content._id}).sort({commentDate:'asc'}).exec();
-        }).then(function(comments) {
-            log.debug("cm l "+comments.length);
-
-            // attach comment data
-            content.comments = comments;
-
-            // return content by resolving promise with it
-            log.debug("returning content from service");
-            deferred.resolve(content);
-
-        }).onReject(function (err) {
-            log.error("error getting content: " + err);
-            deferred.reject(err);
-        });
 
     return deferred.promise;
 };
@@ -363,7 +367,7 @@ var getContentCategories = function() {
 var getContentSections = function(category) {
     var deferred = Q.defer();
 
-    mongoose.model('content').find({category: category}).distinct('section', function(err, sections) {
+    mongoose.model('section').find({category: category}).distinct('sectionName', function(err, sections) {
         if (err) {
             log.error("error getting sections: "+err);
             deferred.reject(err);

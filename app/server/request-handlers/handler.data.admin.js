@@ -31,7 +31,9 @@ function processPostImageUploadRequest(req, res) {
 
 function processGetContentDataBySequenceNumber(req, res) {
     log.debug("running admin processGetContentDataBySequenceNumber for "+req.params.sequenceNumber + " "+req.params.category);
+
     var returnData = {};
+
     contentDataService.getContentDataBySequenceNumber(req.params.sequenceNumber, req.params.category)
         .then(function(content) {
             log.debug("returned from service with "+req.params.category+" "+content);

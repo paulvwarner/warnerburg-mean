@@ -394,8 +394,16 @@ a {
     padding-bottom: 20px;
 }
 
-.add-section-label {
+.add-section-label-hidden {
     background-color: white;
+}
+
+.add-section-label {
+    background-color: #cecece;
+}
+
+.admin-add-button {
+    text-transform: capitalize;
 }
 
 .add-section-container {
@@ -483,7 +491,7 @@ a {
 }
 
 .add-new-content-message {
-    font-size: 15pt;
+    font-size: 12pt;
 }
 
 .content-thumbnail-image-overlay-date-text {
@@ -730,7 +738,7 @@ a {
 .image-picker-selection-option {
     float: left;
     padding-right: 15px;
-    padding-bottom: 5px; 
+    padding-bottom: 5px;
     padding-top: 10px;
     text-align: center;
 }
@@ -774,6 +782,8 @@ a {
 .content-save-message {
     display: none;
     color: white;
+    position: absolute;
+    right: 280px;
 }
 
 .upload-results {

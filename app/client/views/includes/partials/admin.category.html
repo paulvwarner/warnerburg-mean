@@ -12,7 +12,10 @@
                     </h1>
                 </div>
                 <div class="admin-header-right">
-                    <input class="admin-reorder-button" disabled="disabled" type="submit" value="Commit Reordering Changes"/>
+                    <span class="content-save-message"></span>
+                    <input class="admin-add-button" type="button" ng-click="addNewSection()" value="Add Section" />
+                    <input class="admin-add-button" type="button" ng-click="addNewContentItem()" value="Add {{common[category].displayTextShort}}" />
+                    <input class="admin-reorder-button" disabled="disabled" type="submit" value="Save Reorder"/>
                 </div>
             </div>
         </div>
@@ -53,7 +56,7 @@
                             <span class="image-container-aligner"></span>
                             <div class="content-thumbnail-image-overlay-text-container">
                                 <div class="add-new-content-message">
-                                    add<br>new
+                                    add<br>{{common[category].displayTextShort}}
                                 </div>
                                 <div class="content-thumbnail-image-overlay-date-text">
                                     &nbsp;
@@ -69,7 +72,7 @@
             </ul>
         </div>
         <div class="add-section-container" >
-            <h2 class="section-label add-section-label" data-add-section-on-double-click="" >Add Section</h2>
+            <h2 class="section-label add-section-label-hidden" data-add-section-on-double-click="" >Add Section</h2>
             <div class="add-section-shim"></div>
         </div>
     </div>
