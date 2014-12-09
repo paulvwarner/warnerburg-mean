@@ -20,9 +20,9 @@
             </div>
         </div>
     </div>
-    <div class="category-admin-page-content">
+    <div class="category-admin-page-content {{common[category].hasSections ? '' : 'sectionless-content-category-admin-page-content'}}">
         <div ng-repeat="section in sections" class="content-grid-container" data-connected-sortable-repeater="">
-            <h2 class="section-label" data-edit-section-on-double-click="" data-section-sequence-number="{{section.section.sequenceNumber}}">Section {{section.section.sectionName}}</h2>
+            <h2 ng-if="common[category].hasSections" class="section-label" data-edit-section-on-double-click="" data-section-sequence-number="{{section.section.sequenceNumber}}">Section {{section.section.sectionName}}</h2>
             <ul class="admin-content-grid" data-section="{{section.section.sectionName}}">
                 <li class="content-grid-item" ng-repeat="content in section.contents" ng-dblclick="editContentItem(category, content.sequenceNumber)">
                     <div class="content-thumbnail-image-overlay">
@@ -71,9 +71,12 @@
                 </li>
             </ul>
         </div>
-        <div class="add-section-container" >
-            <h2 class="section-label add-section-label-hidden" data-add-section-on-double-click="" >Add Section</h2>
-            <div class="add-section-shim"></div>
+        <div ng-if="common[category].hasSections">
+            <div class="add-section-container" >
+                <h2 class="add-section-label-hidden" data-add-section-on-double-click="" ><span class="add-section-label-text add-section-label-text-small">+</span><span class="add-section-label-text add-section-label-text-large">Add Section</span></h2>
+                <div class="add-section-shim"></div>
+            </div>
+            <div class="add-section-below-shim"></div>
         </div>
     </div>
 </form>

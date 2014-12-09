@@ -255,12 +255,18 @@ a {
   margin-top: 15px;
   margin-bottom: 40px; }
 
+.sectionless-content-category-admin-page-content {
+  margin-top: 60px; }
+
 .content-grid-container {
   text-align: left;
   overflow: hidden;
   margin-bottom: 0px;
   margin-left: 10px;
   padding-left: 50px; }
+
+.sectionless-content-category-admin-page-content .content-grid-container {
+  padding-left: 0px; }
 
 .admin-page-content-field-table-container {
   padding: 10px; }
@@ -312,7 +318,10 @@ a {
 
 .section-label {
   cursor: pointer;
-  padding: 0 0 0 12px;
+  padding-top: 0;
+  padding-right: 0;
+  padding-left: 12px;
+  padding-bottom: 0;
   margin: 0;
   font-size: 14pt;
   font-weight: bold;
@@ -345,14 +354,53 @@ a {
   float: left; }
 
 .add-section-shim {
-  height: 180px;
+  height: 30px;
   padding-bottom: 20px; }
 
+.add-section-below-shim {
+  height: 180px; }
+
 .add-section-label-hidden {
+  color: white;
   background-color: white; }
 
 .add-section-label {
+  width: 30px;
+  height: 37px;
+  cursor: pointer;
+  padding-top: 0;
+  padding-right: 0;
+  padding-left: 12px;
+  padding-bottom: 3px;
+  margin: 0;
+  font-size: 15pt;
+  font-weight: bold;
+  line-height: 37px;
+  color: white;
+  position: relative;
+  top: 50px;
+  left: 0px;
+  -webkit-transform-origin: 0 0;
+  -moz-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  -o-transform-origin: 0 0;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
   background-color: #cecece; }
+
+.add-section-label-text {
+  position: absolute;
+  width: 180px; }
+
+.add-section-label-text-large {
+  display: none;
+  left: 40px; }
+
+.add-section-label:hover {
+  transition: background-color 0.3s ease;
+  background-color: rgba(200, 0, 0, 0.5); }
 
 .admin-add-button {
   text-transform: capitalize; }

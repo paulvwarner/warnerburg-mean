@@ -77,7 +77,7 @@ angular.module("adminModule").directive("editSectionOnDoubleClick", ['$state', f
     };
 }]);
 
-angular.module("adminModule").directive("addSectionOnDoubleClick", ['$state', function($state) {
+angular.module("adminModule").directive("addSectionOnDoubleClick", ['$state', '$timeout', function($state, $timeout) {
     return {
         link: function (scope, element, attrs) {
             var dataLoadedInitialValue = scope.dataLoaded;
@@ -96,6 +96,34 @@ angular.module("adminModule").directive("addSectionOnDoubleClick", ['$state', fu
 
                         log.debug("add section to " + scope.category);
                         scope.addNewSection();
+                    });
+
+                    function shrinkAddSectionButton() {
+                        angular.element(".add-section-shim").velocity({"height": "30px"});
+                        element.velocity({"width": "30px"});
+                        element.find(".add-section-label-text-large").velocity("fadeOut");
+                    }
+                    
+                    element.on("mouseenter", function() {
+                            clearTimeout(element.data("shrinkTimeout"));
+                            angular.element(".add-section-shim").velocity({"height": "180px"});
+                            element.velocity({"width": "180px"});
+                            //element.find(".add-section-label-text-small").velocity("fadeOut");
+                            element.find(".add-section-label-text-large").velocity("fadeIn");
+                    });
+
+                    element.on("mouseleave", function() {
+                        if (''+angular.element(".add-section-shim").css("height") == '180px') {
+                            shrinkAddSectionButton();
+                        } else {
+                            var shrinkTimeout = setTimeout(
+                                function() {
+                                    if (''+angular.element(".add-section-shim").css("height") == '180px') {
+                                        shrinkAddSectionButton();
+                                    }
+                                }, 1000);
+                            element.data("shrinkTimeout", shrinkTimeout);
+                        }
                     });
                 }
             });
