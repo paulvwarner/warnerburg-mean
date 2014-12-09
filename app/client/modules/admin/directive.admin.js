@@ -103,7 +103,7 @@ angular.module("adminModule").directive("addSectionOnDoubleClick", ['$state', '$
                         element.velocity({"width": "30px"});
                         element.find(".add-section-label-text-large").velocity("fadeOut");
                     }
-                    
+
                     element.on("mouseenter", function() {
                             clearTimeout(element.data("shrinkTimeout"));
                             angular.element(".add-section-shim").velocity({"height": "180px"});
@@ -135,9 +135,9 @@ angular.module("adminModule").directive('addNewContentItemOnDoubleClick', ['admi
     return {
         link: function(scope, element, attrs) {
             angular.element(document).ready(function () {
-                log.debug("sibs:"+element.siblings("li").size());
+                log.debug("sibs:"+element.siblings("li:not(.empty-section-placeholder)").size());
 
-                if (element.siblings("li").size() == 0) {
+                if (element.siblings("li:not(.empty-section-placeholder)").size() == 0) {
                     element.css("float", "right");
                 }
 
@@ -156,6 +156,7 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
     return {
         link: function (scope, element, attrs) {
             if (scope.$last) {
+                var emptySectionPlaceholderHtml = '<li class="empty-section-placeholder"></li>';
 
                 // prevent text selection on rearrange-able grid
                 angular.element(".admin-content-grid").disableSelection();
@@ -164,29 +165,44 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
                 angular.element(".admin-content-grid").sortable({
                     delay: 100,
                     placeholder: "content-grid-item",
-                    items: ".content-grid-item:not(.new-item-placeholder)",
+                    items: ".content-grid-item:not(.new-item-placeholder):not(.empty-section-placeholder)",
                     distance: 10,
                     revert: false,
                     tolerance: "pointer",
                     connectWith: ".admin-content-grid",
-                    start: function(e, ui) {
+                    change: function(e, ui) {
+                        console.log("start");
 
-                    },
-                    sort: function(e, ui) {
+                        // add empty list placeholders to empty lists
+                        angular.element(".admin-content-grid").each(function(index, element) {
+                            element = angular.element(element);
+                            if (element.find("li:not(.ui-sortable-helper)").size() == 0) {
+                                log.debug("add ch");
+                                element.append(emptySectionPlaceholderHtml);
+                            }
+                        });
 
+                        var newItemPlaceholder = angular.element(".new-item-placeholder");
+                        if (newItemPlaceholder.siblings("li:not(.empty-section-placeholder):not(.ui-sortable-helper)").size() == 0) {
+                            newItemPlaceholder.css("float", "right");
+                        } else {
+                            if (newItemPlaceholder.prev("li:not(.empty-section-placeholder)").size() == 0) {
+                                var sortableList = newItemPlaceholder.parent();
+                                newItemPlaceholder = angular.element(".new-item-placeholder").detach();
+                                sortableList.append(newItemPlaceholder);
+                                newItemPlaceholder.css("float", "left");
+                            }
+                        }
                     },
                     stop: function(e, ui) {
                         // update form for items that had a sequence number change
-                        angular.forEach(angular.element(".content-grid-item:not(.new-item-placeholder)"), function(value, key) {
+                        angular.forEach(angular.element(".content-grid-item:not(.new-item-placeholder):not(.empty-section-placeholder)"), function(value, key) {
                             var currentListElement = angular.element(value);
                             var rearrangeSequenceNumber = ""+$.trim("" + (key + 1));
                             var previousSequenceNumber = ""+$.trim(currentListElement.find(".content-previous-sequence-number-field").val());
 
                             var rearrangeSection = currentListElement.parents(".admin-content-grid").data("section");
                             var previousSection = ""+$.trim(currentListElement.find(".content-previous-section-field").val());
-
-                            log.debug(rearrangeSequenceNumber+" vs "+previousSequenceNumber);
-                            log.debug(rearrangeSection+" vs "+previousSection);
 
                             if (rearrangeSequenceNumber != previousSequenceNumber || rearrangeSection != previousSection) {
                                 // update sequence number
@@ -206,11 +222,29 @@ angular.module("adminModule").directive("connectedSortableRepeater", ['$timeout'
                                 angular.element(".admin-reorder-button").removeAttr("disabled");
                             }
 
+                            // remove empty list placeholders from filled lists, add them to empty lists
+                            angular.element(".admin-content-grid").each(function(index, element) {
+                                element = angular.element(element);
+                                if (element.find("li:not(.empty-section-placeholder)").size() == 0) {
+                                    // add placeholder
+                                    if (element.find(".empty-section-placeholder").size() == 0) {
+                                        log.debug("add nc");
+                                        element.append(emptySectionPlaceholderHtml);
+                                    }
+                                } else {
+                                    // remove placeholder if present
+                                    if (element.find(".empty-section-placeholder").size() > 0) {
+                                        log.debug("rem nc");
+                                        element.find(".empty-section-placeholder").remove();
+                                    }
+                                }
+                            });
+
                             var newItemPlaceholder = angular.element(".new-item-placeholder");
-                            if (newItemPlaceholder.siblings("li").size() == 0) {
+                            if (newItemPlaceholder.siblings("li:not(.empty-section-placeholder)").size() == 0) {
                                 newItemPlaceholder.css("float", "right");
                             } else {
-                                if (newItemPlaceholder.prev("li").size() == 0) {
+                                if (newItemPlaceholder.prev("li:not(.empty-section-placeholder)").size() == 0) {
                                     var sortableList = newItemPlaceholder.parent();
                                     newItemPlaceholder = angular.element(".new-item-placeholder").detach();
                                     sortableList.append(newItemPlaceholder);

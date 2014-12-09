@@ -4,15 +4,11 @@
             <div class="header-option-container">
                 <span class="image-container-aligner"></span>
                 <div class="admin-header-left">
+                    <h1 class="admin-header-label">{{ adminHeaderLabel }}</h1>
                     <a data-category-dynamic-state-href="" data-category="{{category}}" class="admin-text-link" href="#">&laquo; back to {{ common[category].displayText }} list</a>
                 </div>
-                <div class="admin-header-center">
-                    <h1 class="admin-header-label">
-                        {{ adminHeaderLabel }}
-                    </h1>
-                </div>
                 <div class="admin-header-right">
-                    <span class="content-save-message"></span>
+                    <div class="content-save-message"></div>
                     <input type="submit" value="Save"/>
                 </div>
             </div>
