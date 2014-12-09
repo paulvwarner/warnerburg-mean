@@ -273,7 +273,7 @@ a {
 }
 
 .admin-page-content {
-    margin-top: $admin-option-bar-height + 20;
+    margin-top: $admin-option-bar-height;
 }
 
 .category-admin-page-content {
@@ -473,7 +473,8 @@ a {
 
 .admin-category-list {
     text-align: left;
-    padding-left: 30px;
+    padding-top: 10px;
+    padding-left: 15px;
 }
 
 .admin-page-content-header {

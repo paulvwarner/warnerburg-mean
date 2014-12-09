@@ -249,7 +249,7 @@ a {
   width: 190px; }
 
 .admin-page-content {
-  margin-top: 80px; }
+  margin-top: 60px; }
 
 .category-admin-page-content {
   margin-top: 25px;
@@ -414,7 +414,8 @@ a {
 
 .admin-category-list {
   text-align: left;
-  padding-left: 30px; }
+  padding-top: 10px;
+  padding-left: 15px; }
 
 .admin-page-content-header {
   font-size: 14pt;

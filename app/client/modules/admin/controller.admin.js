@@ -21,8 +21,10 @@ angular.module("adminModule").controller("mainAdminController", ['$scope', '$htt
 }]);
 
 angular.module("adminModule").controller("categoryAdminController",
-['$stateParams', '$state', '$scope', '$http', '$resource', 'commonService', 'adminService',
-function ($stateParams, $state, $scope, $http, $resource, commonService, adminService) {
+['$stateParams', '$state', '$scope', '$http', '$resource', 'commonService', 'adminService', '$window',
+function ($stateParams, $state, $scope, $http, $resource, commonService, adminService, $window) {
+
+    $window.scrollTo(0, 0);
 
     if ($stateParams.categoryId == '') {
         $state.go("main");
@@ -90,8 +92,10 @@ function ($stateParams, $state, $scope, $http, $resource, commonService, adminSe
 }]);
 
 angular.module("adminModule").controller("contentAdminController",
-['$stateParams', '$state', '$scope', 'adminService', 'commonService', '$sce', '$filter', '$timeout',
-    function ($stateParams, $state, $scope, adminService, commonService, $sce, $filter, $timeout) {
+['$stateParams', '$state', '$scope', 'adminService', 'commonService', '$sce', '$filter', '$timeout', '$window',
+    function ($stateParams, $state, $scope, adminService, commonService, $sce, $filter, $timeout, $window) {
+
+    $window.scrollTo(0, 0);
 
     if ($stateParams.sequenceNumber == '') {
         $state.go("category", {categoryId: $stateParams.categoryId});
@@ -181,8 +185,10 @@ angular.module("adminModule").controller("contentAdminController",
 }]);
 
 angular.module("adminModule").controller("sectionAdminController",
-['$stateParams', '$state', '$scope', 'adminService', 'commonService', '$timeout',
-function ($stateParams, $state, $scope, adminService, commonService, $timeout) {
+['$stateParams', '$state', '$scope', 'adminService', 'commonService', '$timeout', '$window',
+function ($stateParams, $state, $scope, adminService, commonService, $timeout, $window) {
+
+    $window.scrollTo(0, 0);
 
     $scope.category = $stateParams.categoryId;
     $scope.sequenceNumber = $stateParams.sequenceNumber;
