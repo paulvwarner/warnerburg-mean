@@ -188,6 +188,10 @@ angular.module("adminModule").controller("sectionAdminController",
 ['$stateParams', '$state', '$scope', 'adminService', 'commonService', '$timeout', '$window',
 function ($stateParams, $state, $scope, adminService, commonService, $timeout, $window) {
 
+    function getEditSectionAdminHeaderLabel() {
+        return 'Managing '+$scope.common[$scope.category].displayText+' section "'+$scope.sectionName+'"';
+    }
+
     $window.scrollTo(0, 0);
 
     $scope.category = $stateParams.categoryId;
@@ -208,7 +212,7 @@ function ($stateParams, $state, $scope, adminService, commonService, $timeout, $
                 $scope.adminHeaderLabel = "Adding New "+$scope.common[$scope.category].displayText+"s Section";
                 $scope.submitButtonText = 'Add';
             } else {
-                $scope.adminHeaderLabel = 'Managing '+$scope.common[$scope.category].displayText+' section "'+$scope.sectionName+'"';
+                $scope.adminHeaderLabel = getEditSectionAdminHeaderLabel();
                 $scope.submitButtonText = 'Save';
             }
         })
@@ -217,9 +221,9 @@ function ($stateParams, $state, $scope, adminService, commonService, $timeout, $
         });
 
     $scope.commitSectionChanges = function() {
-        log.debug("commit section changes");
+        log.debug("save section changes");
 
-        adminService.commitSectionChanges({
+        adminService.saveSection({
             sequenceNumber: $scope.sequenceNumber,
             sectionName: $scope.sectionName,
             thumbnailImageUrl: $scope.thumbnailImageUrl,
@@ -232,7 +236,7 @@ function ($stateParams, $state, $scope, adminService, commonService, $timeout, $
             $scope.descriptionImageUrl = sectionData.descriptionImageUrl;
             $scope.category = sectionData.category;
             $scope.sectionName = sectionData.sectionName;
-            $scope.adminHeaderLabel = 'Managing section '+$scope.sectionName+' in '+$scope.category;
+            $scope.adminHeaderLabel = getEditSectionAdminHeaderLabel();
 
             adminService.showSaveSuccessMessage();
         })

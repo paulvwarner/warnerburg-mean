@@ -142,6 +142,18 @@ function processGetSectionData(req, res) {
         });
 }
 
+function processPostSectionData(req, res) {
+    contentDataService.addSection(req.params.category, req.body.section)
+        .then(function(section) {
+            log.debug("saved - ppsd");
+            res.send(section);
+        })
+        .catch(function(err) {
+            log.error("error updating:", err);
+            res.send(err);
+        });
+}
+
 function processGetContentInCategory(req, res) {
     var category = req.params.category;
 
@@ -159,8 +171,10 @@ module.exports = function (app) {
     app.use(busboy());
     app.get('/data/admin/content/:category/all', processGetContentInCategory);
     app.get('/data/admin/content/:category/:sequenceNumber', processGetContentDataBySequenceNumber);
+    app.get('/data/admin/section/:category',processGetSectionData);
     app.get('/data/admin/section/:category/:sequenceNumber', processGetSectionData);
     app.post('/data/upload/:uploadCategory', processPostImageUploadRequest);
     app.put('/data/admin/content/:category/:sequenceNumber', processPutContentDataBySequenceNumber);
     app.put('/data/admin/section/:category/:sequenceNumber', processPutSectionData);
+    app.post('/data/admin/section/:category', processPostSectionData);
 };

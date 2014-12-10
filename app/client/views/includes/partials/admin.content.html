@@ -8,7 +8,7 @@
                     <a data-category-dynamic-state-href="" data-category="{{category}}" class="admin-text-link" href="#">&laquo; back to {{ common[category].displayText }} list</a>
                 </div>
                 <div class="admin-header-right">
-                    <div class="content-save-message"></div>
+                    <span class="content-save-message"></span>
                     <input type="submit" value="Save"/>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="admin-page-content-field-row" >
+                <div class="admin-page-content-field-row" ng-if="common[category].hasAuthors" >
                     <div class="admin-page-content-field-label">Author Pic</div>
                     <div class="admin-page-content-field content-image-picker"
                          id="author-pic-drop-zone"
@@ -62,24 +62,12 @@
                         <input ng-model="content.title" value="content.title" />
                     </div>
                 </div>
-                <div class="admin-page-content-field-row">
+                <div class="admin-page-content-field-row" ng-if="common[category].hasSections" >
                     <div class="admin-page-content-field-label">Section</div>
                     <div class="admin-page-content-field content-text-picker" id="section-text-picker">
                         <div class="existing-options-selection-display">
                             <div>
                                 <select ng-model="content.section" value="content.section" ng-options="section for section in sections"/>
-                            </div>
-                            <div class="text-picker-link-options">
-                                <a href="#" data-toggle-text-entry-display="">add new</a>
-                            </div>
-                        </div>
-                        <div class="new-option-entry-display">
-                            <div data-add-new-text-option="" data-add-function="addNewSection(section)">
-                                <input type="text" class="new-text-option" />
-                                <input type="button" value="add" class="submit-new-text-option"/>
-                            </div>
-                            <div class="text-picker-link-options">
-                                <a href="#" data-toggle-text-entry-display="">back</a>
                             </div>
                         </div>
                     </div>

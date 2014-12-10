@@ -184,9 +184,11 @@ var getContentDataBySection = function(category) {
 };
 
 var updateSectionData = function(category, sequenceNumber, updatedSection) {
-    log.debug("updating section at "+category+"/"+sequenceNumber);
+    log.debug("saving section at "+category+"/"+sequenceNumber);
 
     var deferred = Q.defer();
+
+    // update existing section
     var query = mongoose.model('section').findOne({sequenceNumber: sequenceNumber, category: category});
     var previousSectionName = '';
 
@@ -239,6 +241,43 @@ var updateSectionData = function(category, sequenceNumber, updatedSection) {
             deferred.resolve(savedSection);
         }).onReject(function (err) {
             log.error("error getting section for update: " + err);
+            deferred.reject(err);
+        });
+
+    return deferred.promise;
+};
+
+var addSection = function(category, sectionData) {
+    log.debug("saving section at "+category+ ": ",sectionData);
+
+    var deferred = Q.defer();
+
+    var latestSequenceNumberQuery = mongoose.model('section').findOne({category: category}).sort({sequenceNumber: -1});
+
+    latestSequenceNumberQuery.exec()
+        .then(function (latestSection) {
+            var sequenceNumber = latestSection.sequenceNumber + 1;
+            log.debug("seq num to use:", sequenceNumber);
+
+            var Section = mongoose.model('section');
+            var newSection = new Section({
+                category: category,
+                sequenceNumber: sequenceNumber,
+                thumbnailImageUrl: sectionData.thumbnailImageUrl,
+                descriptionImageUrl: sectionData.descriptionImageUrl,
+                sectionName: sectionData.sectionName
+            });
+
+            // save and return saved model if successful
+            newSection.save(function (err, savedSection) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(savedSection);
+                }
+            });
+        }).onReject(function (err) {
+            log.error("error saving section: " + err);
             deferred.reject(err);
         });
 
@@ -389,5 +428,6 @@ module.exports = {
     getContentCategories: getContentCategories,
     getContentSections: getContentSections,
     getSectionData: getSectionData,
-    updateSectionData: updateSectionData
+    updateSectionData: updateSectionData,
+    addSection: addSection
 };

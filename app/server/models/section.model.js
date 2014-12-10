@@ -1,14 +1,14 @@
 var mongoose = require("mongoose");
 
 // define schema - second arg is the collection to map to
-var contentSchema = mongoose.Schema({
+var sectionSchema = mongoose.Schema({
         thumbnailImageUrl: String,
         descriptionImageUrl: String,
         category: String,
         sectionName: String,
         sequenceNumber: Number
     },
-    {collection:'section'});
+    {collection:'sections'});
 
-// register schema as the "content" mongoose model
-mongoose.model('section', contentSchema);
+// register schema as the "section" mongoose model
+mongoose.model('section', sectionSchema);

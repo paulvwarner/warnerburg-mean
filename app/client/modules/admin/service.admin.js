@@ -58,12 +58,33 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         return deferred.promise;
     };
 
-    var commitSectionChanges = function(section) {
+    var saveSection = function(section) {
+        if (section.sequenceNumber == 'new') {
+            return addSection(section);
+        } else {
+            return updateSection(section);
+        }
+    };
+
+    var updateSection = function(section) {
         var deferred = $q.defer();
-        log.debug("committing section changes: ",section);
+        log.debug("updating section: ",section);
         $http.put('/data/admin/section/'+section.category+'/'+section.sequenceNumber, {section: section})
             .success(function(updatedSection) {
                 deferred.resolve(updatedSection);
+            }).error(function(data) {
+                log.error('error: ' + data);
+                deferred.reject(data);
+            });
+        return deferred.promise;
+    };
+
+    var addSection = function(section) {
+        var deferred = $q.defer();
+        log.debug("adding new section: ",section);
+        $http.post('/data/admin/section/'+section.category, {section: section})
+            .success(function(addedSection) {
+                deferred.resolve(addedSection);
             }).error(function(data) {
                 log.error('error: ' + data);
                 deferred.reject(data);
@@ -146,7 +167,7 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         commitContentChanges: commitContentChanges,
         toggleTextPickerSelectionOptions: toggleTextPickerSelectionOptions,
         getSectionData: getSectionData,
-        commitSectionChanges: commitSectionChanges,
+        saveSection: saveSection,
         showSaveSuccessMessage: showSaveSuccessMessage
     };
 }]);
