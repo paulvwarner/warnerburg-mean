@@ -192,6 +192,10 @@ function ($stateParams, $state, $scope, adminService, commonService, $timeout, $
         return 'Managing '+$scope.common[$scope.category].displayText+' section "'+$scope.sectionName+'"';
     }
 
+    function getAddSectionAdminHeaderLabel() {
+        return "Adding New "+$scope.common[$scope.category].displayText+"s Section"
+    }
+
     $window.scrollTo(0, 0);
 
     $scope.category = $stateParams.categoryId;
@@ -209,7 +213,7 @@ function ($stateParams, $state, $scope, adminService, commonService, $timeout, $
             $scope.sectionName = sectionData.sectionName;
 
             if ($scope.sequenceNumber == 'new') {
-                $scope.adminHeaderLabel = "Adding New "+$scope.common[$scope.category].displayText+"s Section";
+                $scope.adminHeaderLabel = getAddSectionAdminHeaderLabel();
                 $scope.submitButtonText = 'Add';
             } else {
                 $scope.adminHeaderLabel = getEditSectionAdminHeaderLabel();

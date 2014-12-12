@@ -247,36 +247,48 @@ var updateSectionData = function(category, sequenceNumber, updatedSection) {
     return deferred.promise;
 };
 
+var getNextSectionSequenceNumber = function(category) {
+    var deferred = Q.defer();
+    var latestSequenceNumberQuery = mongoose.model('section').findOne({category: category}).sort({sequenceNumber: -1});
+
+    latestSequenceNumberQuery.exec()
+        .then(function(latestSection) {
+            deferred.resolve(latestSection.sequenceNumber + 1);
+        })
+        .onReject(function(err) {
+            deferred.reject(err);
+        });
+
+    return deferred.promise;
+};
+
 var addSection = function(category, sectionData) {
     log.debug("saving section at "+category+ ": ",sectionData);
 
     var deferred = Q.defer();
 
-    var latestSequenceNumberQuery = mongoose.model('section').findOne({category: category}).sort({sequenceNumber: -1});
-
-    latestSequenceNumberQuery.exec()
-        .then(function (latestSection) {
-            var sequenceNumber = latestSection.sequenceNumber + 1;
+    getNextSectionSequenceNumber(category)
+        .then(function (sequenceNumber) {
             log.debug("seq num to use:", sequenceNumber);
 
-            var Section = mongoose.model('section');
-            var newSection = new Section({
-                category: category,
-                sequenceNumber: sequenceNumber,
-                thumbnailImageUrl: sectionData.thumbnailImageUrl,
-                descriptionImageUrl: sectionData.descriptionImageUrl,
-                sectionName: sectionData.sectionName
-            });
-
-            // save and return saved model if successful
-            newSection.save(function (err, savedSection) {
-                if (err) {
-                    deferred.reject(err);
-                } else {
-                    deferred.resolve(savedSection);
+            mongoose.model('section').create({
+                    category: category,
+                    sequenceNumber: sequenceNumber,
+                    thumbnailImageUrl: sectionData.thumbnailImageUrl,
+                    descriptionImageUrl: sectionData.descriptionImageUrl,
+                    sectionName: sectionData.sectionName
+                },
+                function (err, savedSection) {
+                    if (err) {
+                        log.warn("error");
+                        deferred.reject(err);
+                    } else {
+                        log.warn("success");
+                        deferred.resolve(savedSection);
+                    }
                 }
-            });
-        }).onReject(function (err) {
+            );
+        }).catch(function (err) {
             log.error("error saving section: " + err);
             deferred.reject(err);
         });
