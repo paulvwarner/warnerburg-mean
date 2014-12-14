@@ -1,18 +1,31 @@
 {% extends 'includes/layouts/masterLayout.html' %}
 
 {% block content %}
-<div>
-    <div class="warnerburg-splash-link">
-        <a href="[[ common.gallery.url ]]"><img class="warnerburg-splash-link-image" src="[[ common.gallery.image ]]" /></a>
+<div class="main-image-link-set-container table-container">
+    <div class="main-image-link-set">
+        <div class="main-image-comic-links">
+            <div class="warnerburg-splash-link">
+                <a href="[[ common.comic.url ]]"><img class="splash-comic-image splash-image" src="/images/splash/comic.png" /></a>
+            </div>
+            <div class="warnerburg-splash-link">
+                <a href="[[ common.archives.url ]]"><img class="splash-image" src="/images/splash/archives.png" /></a>
+            </div>
+        </div>
+        <div class="main-image-non-comic-links">
+            <div class="warnerburg-splash-link">
+                <a href="[[ common.gallery.url ]]"><img class="warnerburg-splash-link-image splash-image" src="/images/splash/gallery.png" /></a>
+            </div>
+            <div class="warnerburg-splash-link">
+                <a href="[[ common.info.url ]]"><img class="warnerburg-splash-link-image splash-image" src="/images/splash/info.png" /></a>
+            </div>
+            <div class="warnerburg-splash-link">
+                <a href="[[ common.links.url ]]"><img class="warnerburg-splash-link-image splash-image" src="/images/splash/links.png" /></a>
+            </div>
+        </div>
     </div>
-    <div class="warnerburg-splash-link">
-        <a href="[[ common.comic.url ]]"><img class="warnerburg-splash-link-image" src="[[ common.comic.image ]]" /></a>
-    </div>
-    <div class="warnerburg-splash-link">
-        <a href="[[ common.links.url ]]"><img class="warnerburg-splash-link-image" src="[[ common.links.image ]]" /></a>
-    </div>
-    <div class="warnerburg-splash-link">
-        <a href="[[ common.info.url ]]"><img class="warnerburg-splash-link-image" src="[[ common.info.image ]]" /></a>
-    </div>
+
+
+
+
 </div>
 {% endblock %}

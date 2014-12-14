@@ -402,6 +402,10 @@ a {
   transition: background-color 0.3s ease;
   background-color: rgba(200, 0, 0, 0.5); }
 
+.splash-image:hover {
+  transition: opacity 0.3s ease;
+  opacity: 0.5; }
+
 .admin-add-button {
   text-transform: capitalize; }
 
@@ -747,5 +751,27 @@ a {
 
 .text-picker-link-options {
   padding-top: 5px; }
+
+.main-image-link-set {
+  display: table-row; }
+
+.main-image-comic-links {
+  display: table-cell;
+  width: 710px;
+  height: 950px;
+  vertical-align: top; }
+
+.main-image-non-comic-links {
+  vertical-align: top;
+  display: table-cell;
+  width: 260px;
+  height: 950px; }
+
+.warnerburg-splash-link-image {
+  padding-bottom: 13px;
+  padding-left: 8px; }
+
+.splash-comic-image {
+  padding-bottom: 9px; }
 
 /*# sourceMappingURL=warnerburg.css.map */
