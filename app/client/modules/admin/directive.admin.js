@@ -331,7 +331,8 @@ angular.module("adminModule").directive('contentImagePicker', ['adminService', f
             updateFunction: '&',
             selectionOptionsLabel: '=',
             uploadUrl: '=',
-            imageClass: '='
+            imageClass: '=',
+            displayImageClass: '='
         },
         templateUrl: '/views/includes/partials/admin.content.image.picker.html',
         link: function(scope, element, attrs) {

@@ -45,9 +45,30 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         return deferred.promise;
     };
 
-    var commitContentChanges = function(content) {
+    var saveContent = function(content) {
+        if (content.sequenceNumber == 'new') {
+            return addContent(content);
+        } else {
+            return updateContent(content);
+        }
+    };
+
+    var addContent = function(content) {
         var deferred = $q.defer();
-        log.debug("committing content changes: ",content);
+        log.debug("adding content: ",content);
+        $http.post('/data/admin/content/', {content: content})
+            .success(function(addedContent) {
+                deferred.resolve(addedContent);
+            }).error(function(data) {
+                log.error('error adding content: ' + data);
+                deferred.reject(data);
+            });
+        return deferred.promise;
+    };
+
+    var updateContent = function(content) {
+        var deferred = $q.defer();
+        log.debug("updating content: ",content);
         $http.put('/data/admin/content/'+content.category+'/'+content.sequenceNumber, {content: content})
             .success(function(updatedContent) {
                 deferred.resolve(updatedContent);
@@ -82,7 +103,7 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
     var addSection = function(section) {
         var deferred = $q.defer();
         log.debug("adding new section: ",section);
-        $http.post('/data/admin/section/'+section.category, {section: section})
+        $http.post('/data/admin/section/', {section: section})
             .success(function(addedSection) {
                 deferred.resolve(addedSection);
             }).error(function(data) {
@@ -164,7 +185,7 @@ angular.module("adminModule").factory("adminService", ['$timeout', '$http', '$re
         handleImagePickerSelectionUpdate: handleImagePickerSelectionUpdate,
         showUploadSuccessMessage: showUploadSuccessMessage,
         getContentToEdit: getContentToEdit,
-        commitContentChanges: commitContentChanges,
+        saveContent: saveContent,
         toggleTextPickerSelectionOptions: toggleTextPickerSelectionOptions,
         getSectionData: getSectionData,
         saveSection: saveSection,

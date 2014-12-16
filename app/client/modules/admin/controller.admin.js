@@ -95,6 +95,15 @@ angular.module("adminModule").controller("contentAdminController",
 ['$stateParams', '$state', '$scope', 'adminService', 'commonService', '$sce', '$filter', '$timeout', '$window',
     function ($stateParams, $state, $scope, adminService, commonService, $sce, $filter, $timeout, $window) {
 
+    function getEditContentAdminHeaderLabel() {
+        return 'Managing ' + $scope.common[$scope.category].displayText + ' #' + $scope.sequenceNumber;
+    }
+
+    function updateContentForDisplay() {
+        $scope.content.publishDate = new Date($scope.content.publishDate);
+        $scope.content.publishDateForDisplay = $filter('date')($scope.content.publishDate, $scope.common.publishDateTimeAdminFormat.angular);
+    }
+
     $window.scrollTo(0, 0);
 
     if ($stateParams.sequenceNumber == '') {
@@ -108,13 +117,8 @@ angular.module("adminModule").controller("contentAdminController",
         if ($scope.sequenceNumber == 'new') {
             $scope.adminHeaderLabel = 'Adding New ' + $scope.common[$scope.category].displayText;
         } else {
-            $scope.adminHeaderLabel = 'Managing ' + $scope.common[$scope.category].displayText + ' #' + $scope.sequenceNumber;
+            $scope.adminHeaderLabel = getEditContentAdminHeaderLabel();
         }
-
-        var updateContentForDisplay = function () {
-            $scope.content.publishDate = new Date($scope.content.publishDate);
-            $scope.content.publishDateForDisplay = $filter('date')($scope.content.publishDate, $scope.common.publishDateTimeAdminFormat.angular);
-        };
 
         // populate scope from service on controller construction
         adminService.getContentToEdit($scope.category, $scope.sequenceNumber)
@@ -132,17 +136,21 @@ angular.module("adminModule").controller("contentAdminController",
                 $scope.sections = contentAdminData.sections;
                 $scope.imageUploadUrl = '/data/upload/' + $scope.content.category;
                 $scope.authorPicUploadUrl = '/data/upload/author-pic';
+                $scope.content.sequenceNumber = $scope.sequenceNumber;
+                $scope.content.category = $scope.category;
             })
             .catch(function (err) {
                 log.error("error getting content data for " + $scope.content.category + ": ", err);
             });
 
-        $scope.commitContentChanges = function () {
-            adminService.commitContentChanges($scope.content)
+        $scope.saveContent = function () {
+            log.debug("saving:",$scope.content);
+            adminService.saveContent($scope.content)
                 .then(function (updatedContent) {
                     $scope.content = updatedContent;
                     updateContentForDisplay();
-
+                    $scope.sequenceNumber = $scope.content.sequenceNumber;
+                    $scope.adminHeaderLabel = getEditContentAdminHeaderLabel();
                     adminService.showSaveSuccessMessage();
                 })
                 .catch(function (err) {

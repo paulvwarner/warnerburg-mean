@@ -1,31 +1,30 @@
 {% extends 'includes/layouts/masterLayout.html' %}
 
 {% block content %}
-<div class="main-image-link-set-container table-container">
-    <div class="main-image-link-set">
-        <div class="main-image-comic-links">
-            <div class="warnerburg-splash-link">
-                <a href="[[ common.comic.url ]]"><img class="splash-comic-image splash-image" src="/images/splash/comic.png" /></a>
+<div class="main-image-link-set-container">
+    <div class="table-container">
+        <div class="main-image-link-set">
+            <div class="main-image-comic-links">
+                <div class="warnerburg-splash-link">
+                    <a href="[[ common.comic.url ]]"><img class="splash-comic-overlay splash-overlay" src="[[common.comic.splashOverlayImage]]"/><img class="splash-comic-image splash-image" src="[[common.comic.splashHoverImage]]" /></a>
+                </div>
+                <div class="warnerburg-splash-link">
+                    <a href="[[ common.archives.url ]]"><img class="splash-archives-overlay splash-overlay" src="[[common.archives.splashOverlayImage]]"/><img class="splash-image" src="[[common.archives.splashHoverImage]]" /></a>
+                </div>
             </div>
-            <div class="warnerburg-splash-link">
-                <a href="[[ common.archives.url ]]"><img class="splash-image" src="/images/splash/archives.png" /></a>
-            </div>
-        </div>
-        <div class="main-image-non-comic-links">
-            <div class="warnerburg-splash-link">
-                <a href="[[ common.gallery.url ]]"><img class="warnerburg-splash-link-image splash-image" src="/images/splash/gallery.png" /></a>
-            </div>
-            <div class="warnerburg-splash-link">
-                <a href="[[ common.info.url ]]"><img class="warnerburg-splash-link-image splash-image" src="/images/splash/info.png" /></a>
-            </div>
-            <div class="warnerburg-splash-link">
-                <a href="[[ common.links.url ]]"><img class="warnerburg-splash-link-image splash-image" src="/images/splash/links.png" /></a>
+            <div class="comic-bar"></div>
+            <div class="main-image-non-comic-links">
+                <div class="warnerburg-splash-link">
+                    <a href="[[ common.gallery.url ]]"><img class="splash-non-comic-overlay splash-non-comic splash-image splash-overlay" src="[[common.gallery.splashOverlayImage]]" /><img class="splash-non-comic splash-image" src="[[common.gallery.splashHoverImage]]" /></a>
+                </div>
+                <div class="warnerburg-splash-link">
+                    <a href="[[ common.info.url ]]"><img class="splash-non-comic-overlay splash-non-comic splash-image splash-overlay" src="[[common.info.splashOverlayImage]]" /><img class="splash-non-comic splash-image" src="[[common.info.splashHoverImage]]" /></a>
+                </div>
+                <div class="warnerburg-splash-link">
+                    <a href="[[ common.links.url ]]"><img class="splash-non-comic-overlay splash-non-comic splash-image splash-overlay" src="[[common.links.splashOverlayImage]]" /><img class="splash-non-comic splash-image" src="[[common.links.splashHoverImage]]" /></a>
+                </div>
             </div>
         </div>
     </div>
-
-
-
-
 </div>
 {% endblock %}

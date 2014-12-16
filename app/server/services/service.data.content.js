@@ -247,13 +247,12 @@ var updateSectionData = function(category, sequenceNumber, updatedSection) {
     return deferred.promise;
 };
 
-var getNextSectionSequenceNumber = function(category) {
+var getNextSequenceNumber = function(query) {
     var deferred = Q.defer();
-    var latestSequenceNumberQuery = mongoose.model('section').findOne({category: category}).sort({sequenceNumber: -1});
 
-    latestSequenceNumberQuery.exec()
-        .then(function(latestSection) {
-            deferred.resolve(latestSection.sequenceNumber + 1);
+    query.exec()
+        .then(function(latest) {
+            deferred.resolve(latest.sequenceNumber + 1);
         })
         .onReject(function(err) {
             deferred.reject(err);
@@ -262,17 +261,25 @@ var getNextSectionSequenceNumber = function(category) {
     return deferred.promise;
 };
 
-var addSection = function(category, sectionData) {
-    log.debug("saving section at "+category+ ": ",sectionData);
+var getNextSectionSequenceNumber = function(category) {
+    return getNextSequenceNumber(mongoose.model('section').findOne({category: category}).sort({sequenceNumber: -1}));
+};
+
+var getNextContentSequenceNumber = function(category) {
+    return getNextSequenceNumber(mongoose.model('content').findOne({category: category}).sort({sequenceNumber: -1}));
+};
+
+var addSection = function(sectionData) {
+    log.debug("saving section: ",sectionData);
 
     var deferred = Q.defer();
 
-    getNextSectionSequenceNumber(category)
+    getNextSectionSequenceNumber(sectionData.category)
         .then(function (sequenceNumber) {
             log.debug("seq num to use:", sequenceNumber);
 
             mongoose.model('section').create({
-                    category: category,
+                    category: sectionData.category,
                     sequenceNumber: sequenceNumber,
                     thumbnailImageUrl: sectionData.thumbnailImageUrl,
                     descriptionImageUrl: sectionData.descriptionImageUrl,
@@ -294,6 +301,49 @@ var addSection = function(category, sectionData) {
         });
 
     return deferred.promise;
+};
+
+var addContent = function(contentData) {
+    log.debug("saving content: ",contentData);
+
+    var deferred = Q.defer();
+
+    getNextContentSequenceNumber(contentData.category)
+        .then(function (sequenceNumber) {
+            log.debug("seq num to use:", sequenceNumber);
+
+            mongoose.model('content').create({
+                    sequenceNumber: sequenceNumber,
+                    sequenceNumberElements: getSequenceNumberElements(sequenceNumber),
+                    author: 1,
+                    authorPicture: contentData.authorPicture,
+                    publishDate: contentData.publishDate,
+                    lastModifiedDate: new Date(),
+                    lastPublishedDate: contentData.publishDate,
+                    publishDateElements: getPublishDateElements(contentData.publishDate),
+                    text: contentData.text,
+                    image: contentData.image,
+                    title: contentData.title,
+                    category: contentData.category,
+                    section: contentData.section
+                },
+                function (err, savedContent) {
+                    if (err) {
+                        log.error("error adding content:",err);
+                        deferred.reject(err);
+                    } else {
+                        log.debug("success");
+                        deferred.resolve(savedContent);
+                    }
+                }
+            );
+        }).catch(function (err) {
+            log.error("error adding content: " + err);
+            deferred.reject(err);
+        });
+
+    return deferred.promise;
+
 };
 
 var updateContentData = function(category, sequenceNumber, updatedContent) {
@@ -441,5 +491,6 @@ module.exports = {
     getContentSections: getContentSections,
     getSectionData: getSectionData,
     updateSectionData: updateSectionData,
-    addSection: addSection
+    addSection: addSection,
+    addContent: addContent
 };

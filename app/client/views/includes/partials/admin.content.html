@@ -1,4 +1,4 @@
-<form id="admin-form" ng-submit="commitContentChanges()">
+<form id="admin-form" ng-submit="saveContent()">
     <div class="admin-header-options">
         <div class="admin-header-button-container">
             <div class="header-option-container">
@@ -9,6 +9,7 @@
                 </div>
                 <div class="admin-header-right">
                     <span class="content-save-message"></span>
+                    <input type="button" ng-if="sequenceNumber != 'new'" value="Delete" />
                     <input type="submit" value="Save"/>
                 </div>
             </div>
@@ -53,7 +54,8 @@
                          data-selected-image="content.image"
                          data-update-function="updateContentImage(image, pickerBaseElementId)"
                          data-selection-options-label="'select image:'"
-                         data-upload-url="imageUploadUrl">
+                         data-upload-url="imageUploadUrl"
+                         data-display-image-class="'comic-image'" >
                     </div>
                 </div>
                 <div class="admin-page-content-field-row">

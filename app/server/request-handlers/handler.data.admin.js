@@ -77,13 +77,25 @@ function processGetContentDataBySequenceNumber(req, res) {
         });
 }
 
-function processPutContentDataBySequenceNumber(req, res) {
+function processPutContentData(req, res) {
     contentDataService.updateContentData(req.params.category, req.params.sequenceNumber, req.body.content)
         .then(function(content) {
             res.send(content);
         })
         .catch(function(err) {
             log.error("error updating:", err);
+            res.send(err);
+        });
+}
+
+
+function processPostContentData(req, res) {
+    contentDataService.addContent(req.body.content)
+        .then(function(content) {
+            res.send(content);
+        })
+        .catch(function(err) {
+            log.error("error adding content:", err);
             res.send(err);
         });
 }
@@ -143,7 +155,7 @@ function processGetSectionData(req, res) {
 }
 
 function processPostSectionData(req, res) {
-    contentDataService.addSection(req.params.category, req.body.section)
+    contentDataService.addSection(req.body.section)
         .then(function(section) {
             log.debug("saved - ppsd");
             res.send(section);
@@ -169,12 +181,16 @@ function processGetContentInCategory(req, res) {
 
 module.exports = function (app) {
     app.use(busboy());
+
     app.get('/data/admin/content/:category/all', processGetContentInCategory);
     app.get('/data/admin/content/:category/:sequenceNumber', processGetContentDataBySequenceNumber);
     app.get('/data/admin/section/:category',processGetSectionData);
     app.get('/data/admin/section/:category/:sequenceNumber', processGetSectionData);
-    app.post('/data/upload/:uploadCategory', processPostImageUploadRequest);
-    app.put('/data/admin/content/:category/:sequenceNumber', processPutContentDataBySequenceNumber);
+
+    app.put('/data/admin/content/:category/:sequenceNumber', processPutContentData);
     app.put('/data/admin/section/:category/:sequenceNumber', processPutSectionData);
-    app.post('/data/admin/section/:category', processPostSectionData);
+
+    app.post('/data/admin/content', processPostContentData);
+    app.post('/data/admin/section', processPostSectionData);
+    app.post('/data/upload/:uploadCategory', processPostImageUploadRequest);
 };
