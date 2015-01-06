@@ -25,10 +25,18 @@ module.exports = function(grunt) {
         watch: {
             livereload: {
                 files: [
-                    '<%= yeoman.appFolder %>/**/*.css',
-                    '<%= yeoman.appFolder %>/**/*.html',
-                    '<%= yeoman.appFolder %>/**/*.js',
-                    '<%= yeoman.appFolder %>/images/{,*//*}*.{png,jpg,jpeg,gif}'
+                    '<%= yeoman.appFolder %>/server/**/*.js',
+                    '<%= yeoman.appFolder %>/client/modules/**/*.css',
+                    '<%= yeoman.appFolder %>/client/modules/**/*.html',
+                    '<%= yeoman.appFolder %>/client/modules/**/*.js',
+                    '<%= yeoman.appFolder %>/client/routes/**/*.css',
+                    '<%= yeoman.appFolder %>/client/routes/**/*.html',
+                    '<%= yeoman.appFolder %>/client/routes/**/*.js',
+                    '<%= yeoman.appFolder %>/client/views/**/*.css',
+                    '<%= yeoman.appFolder %>/client/views/**/*.html',
+                    '<%= yeoman.appFolder %>/client/views/**/*.js',
+                    '<%= yeoman.appFolder %>/client/images/{,*//*}*.{png,jpg,jpeg,gif}',
+                    '!<%= yeoman.appFolder %>/client/bower_components/*.*'
                 ],
                 options: {
                     livereload: true
@@ -36,12 +44,18 @@ module.exports = function(grunt) {
             },
             express: {
                 files: [
-
-                    '<%= yeoman.appFolder %>/**/*.css',
-                    '<%= yeoman.appFolder %>/**/*.html',
-                    '<%= yeoman.appFolder %>/**/*.js',
-                    '<%= yeoman.appFolder %>/images/{,*//*}*.{png,jpg,jpeg,gif}',
-                    '/*.{js,json}'
+                    '<%= yeoman.appFolder %>/server/**/*.js',
+                    '<%= yeoman.appFolder %>/client/modules/**/*.css',
+                    '<%= yeoman.appFolder %>/client/modules/**/*.html',
+                    '<%= yeoman.appFolder %>/client/modules/**/*.js',
+                    '<%= yeoman.appFolder %>/client/routes/**/*.css',
+                    '<%= yeoman.appFolder %>/client/routes/**/*.html',
+                    '<%= yeoman.appFolder %>/client/routes/**/*.js',
+                    '<%= yeoman.appFolder %>/client/views/**/*.css',
+                    '<%= yeoman.appFolder %>/client/views/**/*.html',
+                    '<%= yeoman.appFolder %>/client/views/**/*.js',
+                    '<%= yeoman.appFolder %>/client/images/{,*//*}*.{png,jpg,jpeg,gif}',
+                    '!<%= yeoman.appFolder %>/client/bower_components/*.*'
                 ],
                 tasks: ['express:dev', 'wait'],
                 options: {
